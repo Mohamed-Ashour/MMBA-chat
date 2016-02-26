@@ -5,18 +5,15 @@
  */
 package chat;
 
-<<<<<<< HEAD
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
-=======
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.JDesktopPane;
 import javax.swing.KeyStroke;
->>>>>>> 63e14e270906896035ef55ce5c0fd07244ec16a8
 
 /**
  *
@@ -34,15 +31,12 @@ public class ClientGUI extends javax.swing.JFrame {
     
     public ClientGUI() {
         initComponents();
-<<<<<<< HEAD
+
          setTitle("sign Up");
-=======
-        
+
         exit.setAccelerator( KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
         
-        
-        
->>>>>>> 63e14e270906896035ef55ce5c0fd07244ec16a8
+
         
         
     }
@@ -594,10 +588,8 @@ public class ClientGUI extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, "card2");
 
-<<<<<<< HEAD
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
-=======
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel4.setText("Sign Up");
 
@@ -729,7 +721,6 @@ public class ClientGUI extends javax.swing.JFrame {
         jMenuBar1.add(Option);
 
         Help.setText("Help");
->>>>>>> 63e14e270906896035ef55ce5c0fd07244ec16a8
 
         About.setText("About");
         About.addActionListener(new java.awt.event.ActionListener() {
@@ -757,7 +748,6 @@ public class ClientGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordTextFieldActionPerformed
 
-<<<<<<< HEAD
     private void SignUpRegistrationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignUpRegistrationActionPerformed
         if (validteRegistrationForm() != null)
             //TODO create user object & check if user exist
@@ -848,8 +838,6 @@ public class ClientGUI extends javax.swing.JFrame {
     }
     
     
-    
-=======
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
         // TODO add your handling code here:
         
@@ -872,10 +860,6 @@ public class ClientGUI extends javax.swing.JFrame {
         If.show();
     }//GEN-LAST:event_startChatBtnActionPerformed
 
->>>>>>> 63e14e270906896035ef55ce5c0fd07244ec16a8
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
