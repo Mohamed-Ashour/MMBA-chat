@@ -5,11 +5,18 @@
  */
 package chat;
 
+<<<<<<< HEAD
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
+=======
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import javax.swing.JDesktopPane;
+import javax.swing.KeyStroke;
+>>>>>>> 63e14e270906896035ef55ce5c0fd07244ec16a8
 
 /**
  *
@@ -27,7 +34,15 @@ public class ClientGUI extends javax.swing.JFrame {
     
     public ClientGUI() {
         initComponents();
+<<<<<<< HEAD
          setTitle("sign Up");
+=======
+        
+        exit.setAccelerator( KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
+        
+        
+        
+>>>>>>> 63e14e270906896035ef55ce5c0fd07244ec16a8
         
         
     }
@@ -99,7 +114,7 @@ public class ClientGUI extends javax.swing.JFrame {
         jLabel25 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
-        jButton4 = new javax.swing.JButton();
+        startChatBtn = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jDesktopPane2 = new javax.swing.JDesktopPane();
         jPanel1 = new javax.swing.JPanel();
@@ -111,8 +126,11 @@ public class ClientGUI extends javax.swing.JFrame {
         signUpBtn = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        Option = new javax.swing.JMenu();
+        exit = new javax.swing.JMenuItem();
+        Help = new javax.swing.JMenu();
+        About = new javax.swing.JMenuItem();
+        Helper = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.CardLayout());
@@ -453,7 +471,14 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE))
         );
 
-        jButton4.setText("Invite Chat");
+        startChatBtn.setText("Start Chat");
+        startChatBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startChatBtnActionPerformed(evt);
+            }
+        });
+
+        jDesktopPane2.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jDesktopPane2Layout = new javax.swing.GroupLayout(jDesktopPane2);
         jDesktopPane2.setLayout(jDesktopPane2Layout);
@@ -463,7 +488,7 @@ public class ClientGUI extends javax.swing.JFrame {
         );
         jDesktopPane2Layout.setVerticalGroup(
             jDesktopPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 735, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -486,14 +511,14 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(startChatBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(startChatBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(45, 45, 45))
             .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -569,11 +594,155 @@ public class ClientGUI extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, "card2");
 
+<<<<<<< HEAD
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
+=======
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jLabel4.setText("Sign Up");
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        jLabel5.setText("Email");
+
+        jLabel6.setText("Name");
+
+        jLabel7.setText("Password");
+
+        passwordSignUpTextField.setText("jPasswordField1");
+
+        SignUpRegistration.setText("Sign Up");
+
+        jLabel8.setText("Confirm Password");
+
+        confirmPasswordSignUpTextField.setText("jPasswordField1");
+
+        jLabel9.setText("User name");
+
+        jLabel10.setText("Gender");
+
+        jLabel11.setText("Country");
+
+        jLabel12.setText("Picture");
+
+        buttonGroup1.add(genderMaleRadioBtn);
+        genderMaleRadioBtn.setText("male");
+
+        buttonGroup1.add(genderFemaleRadioBtn);
+        genderFemaleRadioBtn.setText("female");
+
+        countrySignUp.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Egypt", "USA", "UAE", "England", "France", "Italy", "China", "Japan" }));
+
+        choosePicSignUp.setText("browse");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(76, 76, 76)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel12))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(genderMaleRadioBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(genderFemaleRadioBtn))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(picPathSignUp, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(choosePicSignUp))
+                    .addComponent(countrySignUp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwordSignUpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(confirmPasswordSignUpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SignUpRegistration)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(usernameSignUpTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(nameSignUpTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(emailSignUpTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)))
+                .addContainerGap(908, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(emailSignUpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(nameSignUpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(usernameSignUpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addGap(29, 29, 29)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(genderMaleRadioBtn)
+                    .addComponent(genderFemaleRadioBtn))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(countrySignUp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(picPathSignUp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12)
+                    .addComponent(choosePicSignUp))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(passwordSignUpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(confirmPasswordSignUpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(SignUpRegistration)
+                .addContainerGap(315, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jPanel2, "card3");
+
+        Option.setText("Options");
+
+        exit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, 0));
+        exit.setText("Exit");
+        exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitActionPerformed(evt);
+            }
+        });
+        Option.add(exit);
+
+        jMenuBar1.add(Option);
+
+        Help.setText("Help");
+>>>>>>> 63e14e270906896035ef55ce5c0fd07244ec16a8
+
+        About.setText("About");
+        About.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AboutActionPerformed(evt);
+            }
+        });
+        Help.add(About);
+
+        Helper.setText("Help");
+        Help.add(Helper);
+
+        jMenuBar1.add(Help);
 
         setJMenuBar(jMenuBar1);
 
@@ -588,6 +757,7 @@ public class ClientGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordTextFieldActionPerformed
 
+<<<<<<< HEAD
     private void SignUpRegistrationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignUpRegistrationActionPerformed
         if (validteRegistrationForm() != null)
             //TODO create user object & check if user exist
@@ -679,6 +849,30 @@ public class ClientGUI extends javax.swing.JFrame {
     
     
     
+=======
+    private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
+        // TODO add your handling code here:
+        
+        System.exit(0);
+    }//GEN-LAST:event_exitActionPerformed
+
+    private void AboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutActionPerformed
+        // TODO add your handling code here:
+        ourHelp Oh = new ourHelp();
+        jDesktopPane2.add(Oh);
+        Oh.show();
+        
+    }//GEN-LAST:event_AboutActionPerformed
+
+    private void startChatBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startChatBtnActionPerformed
+        // TODO add your handling code here:
+        
+        ChatDialoge If = new ChatDialoge();
+        jDesktopPane2.add(If);
+        If.show();
+    }//GEN-LAST:event_startChatBtnActionPerformed
+
+>>>>>>> 63e14e270906896035ef55ce5c0fd07244ec16a8
     /**
      * @param args the command line arguments
      */
@@ -718,6 +912,10 @@ public class ClientGUI extends javax.swing.JFrame {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem About;
+    private javax.swing.JMenu Help;
+    private javax.swing.JMenuItem Helper;
+    private javax.swing.JMenu Option;
     private javax.swing.JButton SignUpRegistration;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton choosePicSignUp;
@@ -725,12 +923,12 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> countrySignUp;
     private javax.swing.JTextField emailSignUpTextField;
     private javax.swing.JTextField emailTextField;
+    private javax.swing.JMenuItem exit;
     private javax.swing.JRadioButton genderFemaleRadioBtn;
     private javax.swing.JRadioButton genderMaleRadioBtn;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JDesktopPane jDesktopPane2;
     private javax.swing.JLabel jLabel1;
@@ -759,8 +957,6 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -789,6 +985,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JTextField picPathSignUp;
     private javax.swing.JButton signInBtn;
     private javax.swing.JButton signUpBtn;
+    private javax.swing.JButton startChatBtn;
     private javax.swing.JTextField usernameSignUpTextField;
     // End of variables declaration//GEN-END:variables
 }

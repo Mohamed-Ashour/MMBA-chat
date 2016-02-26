@@ -9,12 +9,12 @@ package chat;
  *
  * @author egypt
  */
-public class NewFrame extends javax.swing.JInternalFrame {
+public class ChatDialoge extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form NewFrame
      */
-    public NewFrame() {
+    public ChatDialoge() {
         initComponents();
     }
 
@@ -54,9 +54,7 @@ public class NewFrame extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
-        setMaximizable(true);
-        setResizable(true);
-        getContentPane().setLayout(new java.awt.GridLayout());
+        getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Mina", "Ahmed", "Alaa", "Andro", "assem", "Mohamed", "Ayman", "Ashour", "Hussein" };
