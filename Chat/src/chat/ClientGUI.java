@@ -24,7 +24,7 @@ public class ClientGUI extends javax.swing.JFrame {
         exit.setAccelerator( KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
         
         
-        NewFrame If = new NewFrame();
+        ChatDialoge If = new ChatDialoge();
         jDesktopPane2.add(If);
         If.show();
         
@@ -579,6 +579,11 @@ public class ClientGUI extends javax.swing.JFrame {
         Help.setText("Help");
 
         About.setText("About");
+        About.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AboutActionPerformed(evt);
+            }
+        });
         Help.add(About);
 
         Helper.setText("Help");
@@ -604,6 +609,14 @@ public class ClientGUI extends javax.swing.JFrame {
         
         System.exit(0);
     }//GEN-LAST:event_exitActionPerformed
+
+    private void AboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutActionPerformed
+        // TODO add your handling code here:
+        ourHelp Oh = new ourHelp();
+        jDesktopPane2.add(Oh);
+        Oh.show();
+        
+    }//GEN-LAST:event_AboutActionPerformed
 
     /**
      * @param args the command line arguments
