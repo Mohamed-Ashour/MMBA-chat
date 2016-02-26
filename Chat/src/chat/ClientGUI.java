@@ -322,6 +322,8 @@ public class ClientGUI extends javax.swing.JFrame {
 
         jButton4.setText("Invite Chat");
 
+        jDesktopPane2.setForeground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout jDesktopPane2Layout = new javax.swing.GroupLayout(jDesktopPane2);
         jDesktopPane2.setLayout(jDesktopPane2Layout);
         jDesktopPane2Layout.setHorizontalGroup(
