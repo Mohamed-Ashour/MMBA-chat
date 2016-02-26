@@ -5,21 +5,29 @@
  */
 package chat;
 
+import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
+
+
 /**
  *
  * @author Ahmed
  */
 public class ClientGUI extends javax.swing.JFrame {
+    
+    
+    
+    //our vars
+    
 
-    /**
-     * Creates new form ClientGUI
-     */
+    
+    
+    
     public ClientGUI() {
         initComponents();
-        
-        NewFrame If = new NewFrame();
-        jDesktopPane2.add(If);
-        If.show();
+         setTitle("sign Up");
         
         
     }
@@ -34,6 +42,27 @@ public class ClientGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        emailSignUpTextField = new javax.swing.JTextField();
+        nameSignUpTextField = new javax.swing.JTextField();
+        passwordSignUpTextField = new javax.swing.JPasswordField();
+        SignUpRegistration = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        confirmPasswordSignUpTextField = new javax.swing.JPasswordField();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        usernameSignUpTextField = new javax.swing.JTextField();
+        genderMaleRadioBtn = new javax.swing.JRadioButton();
+        genderFemaleRadioBtn = new javax.swing.JRadioButton();
+        countrySignUp = new javax.swing.JComboBox<>();
+        picPathSignUp = new javax.swing.JTextField();
+        choosePicSignUp = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -81,33 +110,137 @@ public class ClientGUI extends javax.swing.JFrame {
         signInBtn = new javax.swing.JButton();
         signUpBtn = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        emailSignUpTextField = new javax.swing.JTextField();
-        nameSignUpTextField = new javax.swing.JTextField();
-        passwordSignUpTextField = new javax.swing.JPasswordField();
-        SignUpRegistration = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
-        confirmPasswordSignUpTextField = new javax.swing.JPasswordField();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        usernameSignUpTextField = new javax.swing.JTextField();
-        genderMaleRadioBtn = new javax.swing.JRadioButton();
-        genderFemaleRadioBtn = new javax.swing.JRadioButton();
-        countrySignUp = new javax.swing.JComboBox<>();
-        picPathSignUp = new javax.swing.JTextField();
-        choosePicSignUp = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.CardLayout());
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jLabel4.setText("Sign Up");
+
+        jLabel5.setText("Email");
+
+        jLabel6.setText("Name");
+
+        jLabel7.setText("Password");
+
+        SignUpRegistration.setText("Sign Up");
+        SignUpRegistration.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SignUpRegistrationActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Confirm Password");
+
+        jLabel9.setText("User name");
+
+        jLabel10.setText("Gender");
+
+        jLabel11.setText("Country");
+
+        jLabel12.setText("Picture");
+
+        buttonGroup1.add(genderMaleRadioBtn);
+        genderMaleRadioBtn.setSelected(true);
+        genderMaleRadioBtn.setText("male");
+        genderMaleRadioBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                genderMaleRadioBtnActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(genderFemaleRadioBtn);
+        genderFemaleRadioBtn.setText("female");
+
+        countrySignUp.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select conutry", "Egypt", "USA", "UAE", "England", "France", "Italy", "China", "Japan" }));
+
+        choosePicSignUp.setText("browse");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(76, 76, 76)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel12))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(genderMaleRadioBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(genderFemaleRadioBtn))
+                    .addComponent(countrySignUp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SignUpRegistration)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(usernameSignUpTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(nameSignUpTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(emailSignUpTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(passwordSignUpTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(confirmPasswordSignUpTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(picPathSignUp, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(choosePicSignUp)))
+                .addContainerGap(936, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(emailSignUpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(nameSignUpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(usernameSignUpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addGap(29, 29, 29)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(genderMaleRadioBtn)
+                    .addComponent(genderFemaleRadioBtn))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(countrySignUp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(picPathSignUp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12)
+                    .addComponent(choosePicSignUp))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(passwordSignUpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(confirmPasswordSignUpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(SignUpRegistration)
+                .addContainerGap(341, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jPanel2, "card3");
 
         jPanel3.setLayout(new java.awt.GridLayout(1, 2));
 
@@ -436,123 +569,6 @@ public class ClientGUI extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, "card2");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jLabel4.setText("Sign Up");
-
-        jLabel5.setText("Email");
-
-        jLabel6.setText("Name");
-
-        jLabel7.setText("Password");
-
-        passwordSignUpTextField.setText("jPasswordField1");
-
-        SignUpRegistration.setText("Sign Up");
-
-        jLabel8.setText("Confirm Password");
-
-        confirmPasswordSignUpTextField.setText("jPasswordField1");
-
-        jLabel9.setText("User name");
-
-        jLabel10.setText("Gender");
-
-        jLabel11.setText("Country");
-
-        jLabel12.setText("Picture");
-
-        buttonGroup1.add(genderMaleRadioBtn);
-        genderMaleRadioBtn.setText("male");
-
-        buttonGroup1.add(genderFemaleRadioBtn);
-        genderFemaleRadioBtn.setText("female");
-
-        countrySignUp.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Egypt", "USA", "UAE", "England", "France", "Italy", "China", "Japan" }));
-
-        choosePicSignUp.setText("browse");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(76, 76, 76)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel12))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(genderMaleRadioBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(genderFemaleRadioBtn))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(picPathSignUp, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(choosePicSignUp))
-                    .addComponent(countrySignUp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(passwordSignUpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(confirmPasswordSignUpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(SignUpRegistration)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(usernameSignUpTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(nameSignUpTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(emailSignUpTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)))
-                .addContainerGap(908, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jLabel4)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(emailSignUpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(nameSignUpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(usernameSignUpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
-                .addGap(29, 29, 29)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(genderMaleRadioBtn)
-                    .addComponent(genderFemaleRadioBtn))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(countrySignUp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(picPathSignUp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12)
-                    .addComponent(choosePicSignUp))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(passwordSignUpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(confirmPasswordSignUpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(SignUpRegistration)
-                .addContainerGap(315, Short.MAX_VALUE))
-        );
-
-        getContentPane().add(jPanel2, "card3");
-
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
 
@@ -572,6 +588,97 @@ public class ClientGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordTextFieldActionPerformed
 
+    private void SignUpRegistrationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignUpRegistrationActionPerformed
+        if (validteRegistrationForm() != null)
+            //TODO create user object & check if user exist
+            ;
+        
+    }//GEN-LAST:event_SignUpRegistrationActionPerformed
+
+    private HashMap<String, String> validteRegistrationForm() {
+        HashMap<String, String> userInfo = new HashMap<>();
+        String error = "";
+        final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        Matcher matcher;
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+
+        /*
+        private String name;
+    private String email;
+    private String username;
+    private String country;
+    private String password;
+    private String gender;
+        */
+        String inputName = nameSignUpTextField.getText().trim();
+        String inputEmail = emailSignUpTextField.getText().trim();
+        String inputUsername = usernameSignUpTextField.getText().trim();
+        String inputPassword =passwordSignUpTextField.getText().trim();
+        String inputPassword2 = confirmPasswordSignUpTextField.getText().trim();
+        String inputGender = getGender();
+        String inputCountry = countrySignUp.getSelectedItem().toString();
+        
+        
+        if(!inputName.equals("")){
+            userInfo.put("name", inputName);
+        }else{
+            error += "Please enter your Name\n";
+        }
+        
+        
+        if(!inputEmail.equals("")){
+            matcher = pattern.matcher(inputEmail);
+            if(matcher.matches()){
+               userInfo.put("email", inputEmail);
+            }
+            
+            else{
+                error += "email is not correct\n";
+            }
+            
+        }else{
+           
+             error += "Please enter your Email\n";
+        }
+        
+        if(!inputUsername.equals("")){
+               userInfo.put("username", inputUsername);
+        }else{
+            error += "Please enter your UserName\n";
+        }
+        if(!inputPassword.equals("") && !inputPassword2.equals("") && inputPassword.equals(inputPassword2)){
+            userInfo.put( "password",inputPassword);
+        }else{
+            error += "Error in password\n";
+        }
+        
+        if(!inputCountry .equals("Select conutry")){
+        userInfo.put( "country",inputCountry);
+        }else{
+        error += "you must select your country\n";
+        }
+        
+        userInfo.put("gender",getGender());
+        if (!error.equals("")) {
+            JOptionPane.showMessageDialog(getContentPane(), error, "Error", JOptionPane.INFORMATION_MESSAGE);
+            return null;
+
+        }
+        return userInfo;
+    }
+
+    private void genderMaleRadioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genderMaleRadioBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_genderMaleRadioBtnActionPerformed
+
+    public String getGender() {
+        if(genderMaleRadioBtn.isSelected())
+            return genderMaleRadioBtn.getText();
+        return genderFemaleRadioBtn.getText();
+    }
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -607,6 +714,9 @@ public class ClientGUI extends javax.swing.JFrame {
         });
     }
 
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton SignUpRegistration;
     private javax.swing.ButtonGroup buttonGroup1;
