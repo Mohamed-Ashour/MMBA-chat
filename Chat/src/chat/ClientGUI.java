@@ -5,6 +5,11 @@
  */
 package chat;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import javax.swing.JDesktopPane;
+import javax.swing.KeyStroke;
+
 /**
  *
  * @author Ahmed
@@ -17,9 +22,10 @@ public class ClientGUI extends javax.swing.JFrame {
     public ClientGUI() {
         initComponents();
         
-        NewFrame If = new NewFrame();
-        jDesktopPane2.add(If);
-        If.show();
+        exit.setAccelerator( KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
+        
+        
+        
         
         
     }
@@ -70,7 +76,7 @@ public class ClientGUI extends javax.swing.JFrame {
         jLabel25 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
-        jButton4 = new javax.swing.JButton();
+        startChatBtn = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jDesktopPane2 = new javax.swing.JDesktopPane();
         jPanel1 = new javax.swing.JPanel();
@@ -103,8 +109,11 @@ public class ClientGUI extends javax.swing.JFrame {
         picPathSignUp = new javax.swing.JTextField();
         choosePicSignUp = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        Option = new javax.swing.JMenu();
+        exit = new javax.swing.JMenuItem();
+        Help = new javax.swing.JMenu();
+        About = new javax.swing.JMenuItem();
+        Helper = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.CardLayout());
@@ -320,7 +329,12 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE))
         );
 
-        jButton4.setText("Invite Chat");
+        startChatBtn.setText("Start Chat");
+        startChatBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startChatBtnActionPerformed(evt);
+            }
+        });
 
         jDesktopPane2.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -332,7 +346,7 @@ public class ClientGUI extends javax.swing.JFrame {
         );
         jDesktopPane2Layout.setVerticalGroup(
             jDesktopPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 735, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -355,14 +369,14 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(startChatBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(startChatBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(45, 45, 45))
             .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -555,11 +569,33 @@ public class ClientGUI extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2, "card3");
 
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
+        Option.setText("Options");
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        exit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, 0));
+        exit.setText("Exit");
+        exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitActionPerformed(evt);
+            }
+        });
+        Option.add(exit);
+
+        jMenuBar1.add(Option);
+
+        Help.setText("Help");
+
+        About.setText("About");
+        About.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AboutActionPerformed(evt);
+            }
+        });
+        Help.add(About);
+
+        Helper.setText("Help");
+        Help.add(Helper);
+
+        jMenuBar1.add(Help);
 
         setJMenuBar(jMenuBar1);
 
@@ -573,6 +609,28 @@ public class ClientGUI extends javax.swing.JFrame {
     private void passwordTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordTextFieldActionPerformed
+
+    private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
+        // TODO add your handling code here:
+        
+        System.exit(0);
+    }//GEN-LAST:event_exitActionPerformed
+
+    private void AboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutActionPerformed
+        // TODO add your handling code here:
+        ourHelp Oh = new ourHelp();
+        jDesktopPane2.add(Oh);
+        Oh.show();
+        
+    }//GEN-LAST:event_AboutActionPerformed
+
+    private void startChatBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startChatBtnActionPerformed
+        // TODO add your handling code here:
+        
+        ChatDialoge If = new ChatDialoge();
+        jDesktopPane2.add(If);
+        If.show();
+    }//GEN-LAST:event_startChatBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -610,6 +668,10 @@ public class ClientGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem About;
+    private javax.swing.JMenu Help;
+    private javax.swing.JMenuItem Helper;
+    private javax.swing.JMenu Option;
     private javax.swing.JButton SignUpRegistration;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton choosePicSignUp;
@@ -617,12 +679,12 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> countrySignUp;
     private javax.swing.JTextField emailSignUpTextField;
     private javax.swing.JTextField emailTextField;
+    private javax.swing.JMenuItem exit;
     private javax.swing.JRadioButton genderFemaleRadioBtn;
     private javax.swing.JRadioButton genderMaleRadioBtn;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JDesktopPane jDesktopPane2;
     private javax.swing.JLabel jLabel1;
@@ -651,8 +713,6 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -681,6 +741,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JTextField picPathSignUp;
     private javax.swing.JButton signInBtn;
     private javax.swing.JButton signUpBtn;
+    private javax.swing.JButton startChatBtn;
     private javax.swing.JTextField usernameSignUpTextField;
     // End of variables declaration//GEN-END:variables
 }
