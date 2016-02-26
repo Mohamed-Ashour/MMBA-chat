@@ -5,6 +5,10 @@
  */
 package chat;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import javax.swing.KeyStroke;
+
 /**
  *
  * @author Ahmed
@@ -16,6 +20,9 @@ public class ClientGUI extends javax.swing.JFrame {
      */
     public ClientGUI() {
         initComponents();
+        
+        exit.setAccelerator( KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
+        
         
         NewFrame If = new NewFrame();
         jDesktopPane2.add(If);
@@ -103,8 +110,11 @@ public class ClientGUI extends javax.swing.JFrame {
         picPathSignUp = new javax.swing.JTextField();
         choosePicSignUp = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        Option = new javax.swing.JMenu();
+        exit = new javax.swing.JMenuItem();
+        Help = new javax.swing.JMenu();
+        About = new javax.swing.JMenuItem();
+        Helper = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.CardLayout());
@@ -330,7 +340,7 @@ public class ClientGUI extends javax.swing.JFrame {
         );
         jDesktopPane2Layout.setVerticalGroup(
             jDesktopPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 735, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -553,11 +563,28 @@ public class ClientGUI extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2, "card3");
 
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
+        Option.setText("Options");
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        exit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, 0));
+        exit.setText("Exit");
+        exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitActionPerformed(evt);
+            }
+        });
+        Option.add(exit);
+
+        jMenuBar1.add(Option);
+
+        Help.setText("Help");
+
+        About.setText("About");
+        Help.add(About);
+
+        Helper.setText("Help");
+        Help.add(Helper);
+
+        jMenuBar1.add(Help);
 
         setJMenuBar(jMenuBar1);
 
@@ -571,6 +598,12 @@ public class ClientGUI extends javax.swing.JFrame {
     private void passwordTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordTextFieldActionPerformed
+
+    private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
+        // TODO add your handling code here:
+        
+        System.exit(0);
+    }//GEN-LAST:event_exitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -608,6 +641,10 @@ public class ClientGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem About;
+    private javax.swing.JMenu Help;
+    private javax.swing.JMenuItem Helper;
+    private javax.swing.JMenu Option;
     private javax.swing.JButton SignUpRegistration;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton choosePicSignUp;
@@ -615,6 +652,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> countrySignUp;
     private javax.swing.JTextField emailSignUpTextField;
     private javax.swing.JTextField emailTextField;
+    private javax.swing.JMenuItem exit;
     private javax.swing.JRadioButton genderFemaleRadioBtn;
     private javax.swing.JRadioButton genderMaleRadioBtn;
     private javax.swing.JButton jButton1;
@@ -649,8 +687,6 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
