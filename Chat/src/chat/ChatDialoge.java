@@ -54,8 +54,6 @@ public class ChatDialoge extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
-        setMaximizable(true);
-        setResizable(true);
         getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {

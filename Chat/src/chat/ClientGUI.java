@@ -7,6 +7,7 @@ package chat;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import javax.swing.JDesktopPane;
 import javax.swing.KeyStroke;
 
 /**
@@ -24,9 +25,7 @@ public class ClientGUI extends javax.swing.JFrame {
         exit.setAccelerator( KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
         
         
-        ChatDialoge If = new ChatDialoge();
-        jDesktopPane2.add(If);
-        If.show();
+        
         
         
     }
@@ -77,7 +76,7 @@ public class ClientGUI extends javax.swing.JFrame {
         jLabel25 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
-        jButton4 = new javax.swing.JButton();
+        startChatBtn = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jDesktopPane2 = new javax.swing.JDesktopPane();
         jPanel1 = new javax.swing.JPanel();
@@ -330,7 +329,14 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE))
         );
 
-        jButton4.setText("Invite Chat");
+        startChatBtn.setText("Start Chat");
+        startChatBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startChatBtnActionPerformed(evt);
+            }
+        });
+
+        jDesktopPane2.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jDesktopPane2Layout = new javax.swing.GroupLayout(jDesktopPane2);
         jDesktopPane2.setLayout(jDesktopPane2Layout);
@@ -363,14 +369,14 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(startChatBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(startChatBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(45, 45, 45))
             .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -618,6 +624,14 @@ public class ClientGUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_AboutActionPerformed
 
+    private void startChatBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startChatBtnActionPerformed
+        // TODO add your handling code here:
+        
+        ChatDialoge If = new ChatDialoge();
+        jDesktopPane2.add(If);
+        If.show();
+    }//GEN-LAST:event_startChatBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -671,7 +685,6 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JDesktopPane jDesktopPane2;
     private javax.swing.JLabel jLabel1;
@@ -728,6 +741,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JTextField picPathSignUp;
     private javax.swing.JButton signInBtn;
     private javax.swing.JButton signUpBtn;
+    private javax.swing.JButton startChatBtn;
     private javax.swing.JTextField usernameSignUpTextField;
     // End of variables declaration//GEN-END:variables
 }
