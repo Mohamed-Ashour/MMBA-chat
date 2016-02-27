@@ -5,6 +5,8 @@
  */
 package chat;
 
+import java.util.List;
+
 /**
  *
  * @author egypt
@@ -17,7 +19,12 @@ public class ChatDialoge extends javax.swing.JInternalFrame {
     public ChatDialoge() {
         initComponents();
     }
-
+    public String d;
+    public void yess(){};
+    public void setSessionUsers(String s){
+        chatTextArea.setText(s);
+       // DefaultListModel<s> model = chatList.getModel();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,10 +38,10 @@ public class ChatDialoge extends javax.swing.JInternalFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        chatList = new javax.swing.JList<>();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        chatTextArea = new javax.swing.JTextArea();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
@@ -56,12 +63,12 @@ public class ChatDialoge extends javax.swing.JInternalFrame {
         setIconifiable(true);
         getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        chatList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Mina", "Ahmed", "Alaa", "Andro", "assem", "Mohamed", "Ayman", "Ashour", "Hussein" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(chatList);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -74,12 +81,12 @@ public class ChatDialoge extends javax.swing.JInternalFrame {
             .addComponent(jScrollPane1)
         );
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setEnabled(false);
-        jTextArea1.setFocusable(false);
-        jScrollPane2.setViewportView(jTextArea1);
+        chatTextArea.setEditable(false);
+        chatTextArea.setColumns(20);
+        chatTextArea.setRows(5);
+        chatTextArea.setEnabled(false);
+        chatTextArea.setFocusable(false);
+        jScrollPane2.setViewportView(chatTextArea);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -153,9 +160,10 @@ public class ChatDialoge extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JList<String> chatList;
+    public javax.swing.JTextArea chatTextArea;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -164,7 +172,6 @@ public class ChatDialoge extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     // End of variables declaration//GEN-END:variables
 }
