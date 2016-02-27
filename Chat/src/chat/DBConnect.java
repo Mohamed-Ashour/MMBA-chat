@@ -14,36 +14,38 @@ package chat;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.Statement;
+import java.sql.SQLException;
 
-public class DBConnect {
-    private Connection connect;
+public class DBConnect 
+{
+    private static Connection connect;
 
-    public DBConnect() {
-        
-        try {
-            
-        // This will load the MySQL driver, each DB has its own driver
-        Class.forName("com.mysql.jdbc.Driver");
-        
-        // Setup the connection with the DB
-        connect = DriverManager.getConnection("jdbc:mysql://localhost/Chat?" + "user=bears&password=iti");
-        
-        Statement stm = connect.createStatement();
-            
-        
-        
-        }
-        
-        catch(Exception e) {
-            e.getMessage();
-        }
-        
-        
+    private DBConnect() {        
     }
     
+    static public Connection getConn() {
+        if (connect == null) {
+            try {
+                
+                Class.forName("com.mysql.jdbc.Driver");
+                connect = DriverManager.getConnection("jdbc:mysql://localhost/Chat?user=mmba&password=iti");
+
+            } catch (ClassNotFoundException | SQLException e) {
+                System.out.println(e.getMessage());
+            }
+            
+            return connect;
+        }
+        return connect;
+    }
     
-            
-            
+    static public void closeConn() {
+        try {
+            connect.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        connect = null;
+    }
             
 }
