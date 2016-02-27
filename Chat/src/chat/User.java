@@ -5,7 +5,14 @@
  */
 package chat;
 
+import java.sql.Array;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,19 +27,85 @@ public class User
     private String password;
     private String country;
     private String gender;
+    static private Connection db = DBConnect.getConn();
+    static private Statement stm;
+    static private String query; 
+
     
-    public User (HashMap UserInfo) {
+    public User(String email, String username, String name, String status, String password, String country, String gender) {
         
-        email = (String) UserInfo.get("email");
-        username = (String) UserInfo.get("username");
-        name = (String) UserInfo.get("name");
+        this.email = email;
+        this.username = username;
+        this.name = name;
+        this.status = status;
+        this.password = password;
+        this.country = country;
+        this.gender = gender;
+    
+    }
+
+    
+    public User(String email, String password) {
+    
+        this.email = email;
+        this.password = password;
+    
+    }
+    
+    
+    public User ( HashMap<String, String> userInfo) {
+        
+        email = userInfo.get("email");
+        username = userInfo.get("username");
+        name = userInfo.get("name");
         status = "online";
-        password = (String) UserInfo.get("password");
-        country = (String) UserInfo.get("country");
-        gender = (String) UserInfo.get("gender");
+        password = userInfo.get("password");
+        country = userInfo.get("country");
+        gender = userInfo.get("gender");
         
+    }
+    
+    
+    public Boolean login() {
+    
+        try {
+            
+            stm = db.createStatement();
+            query = "select * from User where email = " + email + " and password = " + password ;
+            ResultSet rs = stm.executeQuery(query);
+            return (rs.next());
         
+        } catch (SQLException ex) { }
         
+        return false;
+
+    }
+    
+    
+    public Boolean add() {
+        
+        try {
+            // student insertion
+            stm = db.createStatement();
+            query = "insert into User (name, username, email, password,"
+                    + " country, gender, status) values ("
+                    + name + username + email + password + country + gender +
+                    status + ")";
+            int rs = stm.executeUpdate(query);
+            System.out.println(rs);
+            return true;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return false;
+        
+    }
+    
+
+    public String getGender() {
+        return gender;
     }
 
     public String getEmail() {
@@ -49,17 +122,78 @@ public class User
 
     public String getPassword() {
         return password;
+    }    
+
+    public User findUser(String searchEmail) {
+        if ( isExist(searchEmail) ){
+            try {
+     
+                stm = db.createStatement();
+                query = "select * from User where email = " + searchEmail ;
+                ResultSet userResult = stm.executeQuery(query);
+                
+                name = userResult.getString("name");
+                email = userResult.getString("email");
+                username = userResult.getString("username");
+                password = userResult.getString("password");
+                country = userResult.getString("country");
+                gender = userResult.getString("gender");
+                status = userResult.getString("status");
+                
+                return new User(email, username, name, status, password, country, gender);
+        
+            } catch (SQLException ex) {
+                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        return null;
     }
     
-    public Boolean isExist() {
-        return true;
+    
+    public User completeInfo() {
+        return findUser(this.email);
     }
     
-    public void getUser() {
+    
+    static public String[] getAllUsers() {
+        
+        try {
+     
+                stm = db.createStatement();
+                query = "select email from User" ;
+                ResultSet userResult = stm.executeQuery(query);
+                Array a = userResult.getArray("email");
+                return (String[])a.getArray();
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        return null;
         
     }
     
-    public void getAllUsers() {
+//    public String getContactList() {
+//        
+//    }
+//    
+//    public Boolean addContact() {
+//        
+//    }
+    
+    
+    public Boolean isExist(String searchEmail) {
+        try {
+            
+            stm = db.createStatement();
+            query = "select * from User where email = " + searchEmail ;
+            ResultSet rs = stm.executeQuery(query);
+            return (rs.next());
         
+        } catch (SQLException ex) { }
+        
+        return false;
     }
+    
 }
