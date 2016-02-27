@@ -5,6 +5,8 @@
  */
 package chat;
 
+import javax.swing.JFileChooser;
+
 /**
  *
  * @author bassem
@@ -104,7 +106,15 @@ class ChatFrame extends javax.swing.JInternalFrame {
         jButton1.setText("Send");
 
         jButton2.setText("Attach");
-
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+                    @Override
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        jButton2ActionPerformed(evt);
+                    }
+                });
+        
+        
+                
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -151,10 +161,22 @@ class ChatFrame extends javax.swing.JInternalFrame {
 
         getContentPane().add(jPanel3);
 
+        
+        
+        
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+        JFileChooser fc = new JFileChooser();
+                if(fc.showOpenDialog(jScrollPane1) == JFileChooser.APPROVE_OPTION)
+                {
+                    
+                }
+                
 
+        }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JList<String> chatList;
     public javax.swing.JTextArea chatTextArea;
@@ -170,4 +192,7 @@ class ChatFrame extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea2;
     // End of variables declaration//GEN-END:variables
+    
+    //JFileChooser fc = new JFileChooser(); 
+			
 }
