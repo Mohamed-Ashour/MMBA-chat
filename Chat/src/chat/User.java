@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package chat;
 
 import java.sql.Array;
@@ -32,7 +28,8 @@ public class User
     static private String query; 
 
     
-    public User(String email, String username, String name, String status, String password, String country, String gender) {
+    public User(String email, String username, String name, String status,
+            String password, String country, String gender) {
         
         this.email = email;
         this.username = username;
@@ -89,8 +86,8 @@ public class User
             stm = db.createStatement();
             query = "insert into User (name, username, email, password,"
                     + " country, gender, status) values ("
-                    + name + username + email + password + country + gender +
-                    status + ")";
+                    + "," + name + "," + username + "," + email + "," + password +
+                    "," + country + "," + gender + "," + status + ")";
             int rs = stm.executeUpdate(query);
             System.out.println(rs);
             return true;
@@ -160,27 +157,87 @@ public class User
         
         try {
      
-                stm = db.createStatement();
-                query = "select email from User" ;
-                ResultSet userResult = stm.executeQuery(query);
-                Array a = userResult.getArray("email");
-                return (String[])a.getArray();
-                
-            } catch (SQLException ex) {
-                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            stm = db.createStatement();
+            query = "select email from User" ;
+            ResultSet userResult = stm.executeQuery(query);
+            Array a = userResult.getArray("email");
+            return (String[])a.getArray();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         return null;
         
     }
     
-//    public String getContactList() {
-//        
-//    }
-//    
-//    public Boolean addContact() {
-//        
-//    }
+    public String[] getContactList(String searchEmail) {
+        try {
+     
+            stm = db.createStatement();
+            query = "select user as email user from Contact where user = " + searchEmail + 
+                    " union select contact as email from Contact where contact = " +
+                    searchEmail ;
+            ResultSet userResult = stm.executeQuery(query);
+            Array a = userResult.getArray("email");
+            return (String[])a.getArray();
+                
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
+    }
+    
+    
+    public Boolean isContact(String contactEmail) {
+        
+        try {
+                // check if user is friend with contact
+                query = "select * from Contact";
+                ResultSet contactsResult = stm.executeQuery(query);
+                while ( contactsResult.next() ) {
+                    String contactFound = contactsResult.getString("contact");
+                    String userFound = contactsResult.getString("user");
+                    
+                    if( (userFound.equals(email) && contactFound.equals(contactEmail)) ||
+                        (userFound.equals(contactEmail) && contactFound.equals(email))    ) {
+                        return true;
+                    }
+                }
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        return false;
+    
+    }
+    
+    
+    public Boolean addContact(String contactEmail) {
+        if( isExist(contactEmail) ) {
+            
+            if( !isContact(contactEmail) ) {
+            
+                try {
+                    stm = db.createStatement();
+                    query = "insert into Contact (user, contact) values ("
+                            + email + "," + contactEmail + ")";
+                    int rs = stm.executeUpdate(query);
+                    System.out.println(rs);
+                    return true;
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }
+            
+        }
+        
+        return false;
+    }
     
     
     public Boolean isExist(String searchEmail) {
