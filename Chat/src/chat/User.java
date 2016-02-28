@@ -68,7 +68,7 @@ public class User
         try {
             
             stm = db.createStatement();
-            query = "select * from User where email = " + email + " and password = " + password ;
+            query = "select * from User where email = '" + email + "' and password = '" + password + "'";
             ResultSet rs = stm.executeQuery(query);
             return (rs.next());
         
@@ -85,9 +85,10 @@ public class User
             // student insertion
             stm = db.createStatement();
             query = "insert into User (name, username, email, password,"
-                    + " country, gender, status) values ("
-                    + "," + name + "," + username + "," + email + "," + password +
-                    "," + country + "," + gender + "," + status + ")";
+                    + " country, gender, status) values ('"
+                    + name + "','" + username + "','" + email + "','" + password +
+                    "','" + country + "','" + gender + "','" + status + "')";
+            System.out.println(query);
             int rs = stm.executeUpdate(query);
             System.out.println(rs);
             return true;
@@ -126,7 +127,7 @@ public class User
             try {
      
                 stm = db.createStatement();
-                query = "select * from User where email = " + searchEmail ;
+                query = "select * from User where email = '" + searchEmail + "'";
                 ResultSet userResult = stm.executeQuery(query);
                 
                 name = userResult.getString("name");
@@ -175,9 +176,9 @@ public class User
         try {
      
             stm = db.createStatement();
-            query = "select user as email user from Contact where user = " + searchEmail + 
-                    " union select contact as email from Contact where contact = " +
-                    searchEmail ;
+            query = "select user as email user from Contact where user = '" + searchEmail + 
+                    "' union select contact as email from Contact where contact = '" +
+                    searchEmail + "'" ;
             ResultSet userResult = stm.executeQuery(query);
             Array a = userResult.getArray("email");
             return (String[])a.getArray();
@@ -222,8 +223,8 @@ public class User
             
                 try {
                     stm = db.createStatement();
-                    query = "insert into Contact (user, contact) values ("
-                            + email + "," + contactEmail + ")";
+                    query = "insert into Contact (user, contact) values ('"
+                            + email + "','" + contactEmail + "')";
                     int rs = stm.executeUpdate(query);
                     System.out.println(rs);
                     return true;
@@ -244,7 +245,7 @@ public class User
         try {
             
             stm = db.createStatement();
-            query = "select * from User where email = " + searchEmail ;
+            query = "select * from User where email = '" + searchEmail + "'" ;
             ResultSet rs = stm.executeQuery(query);
             return (rs.next());
         
@@ -252,5 +253,10 @@ public class User
         
         return false;
     }
+    
+//    public static void main(String[] args) {
+//        User myUser = new User("ahmed@iti.com","username", "name", "online", "123", "egypt", "male");
+//        System.out.println(myUser.isExist("ahmed@ti.com"));
+//    }
     
 }
