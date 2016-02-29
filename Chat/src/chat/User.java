@@ -64,6 +64,22 @@ public class User
     }
     
     
+    public Boolean isExist(String searchEmail) {
+        try {
+            
+            stm = db.createStatement();
+            query = "select * from User where email = '" + searchEmail + "'" ;
+            ResultSet rs = stm.executeQuery(query);
+            return (rs.next());
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return false;
+    }
+    
+    
     public Boolean login() {
     
         try {
@@ -73,7 +89,9 @@ public class User
             ResultSet rs = stm.executeQuery(query);
             return (rs.next());
         
-        } catch (SQLException ex) { }
+        } catch (SQLException ex) {  
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         return false;
 
@@ -104,33 +122,38 @@ public class User
     
         
     public User completeInfo() {
-        return findUser(this.email);
+        return getUserData(this.email);
     }
     
 
     public User findUser(String searchEmail) {
         if ( isExist(searchEmail) && !searchEmail.equals(email) ){
-            try {
-     
-                stm = db.createStatement();
-                query = "select * from User where email = '" + searchEmail + "'";
-                ResultSet userResult = stm.executeQuery(query);
-                userResult.next();
-                name = userResult.getString("name");
-                email = userResult.getString("email");
-                username = userResult.getString("username");
-                password = userResult.getString("password");
-                country = userResult.getString("country");
-                gender = userResult.getString("gender");
-                status = userResult.getString("status");
-               
-                return new User(email, username, name, status, password, country, gender);
-        
-            } catch (SQLException ex) {
-                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            return getUserData(searchEmail);
         }
         
+        return null;
+    }
+
+    public User getUserData(String searchEmail) {
+        try {
+            
+            stm = db.createStatement();
+            query = "select * from User where email = '" + searchEmail + "'";
+            ResultSet userResult = stm.executeQuery(query);
+            userResult.next();
+            name = userResult.getString("name");
+            email = userResult.getString("email");
+            username = userResult.getString("username");
+            password = userResult.getString("password");
+            country = userResult.getString("country");
+            gender = userResult.getString("gender");
+            status = userResult.getString("status");
+            
+            return new User(email, username, name, status, password, country, gender);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return null;
     }
     
@@ -160,7 +183,6 @@ public class User
         }
         
         return null;
-        
     }
     
     public List<User> getContactList() {
@@ -240,18 +262,6 @@ public class User
     }
     
     
-    public Boolean isExist(String searchEmail) {
-        try {
-            
-            stm = db.createStatement();
-            query = "select * from User where email = '" + searchEmail + "'" ;
-            ResultSet rs = stm.executeQuery(query);
-            return (rs.next());
-        
-        } catch (SQLException ex) { }
-        
-        return false;
-    }
     
     
     public String getGender() {
