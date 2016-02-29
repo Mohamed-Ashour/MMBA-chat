@@ -198,13 +198,8 @@ public class User
                     email + "'" ;
             ResultSet userResult = stm.executeQuery(query);
             while( userResult.next() ) {
-                User retrievedUser = new User( userResult.getString("email"),
-                                            userResult.getString("username"),
-                                            userResult.getString("name"),
-                                            userResult.getString("status"),
-                                            userResult.getString("password"),
-                                            userResult.getString("country"),
-                                            userResult.getString("gender") );
+                
+                User retrievedUser = User.getUserData(userResult.getString("email"));
                 contacts.add(retrievedUser);
             }
             return contacts;
