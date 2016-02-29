@@ -27,14 +27,14 @@ public class ClientGUI extends javax.swing.JFrame {
     
     //our vars
     
-
+private User user;
     
     
     
     public ClientGUI() {
         initComponents();
 
-
+        addFriendBtn.setVisible(false);    
         exit.setAccelerator( KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
         
 
@@ -83,18 +83,14 @@ public class ClientGUI extends javax.swing.JFrame {
         chatPanel = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        upperUserNamelabel = new javax.swing.JLabel();
+        statusCombo = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         searchBtn = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
         jLabel24 = new javax.swing.JLabel();
-        jScrollPane6 = new javax.swing.JScrollPane();
         recetUdateArea = new javax.swing.JPanel();
-        jLabel22 = new javax.swing.JLabel();
-        testText = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        recetUpdateArea = new javax.swing.JTextArea();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel25 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
@@ -102,6 +98,7 @@ public class ClientGUI extends javax.swing.JFrame {
         searchTextField = new javax.swing.JTextField();
         searchResultLabel = new javax.swing.JLabel();
         addFriendBtn = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
         startChatBtn = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jDesktopPane2 = new javax.swing.JDesktopPane();
@@ -152,7 +149,7 @@ public class ClientGUI extends javax.swing.JFrame {
                     .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(emailTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
                         .addComponent(passwordTextField, javax.swing.GroupLayout.Alignment.LEADING)))
-                .addContainerGap(940, Short.MAX_VALUE))
+                .addContainerGap(942, Short.MAX_VALUE))
             .addGroup(loginPanelLayout.createSequentialGroup()
                 .addGap(134, 134, 134)
                 .addComponent(signInBtn)
@@ -177,7 +174,7 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(signInBtn)
                     .addComponent(signUpBtn))
-                .addContainerGap(517, Short.MAX_VALUE))
+                .addContainerGap(497, Short.MAX_VALUE))
         );
 
         panalGroup.add(loginPanel, "loginCard");
@@ -239,18 +236,15 @@ public class ClientGUI extends javax.swing.JFrame {
             signupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(signupPanelLayout.createSequentialGroup()
                 .addGroup(signupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(signupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(signupPanelLayout.createSequentialGroup()
-                            .addGap(76, 76, 76)
-                            .addGroup(signupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel6)
-                                .addComponent(jLabel7)
-                                .addComponent(jLabel8)
-                                .addComponent(jLabel9)
-                                .addComponent(jLabel10)
-                                .addComponent(jLabel11)))
-                        .addGroup(signupPanelLayout.createSequentialGroup()
-                            .addContainerGap()
+                    .addGroup(signupPanelLayout.createSequentialGroup()
+                        .addGap(76, 76, 76)
+                        .addGroup(signupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel11)
                             .addComponent(jLabel5)))
                     .addGroup(signupPanelLayout.createSequentialGroup()
                         .addContainerGap()
@@ -324,55 +318,47 @@ public class ClientGUI extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(250, 250, 250));
 
-        jLabel13.setText("Welcome , ");
+        upperUserNamelabel.setText("Mina Amir");
 
-        jLabel14.setText("Mina Amir");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Online", "Away", "Offline" }));
+        statusCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Online", "Away", "Offline" }));
 
         jButton1.setText("Logout");
 
         searchBtn.setText("Search");
+        searchBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBtnActionPerformed(evt);
+            }
+        });
 
         jLabel24.setText("Recent Updates");
-
-        jScrollPane6.setBorder(null);
 
         recetUdateArea.setBackground(new java.awt.Color(250, 250, 250));
         recetUdateArea.setAutoscrolls(true);
         recetUdateArea.setEnabled(false);
+        recetUdateArea.setName("recetUpdateArea"); // NOI18N
 
-        jLabel22.setText("Alaa just Logout now");
-
-        testText.setText("Bassem Just Login No                                                  ");
-
-        jLabel23.setText("Ashour Just Change his Status Now ( Away)");
+        recetUpdateArea.setColumns(20);
+        recetUpdateArea.setRows(5);
+        recetUpdateArea.setEnabled(false);
+        recetUpdateArea.setOpaque(false);
+        jScrollPane1.setViewportView(recetUpdateArea);
+        recetUpdateArea.getAccessibleContext().setAccessibleName("");
 
         javax.swing.GroupLayout recetUdateAreaLayout = new javax.swing.GroupLayout(recetUdateArea);
         recetUdateArea.setLayout(recetUdateAreaLayout);
         recetUdateAreaLayout.setHorizontalGroup(
             recetUdateAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(recetUdateAreaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(recetUdateAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(testText)
-                    .addComponent(jLabel22)
-                    .addComponent(jLabel23))
-                .addContainerGap(48, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, recetUdateAreaLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         recetUdateAreaLayout.setVerticalGroup(
             recetUdateAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(recetUdateAreaLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, recetUdateAreaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(testText)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel23)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel22)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE))
         );
-
-        jScrollPane6.setViewportView(recetUdateArea);
 
         jLabel25.setText("My Contacts");
 
@@ -387,81 +373,82 @@ public class ClientGUI extends javax.swing.JFrame {
 
         searchTextField.setText("Enter Email Address Here ");
 
-        searchResultLabel.setText("eng.mina23@gmail.com");
-
         addFriendBtn.setText("Add");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jScrollPane6)
             .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jScrollPane8)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jLabel25)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(jScrollPane8)
+            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel24)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel13)
-                                .addGap(35, 35, 35)
-                                .addComponent(jLabel14)
-                                .addGap(38, 38, 38)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(64, 64, 64)
+                                .addComponent(upperUserNamelabel)
+                                .addGap(96, 96, 96)
+                                .addComponent(statusCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                                .addGap(40, 40, 40)
-                                .addComponent(searchTextField))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                                .addGap(23, 23, 23)
-                                .addComponent(searchResultLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(52, 52, 52)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(searchResultLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(searchTextField))))
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton1))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                                 .addGap(27, 27, 27)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(addFriendBtn)
-                                    .addComponent(searchBtn))))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(searchBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(addFriendBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel24)))
+                .addContainerGap(36, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(recetUdateArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel14)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(upperUserNamelabel)
+                    .addComponent(statusCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
                 .addGap(20, 20, 20)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(searchBtn)
                     .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(16, 16, 16)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addFriendBtn)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(searchResultLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(177, 177, 177)
+                    .addComponent(searchResultLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(40, 40, 40)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
+                .addGap(32, 32, 32)
                 .addComponent(jLabel24)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(226, 226, 226)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel25)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE))
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                    .addContainerGap(242, Short.MAX_VALUE)
+                    .addComponent(recetUdateArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(170, Short.MAX_VALUE)))
         );
 
         startChatBtn.setText("Start Chat");
@@ -477,11 +464,11 @@ public class ClientGUI extends javax.swing.JFrame {
         jDesktopPane2.setLayout(jDesktopPane2Layout);
         jDesktopPane2Layout.setHorizontalGroup(
             jDesktopPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 900, Short.MAX_VALUE)
+            .addGap(0, 849, Short.MAX_VALUE)
         );
         jDesktopPane2Layout.setVerticalGroup(
             jDesktopPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 746, Short.MAX_VALUE)
+            .addGap(0, 751, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -509,6 +496,7 @@ public class ClientGUI extends javax.swing.JFrame {
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(startChatBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -706,10 +694,38 @@ public class ClientGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(getContentPane(), "Please enter user name and password", "Error", JOptionPane.INFORMATION_MESSAGE);
         }
         else{
-            User user = new User(emailInputed, passwordInputed);
+             user = new User(emailInputed, passwordInputed);
             if ( user.login() ) {
                 
+                
+                // I ll Complete It After Finish Add Frinds
+                //String[] myContactList = user.getContactList(user.getEmail());
+                
+                // Set User Status
                 user = user.completeInfo();
+              
+                int statusValue = 0;
+               if(user.getStatus() == "online")
+               {
+                   statusValue = 0;
+               }
+               else if(user.getStatus() == "away")
+               {
+                   statusValue = 1;
+               }
+               else
+               {
+                   statusValue = 2;
+               }
+               
+               statusCombo.setSelectedIndex(statusValue);
+               
+               
+                
+                //Set Welcome Name to User in Bottom Text Area 
+                recetUpdateArea.setText("Welcome , " + user.getUsername());
+                // Put User Name in the Upper Label
+                upperUserNamelabel.setText(user.getUsername());
                 CardLayout jj=(CardLayout) panalGroup.getLayout();
                 jj.show(panalGroup, "chatCard");
                 // TODO show user info in chat panel
@@ -736,6 +752,20 @@ public class ClientGUI extends javax.swing.JFrame {
                 jj.show(panalGroup, "loginCard");
         
     }//GEN-LAST:event_backBtnActionPerformed
+
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
+        // TODO add your handling code here:
+        if(user.isExist(searchTextField.getText()))
+        {
+            User userInfo=user.findUser(searchTextField.getText());
+             searchResultLabel.setText(userInfo.getEmail()); 
+             addFriendBtn.setVisible(true);
+        }
+        else
+        {
+            searchResultLabel.setText("No Emails Found"); 
+        }
+    }//GEN-LAST:event_searchBtnActionPerformed
 
     
     public static void main(String args[]) {
@@ -792,16 +822,11 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JRadioButton genderFemaleRadioBtn;
     private javax.swing.JRadioButton genderMaleRadioBtn;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JDesktopPane jDesktopPane2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel3;
@@ -815,7 +840,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
@@ -825,6 +850,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JPasswordField passwordSignUpTextField;
     private javax.swing.JPasswordField passwordTextField;
     private javax.swing.JPanel recetUdateArea;
+    private javax.swing.JTextArea recetUpdateArea;
     private javax.swing.JButton searchBtn;
     private javax.swing.JLabel searchResultLabel;
     private javax.swing.JTextField searchTextField;
@@ -832,7 +858,8 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JButton signUpBtn;
     private javax.swing.JPanel signupPanel;
     private javax.swing.JButton startChatBtn;
-    private javax.swing.JLabel testText;
+    private javax.swing.JComboBox<String> statusCombo;
+    private javax.swing.JLabel upperUserNamelabel;
     private javax.swing.JTextField usernameSignUpTextField;
     // End of variables declaration//GEN-END:variables
 }
