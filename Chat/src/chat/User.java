@@ -97,6 +97,11 @@ public class User
 
     }
     
+    public void logout() {
+        setStatus("offline");
+        changeStatus("offline");
+    }
+    
     
     public Boolean add() {
         
@@ -181,6 +186,8 @@ public class User
         
         return null;
     }
+    
+    
     
     public List<User> getContactList() {
         try {
@@ -296,6 +303,21 @@ public class User
         }
         
         return false;
+    }
+    
+    
+    public void initSession(List<User> users) {
+        
+    }
+    
+    
+    public void sendMessage() {
+        
+    }
+    
+    
+    public void recieveMessage() {
+        
     }
     
     
