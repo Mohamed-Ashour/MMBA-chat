@@ -1,12 +1,13 @@
 
 package chat;
 
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,7 +30,7 @@ public class User
 
     
     public User(String email, String username, String name, String status,
-            String password, String country, String gender) {
+                String password, String country, String gender) {
         
         this.email = email;
         this.username = username;
@@ -86,8 +87,8 @@ public class User
             stm = db.createStatement();
             query = "insert into User (name, username, email, password,"
                     + " country, gender, status) values ('"
-                    + name + "','" + username + "','" + email + "','" + password +
-                    "','" + country + "','" + gender + "','" + status + "')";
+                    + name + "','" + username + "','" + email + "','" + password 
+                    + "','" + country + "','" + gender + "','" + status + "')";
             System.out.println(query);
             int rs = stm.executeUpdate(query);
             System.out.println(rs);
@@ -101,35 +102,19 @@ public class User
         
     }
     
-
-    public String getGender() {
-        return gender;
+        
+    public User completeInfo() {
+        return findUser(this.email);
     }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getPassword() {
-        return password;
-    }    
+    
 
     public User findUser(String searchEmail) {
-        if ( isExist(searchEmail) ){
+        if ( isExist(searchEmail) && !searchEmail.equals(email) ){
             try {
      
                 stm = db.createStatement();
                 query = "select * from User where email = '" + searchEmail + "'";
                 ResultSet userResult = stm.executeQuery(query);
-                System.out.println(query);
                 userResult.next();
                 name = userResult.getString("name");
                 email = userResult.getString("email");
@@ -150,20 +135,25 @@ public class User
     }
     
     
-    public User completeInfo() {
-        return findUser(this.email);
-    }
-    
-    
-    static public String[] getAllUsers() {
+    static public List<User> getAllUsers() {
         
         try {
-     
+            List<User> users = new ArrayList<>();   
             stm = db.createStatement();
-            query = "select email from User" ;
+            query = "select * from User" ;
             ResultSet userResult = stm.executeQuery(query);
-            Array a = userResult.getArray("email");
-            return (String[])a.getArray();
+            while( userResult.next() ) {
+                User retrievedUser = new User( userResult.getString("email"),
+                                            userResult.getString("username"),
+                                            userResult.getString("name"),
+                                            userResult.getString("status"),
+                                            userResult.getString("password"),
+                                            userResult.getString("country"),
+                                            userResult.getString("gender") );
+                users.add(retrievedUser);
+            }
+            
+            return users;
 
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
@@ -173,16 +163,25 @@ public class User
         
     }
     
-    public String[] getContactList(String searchEmail) {
+    public List<User> getContactList() {
         try {
-     
+            List<User> contacts = new ArrayList<>();        
             stm = db.createStatement();
-            query = "select user as email user from Contact where user = '" + searchEmail + 
+            query = "select user as email from Contact where user = '" + email + 
                     "' union select contact as email from Contact where contact = '" +
-                    searchEmail + "'" ;
+                    email + "'" ;
             ResultSet userResult = stm.executeQuery(query);
-            Array a = userResult.getArray("email");
-            return (String[])a.getArray();
+            while( userResult.next() ) {
+                User retrievedUser = new User( userResult.getString("email"),
+                                            userResult.getString("username"),
+                                            userResult.getString("name"),
+                                            userResult.getString("status"),
+                                            userResult.getString("password"),
+                                            userResult.getString("country"),
+                                            userResult.getString("gender") );
+                contacts.add(retrievedUser);
+            }
+            return contacts;
                 
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
@@ -213,7 +212,6 @@ public class User
             }
         
         return false;
-    
     }
     
     
@@ -255,10 +253,38 @@ public class User
         return false;
     }
     
+    
+    public String getGender() {
+        return gender;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getPassword() {
+        return password;
+    }    
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
+    
     public static void main(String[] args) {
-//        User myUser = new User("ahmed@iti.com","username", "name", "online", "123", "egypt", "male");
-        User myUser = new User("ahmed@iti.com","123");
-        myUser = myUser.completeInfo();
+        User myUser = new User("ahmed@iti.com","username", "name", "online", "123", "egypt", "male");
+        // User myUser = new User("ahmed@iti.com","123");
+        // System.out.println(User.getAllUsers());
+        System.out.println(myUser.getContactList());
+        
     }
     
 }
