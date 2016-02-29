@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 
 public class Message implements Serializable{
     
+    private int id;
     private String messageText;
     private User from;
     private Time time;
@@ -23,8 +24,8 @@ public class Message implements Serializable{
     
      public Message(){}
     
-    public Message(String messageText,User from,Time time,Session session,Boolean delivered){
-        
+    public Message(int id,String messageText,User from,Time time,Session session,Boolean delivered){
+        this.id=id;
         this.messageText = messageText;
         this.from = from;
         this.time = time;
@@ -32,7 +33,7 @@ public class Message implements Serializable{
         this.delivered=delivered;
     }
     
-     public Boolean add() {
+     public Boolean addMessage() {
         
         try {
             Connection db = DBConnect.getConn();
@@ -57,7 +58,7 @@ public class Message implements Serializable{
     }
     
     
-    public List<Message> getAllMessage(User user,Session session){
+   static public List<Message> getAllMessage(User user,Session session){
         try {
             
             Connection db = DBConnect.getConn();
@@ -68,7 +69,7 @@ public class Message implements Serializable{
             query = "select * from Message, Session where Message.sessionId= Session.ssessionId" ;
             ResultSet rs = stm.executeQuery(query);
             while( rs.next() ) {
-               Message retrievedMsg = new Message(rs.getString("message"),
+               Message retrievedMsg = new Message(rs.getInt("id"),rs.getString("message"),
                                                   User.getUserData(rs.getString("from")),
                                                   rs.getTime("time"),
                                                   Session.getSession(rs.getInt("sessionId")),
@@ -86,5 +87,4 @@ public class Message implements Serializable{
         
     }
     
-   
 }
