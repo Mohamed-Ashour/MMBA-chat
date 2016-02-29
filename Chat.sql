@@ -3,12 +3,16 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 26, 2016 at 10:03 PM
+-- Generation Time: Feb 27, 2016 at 12:32 PM
 -- Server version: 5.5.47-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+
+
+CREATE DATABASE Chat;
+USE Chat;
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -89,6 +93,7 @@ CREATE TABLE IF NOT EXISTS `User` (
   `password` char(128) NOT NULL,
   `country` char(30) NOT NULL,
   `gender` enum('male','female') NOT NULL,
+  `status` char(30) NOT NULL,
   PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
