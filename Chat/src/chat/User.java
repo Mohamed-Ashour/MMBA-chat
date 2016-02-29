@@ -193,14 +193,16 @@ public class User
         try {
             List<User> contacts = new ArrayList<>();        
             stm = db.createStatement();
-            query = "select user as email from Contact where user = '" + email + 
-                    "' union select contact as email from Contact where contact = '" +
+            query = "select contact as email from Contact where user = '" + email + 
+                    "' union select user as email from Contact where contact = '" +
                     email + "'" ;
             ResultSet userResult = stm.executeQuery(query);
+            
             while( userResult.next() ) {
                 
                 User retrievedUser = User.getUserData(userResult.getString("email"));
                 contacts.add(retrievedUser);
+            
             }
             return contacts;
                 
