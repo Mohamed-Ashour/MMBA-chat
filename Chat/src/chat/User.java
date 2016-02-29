@@ -132,7 +132,7 @@ public class User
         return null;
     }
 
-    public User getUserData(String searchEmail) {
+    static public User getUserData(String searchEmail) {
         try {
             
             stm = db.createStatement();
@@ -283,8 +283,8 @@ public class User
     }
     
     public Boolean changeStatus(String status) {
+     
         try {
-            // student insertion
             stm = db.createStatement();
             query = "update User  set status = '" + status + 
                     "' where email = '" + email + "'";
