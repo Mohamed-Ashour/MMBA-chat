@@ -141,15 +141,14 @@ public class User
             query = "select * from User where email = '" + searchEmail + "'";
             ResultSet userResult = stm.executeQuery(query);
             userResult.next();
-            name = userResult.getString("name");
-            email = userResult.getString("email");
-            username = userResult.getString("username");
-            password = userResult.getString("password");
-            country = userResult.getString("country");
-            gender = userResult.getString("gender");
-            status = userResult.getString("status");
             
-            return new User(email, username, name, status, password, country, gender);
+            return new User( userResult.getString("email"),
+                    userResult.getString("username"),
+                    userResult.getString("name"),
+                    userResult.getString("status"),
+                    userResult.getString("password"),
+                    userResult.getString("country"),
+                    userResult.getString("gender") );
             
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
