@@ -55,7 +55,7 @@ public class User
         email = userInfo.get("email");
         username = userInfo.get("username");
         name = userInfo.get("name");
-        status = "online";
+        status = "offline";
         password = userInfo.get("password");
         country = userInfo.get("country");
         gender = userInfo.get("gender");
@@ -129,7 +129,8 @@ public class User
                 stm = db.createStatement();
                 query = "select * from User where email = '" + searchEmail + "'";
                 ResultSet userResult = stm.executeQuery(query);
-                
+                System.out.println(query);
+                userResult.next();
                 name = userResult.getString("name");
                 email = userResult.getString("email");
                 username = userResult.getString("username");
@@ -137,7 +138,7 @@ public class User
                 country = userResult.getString("country");
                 gender = userResult.getString("gender");
                 status = userResult.getString("status");
-                
+               
                 return new User(email, username, name, status, password, country, gender);
         
             } catch (SQLException ex) {
@@ -254,9 +255,10 @@ public class User
         return false;
     }
     
-//    public static void main(String[] args) {
+    public static void main(String[] args) {
 //        User myUser = new User("ahmed@iti.com","username", "name", "online", "123", "egypt", "male");
-//        System.out.println(myUser.isExist("ahmed@ti.com"));
-//    }
+        User myUser = new User("ahmed@iti.com","123");
+        myUser = myUser.completeInfo();
+    }
     
 }
