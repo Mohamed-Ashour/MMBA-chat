@@ -107,9 +107,7 @@ public class User
                     + " country, gender, status) values ('"
                     + name + "','" + username + "','" + email + "','" + password 
                     + "','" + country + "','" + gender + "','" + status + "')";
-            System.out.println(query);
             int rs = stm.executeUpdate(query);
-            System.out.println(rs);
             return true;
             
         } catch (SQLException ex) {
@@ -134,7 +132,7 @@ public class User
         return null;
     }
 
-    public User getUserData(String searchEmail) {
+    static public User getUserData(String searchEmail) {
         try {
             
             stm = db.createStatement();
@@ -251,12 +249,9 @@ public class User
 
                 } catch (SQLException ex) {
                     Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
+                }   
             }
-            
         }
-        
         return false;
     }
     
@@ -287,12 +282,29 @@ public class User
         this.status = status;
     }
     
+    public Boolean changeStatus(String status) {
+     
+        try {
+            stm = db.createStatement();
+            query = "update User  set status = '" + status + 
+                    "' where email = '" + email + "'";
+            stm.executeUpdate(query);
+            return true;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return false;
+    }
+    
     
     public static void main(String[] args) {
+        
         User myUser = new User("ahmed@iti.com","username", "name", "online", "123", "egypt", "male");
         // User myUser = new User("ahmed@iti.com","123");
         // System.out.println(User.getAllUsers());
-        System.out.println(myUser.getContactList());
+        myUser.changeStatus("ofmine");
         
     }
     
