@@ -54,13 +54,13 @@ public class ClientGUI extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         panalGroup = new javax.swing.JPanel();
         loginPanel = new javax.swing.JPanel();
-        emailTextField = new javax.swing.JTextField();
-        passwordTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         signInBtn = new javax.swing.JButton();
         signUpBtn = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        passwordTextField = new javax.swing.JPasswordField();
+        emailTextField = new javax.swing.JTextField();
         signupPanel = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -74,14 +74,12 @@ public class ClientGUI extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
         usernameSignUpTextField = new javax.swing.JTextField();
         genderMaleRadioBtn = new javax.swing.JRadioButton();
         genderFemaleRadioBtn = new javax.swing.JRadioButton();
         countrySignUp = new javax.swing.JComboBox<>();
-        picPathSignUp = new javax.swing.JTextField();
-        choosePicSignUp = new javax.swing.JButton();
         email = new javax.swing.JTextField();
+        backBtn = new javax.swing.JButton();
         chatPanel = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -118,18 +116,6 @@ public class ClientGUI extends javax.swing.JFrame {
 
         panalGroup.setLayout(new java.awt.CardLayout());
 
-        emailTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                emailTextFieldActionPerformed(evt);
-            }
-        });
-
-        passwordTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passwordTextFieldActionPerformed(evt);
-            }
-        });
-
         jLabel1.setText("Email");
 
         jLabel2.setText("Password");
@@ -163,8 +149,9 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(emailTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+                        .addComponent(passwordTextField, javax.swing.GroupLayout.Alignment.LEADING)))
                 .addContainerGap(940, Short.MAX_VALUE))
             .addGroup(loginPanelLayout.createSequentialGroup()
                 .addGap(134, 134, 134)
@@ -184,8 +171,8 @@ public class ClientGUI extends javax.swing.JFrame {
                     .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(36, 36, 36)
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(signInBtn)
@@ -219,8 +206,6 @@ public class ClientGUI extends javax.swing.JFrame {
 
         jLabel11.setText("Country");
 
-        jLabel12.setText("Picture");
-
         buttonGroup1.add(genderMaleRadioBtn);
         genderMaleRadioBtn.setSelected(true);
         genderMaleRadioBtn.setText("male");
@@ -235,11 +220,16 @@ public class ClientGUI extends javax.swing.JFrame {
 
         countrySignUp.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select conutry", "Egypt", "USA", "UAE", "England", "France", "Italy", "China", "Japan" }));
 
-        choosePicSignUp.setText("browse");
-
         email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 emailActionPerformed(evt);
+            }
+        });
+
+        backBtn.setText("Back");
+        backBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backBtnActionPerformed(evt);
             }
         });
 
@@ -248,16 +238,23 @@ public class ClientGUI extends javax.swing.JFrame {
         signupPanelLayout.setHorizontalGroup(
             signupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(signupPanelLayout.createSequentialGroup()
-                .addGap(76, 76, 76)
-                .addGroup(signupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel12))
+                .addGroup(signupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(signupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(signupPanelLayout.createSequentialGroup()
+                            .addGap(76, 76, 76)
+                            .addGroup(signupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel6)
+                                .addComponent(jLabel7)
+                                .addComponent(jLabel8)
+                                .addComponent(jLabel9)
+                                .addComponent(jLabel10)
+                                .addComponent(jLabel11)))
+                        .addGroup(signupPanelLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jLabel5)))
+                    .addGroup(signupPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(backBtn)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(signupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(signupPanelLayout.createSequentialGroup()
@@ -266,25 +263,23 @@ public class ClientGUI extends javax.swing.JFrame {
                         .addComponent(genderFemaleRadioBtn))
                     .addComponent(countrySignUp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(SignUpRegistration)
-                    .addGroup(signupPanelLayout.createSequentialGroup()
-                        .addGroup(signupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(passwordSignUpTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(confirmPasswordSignUpTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(picPathSignUp, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(choosePicSignUp))
+                    .addGroup(signupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(passwordSignUpTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                        .addComponent(confirmPasswordSignUpTextField, javax.swing.GroupLayout.Alignment.LEADING))
                     .addGroup(signupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(email, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(usernameSignUpTextField, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(nameSignUpTextField, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)))
-                .addContainerGap(937, Short.MAX_VALUE))
+                .addContainerGap(924, Short.MAX_VALUE))
         );
         signupPanelLayout.setVerticalGroup(
             signupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(signupPanelLayout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jLabel4)
+                .addGap(22, 22, 22)
+                .addGroup(signupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(backBtn))
                 .addGap(18, 18, 18)
                 .addGroup(signupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -306,22 +301,17 @@ public class ClientGUI extends javax.swing.JFrame {
                 .addGroup(signupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(countrySignUp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
+                .addGroup(signupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(passwordSignUpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(signupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(picPathSignUp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12)
-                    .addComponent(choosePicSignUp))
-                .addGap(18, 18, 18)
-                .addGroup(signupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(passwordSignUpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(signupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(confirmPasswordSignUpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(confirmPasswordSignUpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(SignUpRegistration)
-                .addContainerGap(326, Short.MAX_VALUE))
+                .addContainerGap(317, Short.MAX_VALUE))
         );
 
         panalGroup.add(signupPanel, "signupCard");
@@ -565,14 +555,6 @@ public class ClientGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void emailTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_emailTextFieldActionPerformed
-
-    private void passwordTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_passwordTextFieldActionPerformed
-
     private void SignUpRegistrationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignUpRegistrationActionPerformed
      HashMap<String,String>  userInfo= validteRegistrationForm();
         if (userInfo != null){
@@ -748,6 +730,13 @@ public class ClientGUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_signUpBtnActionPerformed
 
+    private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
+        // TODO add your handling code here:
+                CardLayout jj=(CardLayout) panalGroup.getLayout();
+                jj.show(panalGroup, "loginCard");
+        
+    }//GEN-LAST:event_backBtnActionPerformed
+
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -791,9 +780,9 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JMenu Option;
     private javax.swing.JButton SignUpRegistration;
     private javax.swing.JButton addFriendBtn;
+    private javax.swing.JButton backBtn;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel chatPanel;
-    private javax.swing.JButton choosePicSignUp;
     private javax.swing.JPasswordField confirmPasswordSignUpTextField;
     private javax.swing.JList<String> contactList;
     private javax.swing.JComboBox<String> countrySignUp;
@@ -808,7 +797,6 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
@@ -835,8 +823,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JTextField nameSignUpTextField;
     private javax.swing.JPanel panalGroup;
     private javax.swing.JPasswordField passwordSignUpTextField;
-    private javax.swing.JTextField passwordTextField;
-    private javax.swing.JTextField picPathSignUp;
+    private javax.swing.JPasswordField passwordTextField;
     private javax.swing.JPanel recetUdateArea;
     private javax.swing.JButton searchBtn;
     private javax.swing.JLabel searchResultLabel;
