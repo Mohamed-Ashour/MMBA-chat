@@ -321,6 +321,11 @@ private User user;
         upperUserNamelabel.setText("Mina Amir");
 
         statusCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Online", "Away", "Offline" }));
+        statusCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                statusComboActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Logout");
 
@@ -363,17 +368,17 @@ private User user;
         jLabel25.setText("My Contacts");
 
         contactList.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, java.awt.Color.lightGray, java.awt.Color.darkGray, null));
-        contactList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Mina . Ashutr", "Alaa", "Basem", "Bero", "Hussein", "ahmed", "karem", "karamela", "Sobhy", "hazem", "" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         contactList.setToolTipText("Choose One Or More User To Start Chat");
         jScrollPane8.setViewportView(contactList);
 
         searchTextField.setText("Enter Email Address Here ");
 
         addFriendBtn.setText("Add");
+        addFriendBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addFriendBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -705,22 +710,57 @@ private User user;
                 user = user.completeInfo();
               
                 int statusValue = 0;
-               if(user.getStatus() == "online")
-               {
-                   statusValue = 0;
-               }
-               else if(user.getStatus() == "away")
-               {
-                   statusValue = 1;
-               }
-               else
-               {
-                   statusValue = 2;
-               }
+               if( user.getStatus() !=  null  )
+                 switch (user.getStatus()) {
+                     case "online":
+                         statusValue = 0;
+                         break;
+                     case "away":
+                         statusValue = 1;
+                         break;
+                     default:
+                         statusValue = 2;
+                         break;
+                 }
                
                statusCombo.setSelectedIndex(statusValue);
                
                
+               
+               
+               
+               List<User> contactUsers = user.getContactList();
+               String[] emailsRetreived = new String[contactUsers.size()];
+               String[] namesRetreived = new String[contactUsers.size()];
+               for (int i = 0 ; i < contactUsers.size(); i++ ) {
+                   User contact = contactUsers.get(i);
+                   String retrievedEmail = contact.getEmail();
+                   emailsRetreived[i] = retrievedEmail;
+                   
+                   String retrievedName = contact.getUsername();
+                   namesRetreived[i] = retrievedName;
+               }
+               
+               
+                System.out.println(contactUsers);
+               
+        
+        if(contactUsers.size() > 0)
+        {
+            // Enter All Contact To Chat List
+            contactList.setModel(new javax.swing.AbstractListModel<String>() {
+                String[] strings = namesRetreived;
+                @Override
+                public int getSize() { return strings.length;}
+                @Override
+                public String getElementAt(int i) { return strings[i];}
+            });
+            
+            
+        }
+        
+              
+              
                 
                 //Set Welcome Name to User in Bottom Text Area 
                 recetUpdateArea.setText("Welcome , " + user.getUsername());
@@ -728,7 +768,7 @@ private User user;
                 upperUserNamelabel.setText(user.getUsername());
                 CardLayout jj=(CardLayout) panalGroup.getLayout();
                 jj.show(panalGroup, "chatCard");
-                // TODO show user info in chat panel
+                // TODO show user info in chat panel*/
         
             }
             else {
@@ -757,15 +797,41 @@ private User user;
         // TODO add your handling code here:
         if(user.isExist(searchTextField.getText()))
         {
-            User userInfo=user.findUser(searchTextField.getText());
-             searchResultLabel.setText(userInfo.getEmail()); 
+            User contact=user.findUser(searchTextField.getText());
+            if (contact != null) {
+             searchResultLabel.setText(contact.getEmail()); 
              addFriendBtn.setVisible(true);
+            }
+            else {
+                // TODO you can't add yourself
+                searchResultLabel.setText("You Cant Add Your Self");
+            }
         }
         else
         {
             searchResultLabel.setText("No Emails Found"); 
         }
     }//GEN-LAST:event_searchBtnActionPerformed
+
+    private void addFriendBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFriendBtnActionPerformed
+        // TODO add your handling code here:
+       if(user.addContact(searchResultLabel.getText()))
+        {
+            searchResultLabel.setText("Email Added Successfull"); 
+             addFriendBtn.setVisible(false);
+        }
+        else
+        {
+            searchResultLabel.setText("You And This User Are already Friends"); 
+             addFriendBtn.setVisible(false);
+        }
+    }//GEN-LAST:event_addFriendBtnActionPerformed
+
+    private void statusComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusComboActionPerformed
+        // TODO add your handling code here:
+        
+           // searchTextField.setText("aaaaaaaaaa");
+    }//GEN-LAST:event_statusComboActionPerformed
 
     
     public static void main(String args[]) {
