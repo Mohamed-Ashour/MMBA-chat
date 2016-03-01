@@ -13,6 +13,7 @@ class Session {
 
     static Session getSession(int aInt) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
     }
 
     String getSessionId() {

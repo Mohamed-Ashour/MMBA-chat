@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 public class Message implements Serializable{
     
-    private int id;
+    private int messageId;
     private String messageText;
     private User from;
     private Time time;
@@ -24,8 +24,8 @@ public class Message implements Serializable{
     
      public Message(){}
     
-    public Message(int id,String messageText,User from,Time time,Session session,Boolean delivered){
-        this.id=id;
+    public Message(int messageId,String messageText,User from,Time time,Session session,Boolean delivered){
+        this.messageId=messageId;
         this.messageText = messageText;
         this.from = from;
         this.time = time;
@@ -85,6 +85,49 @@ public class Message implements Serializable{
         }
          return null;
         
+    }
+   
+    static public Message getMessage(int messageId){
+        try {
+            Connection db = DBConnect.getConn();
+            Statement stm;
+            String query;
+            stm = db.createStatement();
+            query = "select * from Message where id= '" + messageId + "'";
+            ResultSet msgResult = stm.executeQuery(query);
+            msgResult.next();
+            return new Message(msgResult.getInt("id"),msgResult.getString("message"),
+                                                  User.getUserData(msgResult.getString("from")),
+                                                  msgResult.getTime("time"),
+                                                  Session.getSession(msgResult.getInt("sessionId")),
+                                                  msgResult.getBoolean("delivered"));
+                                                   
+                    } catch (SQLException ex) {
+            Logger.getLogger(Message.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    static public Message getMessage(int id,Time time,Session sessionId){
+        try {
+            Connection db = DBConnect.getConn();
+            Statement stm;
+            String query;
+            stm = db.createStatement();
+            // query = "select * from Message where id= '" + messageId + "'";
+            query = "select * from Message where id = '" + id + "' and time = '" + time + "' and sessionId = '" + sessionId + "'"   ;
+            
+            ResultSet msgResult = stm.executeQuery(query);
+            msgResult.next();
+            return new Message(msgResult.getInt("id"),msgResult.getString("message"),
+                                                  User.getUserData(msgResult.getString("from")),
+                                                  msgResult.getTime("time"),
+                                                  Session.getSession(msgResult.getInt("sessionId")),
+                                                  msgResult.getBoolean("delivered"));
+                    } catch (SQLException ex) {
+            Logger.getLogger(Message.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
 }
