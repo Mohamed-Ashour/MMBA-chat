@@ -42,7 +42,7 @@ public class Message implements Serializable{
             stm = db.createStatement();
             query = "insert into Message ( sessionId, time,from,"
                     + " message, delivered) values ('"
-                    + "','" + session.getSessionId() + "','" + time + "','" + from 
+                    + session.getSessionId() + "','" + time + "','" + from 
                     + "','" + messageText + "','" + delivered + "')";
             System.out.println(query);
             int rs = stm.executeUpdate(query);
