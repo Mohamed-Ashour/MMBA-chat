@@ -1,6 +1,10 @@
 
 package interfaces;
 
+import client.ChatClient;
+import java.io.Serializable;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,7 +20,7 @@ import server.DBConnect;
  *
  * @author ashour
  */
-public class User 
+public class User extends UnicastRemoteObject implements IChatServer, IChatClient, Serializable 
 {
     private String email;
     private String username;
@@ -28,10 +32,13 @@ public class User
     static private Connection db = DBConnect.getConn();
     static private Statement stm;
     static private String query; 
+    private ArrayList<ChatClient> clients;
+
 
     
     public User(String email, String username, String name, String status,
-                String password, String country, String gender) {
+                String password, String country, String gender) throws RemoteException {
+        this.clients = new ArrayList<>();
         
         this.email = email;
         this.username = username;
@@ -44,7 +51,8 @@ public class User
     }
 
     
-    public User(String email, String password) {
+    public User(String email, String password) throws RemoteException {
+        this.clients = new ArrayList<>();
     
         this.email = email;
         this.password = password;
@@ -52,7 +60,8 @@ public class User
     }
     
     
-    public User ( HashMap<String, String> userInfo) {
+    public User ( HashMap<String, String> userInfo) throws RemoteException{
+        this.clients = new ArrayList<>();
         
         email = userInfo.get("email");
         username = userInfo.get("username");
@@ -63,9 +72,14 @@ public class User
         gender = userInfo.get("gender");
         
     }
+
+    public User() throws RemoteException{
+        this.clients = new ArrayList<>();
+    }
     
     
-    public Boolean isExist(String searchEmail) {
+    @Override
+    public Boolean isExist(String searchEmail) throws RemoteException{
         try {
             
             stm = db.createStatement();
@@ -81,7 +95,8 @@ public class User
     }
     
     
-    public Boolean login() {
+    @Override
+    public Boolean login() throws RemoteException{
     
         try {
             
@@ -98,13 +113,15 @@ public class User
 
     }
     
-    public void logout() {
+    @Override
+    public void logout() throws RemoteException{
         setStatus("offline");
         changeStatus("offline");
     }
     
     
-    public Boolean add() {
+    @Override
+    public Boolean add() throws RemoteException{
         
         try {
             // student insertion
@@ -125,12 +142,14 @@ public class User
     }
     
         
-    public User completeInfo() {
+    @Override
+    public User completeInfo() throws RemoteException{
         return getUserData(this.email);
     }
     
 
-    public User findUser(String searchEmail) {
+    @Override
+    public User findUser(String searchEmail) throws RemoteException{
         if ( isExist(searchEmail) && !searchEmail.equals(email) ){
             return getUserData(searchEmail);
         }
@@ -138,7 +157,7 @@ public class User
         return null;
     }
 
-    static public User getUserData(String searchEmail) {
+    static public User getUserData(String searchEmail) throws RemoteException{
         try {
             
             stm = db.createStatement();
@@ -161,7 +180,7 @@ public class User
     }
     
     
-    static public List<User> getAllUsers() {
+    static public List<User> getAllUsers() throws RemoteException{
         
         try {
             List<User> users = new ArrayList<>();   
@@ -190,7 +209,8 @@ public class User
     
     
     
-    public List<User> getContactList() {
+    @Override
+    public List<User> getContactList() throws RemoteException{
         try {
             List<User> contacts = new ArrayList<>();        
             stm = db.createStatement();
@@ -215,6 +235,7 @@ public class User
     }
     
     
+    @Override
     public Boolean isContact(String contactEmail) {
         
         try {
@@ -239,7 +260,8 @@ public class User
     }
     
     
-    public Boolean addContact(String contactEmail) {
+    @Override
+    public Boolean addContact(String contactEmail) throws RemoteException{
         if( isExist(contactEmail) ) {
             
             if( !isContact(contactEmail) ) {
@@ -263,31 +285,38 @@ public class User
     
     
     
+    @Override
     public String getGender() {
         return gender;
     }
 
+    @Override
     public String getEmail() {
         return email;
     }
 
+    @Override
     public String getUsername() {
         return username;
     }
 
+    @Override
     public String getStatus() {
         return status;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }    
 
-    public void setStatus(String status) {
+    @Override
+    public void setStatus(String status) throws RemoteException{
         this.status = status;
     }
     
-    public Boolean changeStatus(String status) {
+    @Override
+    public Boolean changeStatus(String status) throws RemoteException{
      
         try {
             stm = db.createStatement();
@@ -304,28 +333,27 @@ public class User
     }
     
     
-    public void initSession(List<User> users) {
+    @Override
+    public void initSession(List<User> users) throws RemoteException{
         
     }
     
     
-    public void sendMessage() {
+    @Override
+    public void sendMessage() throws RemoteException{
         
     }
     
     
-    public void recieveMessage() {
+    @Override
+    public void recieveMessage() throws RemoteException{
         
     }
-    
-    
-    public static void main(String[] args) {
-        
-        User myUser = new User("ahmed@iti.com","username", "name", "online", "123", "egypt", "male");
-        // User myUser = new User("ahmed@iti.com","123");
-        // System.out.println(User.getAllUsers());
-        myUser.changeStatus("ofmine");
-        
+
+
+    @Override
+    public void register(ChatClient client) {
+        this.clients.add(client);
     }
     
 }

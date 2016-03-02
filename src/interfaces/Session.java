@@ -5,10 +5,9 @@
  */
 package interfaces;
 
-import interfaces.Message;
-import interfaces.User;
 import server.DBConnect;
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,7 +37,7 @@ class Session implements Serializable {
         this.start = start;
     }
     
-    public static Session getSession(int aInt) {
+    public static Session getSession(int aInt) throws RemoteException{
         
         try {
             Connection db = DBConnect.getConn();
@@ -47,7 +46,7 @@ class Session implements Serializable {
             String query1;
 //            String[] mailsArr ;
              //List<User> users = new ArrayList<User>();
-            List<User> usersList = new ArrayList<User>();
+            List<User> usersList = new ArrayList<>();
              
              
              
@@ -87,12 +86,5 @@ class Session implements Serializable {
     String getSessionId() {
         return sessionId+"";
        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    
-    
-     public static void main(String[] args){
-        Session s = new Session();
-        s.getSession(1);
     }
 }

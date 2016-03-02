@@ -3,6 +3,7 @@ package interfaces;
 
 import interfaces.Session;
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -60,7 +61,7 @@ public class Message implements Serializable{
     }
     
     
-   static public List<Message> getAllMessage(User user,Session session){
+   static public List<Message> getAllMessage(User user,Session session) throws RemoteException{
         try {
             
             Connection db = DBConnect.getConn();
@@ -89,7 +90,7 @@ public class Message implements Serializable{
         
     }
    
-    static public Message getMessage(int messageId){
+    static public Message getMessage(int messageId) throws RemoteException{
         try {
             Connection db = DBConnect.getConn();
             Statement stm;
@@ -110,7 +111,7 @@ public class Message implements Serializable{
         return null;
     }
     
-    static public Message getMessage(int id,Time time,Session sessionId){
+    static public Message getMessage(int id,Time time,Session sessionId)throws RemoteException{
         try {
             Connection db = DBConnect.getConn();
             Statement stm;

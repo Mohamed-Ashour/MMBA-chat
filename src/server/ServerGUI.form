@@ -326,6 +326,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Start Server"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ServerStatusBtnActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="onlineLabel">
                   <Properties>

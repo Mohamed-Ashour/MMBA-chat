@@ -24,7 +24,6 @@ public class DBConnect
     }
     
     static public Connection getConn() {
-        System.out.println("Database");
         if (connect == null) {
             try {
                 
