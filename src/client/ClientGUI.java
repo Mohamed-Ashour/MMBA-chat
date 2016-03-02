@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package client;
-
+import interfaces.Session;
 import interfaces.User;
 import java.awt.CardLayout;
 import java.util.HashMap;
@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,7 +28,7 @@ import javax.swing.KeyStroke;
  */
 public class ClientGUI extends javax.swing.JFrame {
     
-    
+    public String[] emailsRetreived ;
     
     //our vars
     
@@ -688,6 +689,7 @@ public class ClientGUI extends javax.swing.JFrame {
         // Create Object From Chat Dialoge 1 
         ChatFrame Ifo = new ChatFrame();
         int itemsSize= newItem.size();
+        newItem.add(user.getEmail());
         if(itemsSize > 0)
         {
             // Enter All Contact To Chat List
@@ -702,6 +704,12 @@ public class ClientGUI extends javax.swing.JFrame {
             jDesktopPane2.add(Ifo);
             Ifo.setTitle(newItem.toString());
             Ifo.show();
+            Session newSession = new Session();
+           try {
+                Boolean initSession = newSession.initSession(newItem);
+           } catch (SQLException ex) {
+               Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+           }
         }
         else
         {
@@ -718,6 +726,8 @@ public class ClientGUI extends javax.swing.JFrame {
         try {
             String emailInputed = emailTextField.getText();
             String passwordInputed = passwordTextField.getText();
+        
+            
             
             if (emailInputed.equalsIgnoreCase("") || passwordInputed.equalsIgnoreCase("")) {
                 JOptionPane.showMessageDialog(getContentPane(), "Please enter user name and password", "Error", JOptionPane.INFORMATION_MESSAGE);        
