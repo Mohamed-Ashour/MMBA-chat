@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package client;
-
+import interfaces.Session;
 import interfaces.User;
 import client.ourHelp;
 import java.awt.CardLayout;
@@ -15,7 +15,10 @@ import javax.swing.JOptionPane;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.KeyStroke;
 
@@ -25,7 +28,7 @@ import javax.swing.KeyStroke;
  */
 public class ClientGUI extends javax.swing.JFrame {
     
-    
+    public String[] emailsRetreived ;
     
     //our vars
     
@@ -677,6 +680,7 @@ private User user;
         // Create Object From Chat Dialoge 1 
         ChatFrame Ifo = new ChatFrame();
         int itemsSize= newItem.size();
+        newItem.add(user.getEmail());
         if(itemsSize > 0)
         {
             // Enter All Contact To Chat List
@@ -691,6 +695,12 @@ private User user;
             jDesktopPane2.add(Ifo);
             Ifo.setTitle(newItem.toString());
             Ifo.show();
+            Session newSession = new Session();
+           try {
+                Boolean initSession = newSession.initSession(newItem);
+           } catch (SQLException ex) {
+               Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+           }
         }
         else
         {
@@ -742,7 +752,7 @@ private User user;
                
                
                List<User> contactUsers = user.getContactList();
-               String[] emailsRetreived = new String[contactUsers.size()];
+               emailsRetreived = new String[contactUsers.size()];
                String[] namesRetreived = new String[contactUsers.size()];
                for (int i = 0 ; i < contactUsers.size(); i++ ) {
                    User contact = contactUsers.get(i);
@@ -761,7 +771,7 @@ private User user;
         {
             // Enter All Contact To Chat List
             contactList.setModel(new javax.swing.AbstractListModel<String>() {
-                String[] strings = namesRetreived;
+                String[] strings = emailsRetreived;
                 @Override
                 public int getSize() { return strings.length;}
                 @Override
