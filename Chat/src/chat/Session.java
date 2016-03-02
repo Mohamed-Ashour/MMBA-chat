@@ -5,19 +5,91 @@
  */
 package chat;
 
-/**
- *
- * @author ahmed
- */
-class Session {
+import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-    static Session getSession(int aInt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+
+
+class Session implements Serializable {
+
+    private int sessionId;
+    private List<User> users;
+    private Time start;
+    private Time end;
+    
+    
+    public Session(){}
+    
+    public Session(int sessionId , List<User> users , Time start ){
+        this.sessionId = sessionId;
+        this.users = users;
+        this.start = start;
+    }
+    
+    public static Session getSession(int aInt) {
+        
+        try {
+            Connection db = DBConnect.getConn();
+            Statement stm;
+            String query;
+            String query1;
+//            String[] mailsArr ;
+             //List<User> users = new ArrayList<User>();
+            List<User> usersList = new ArrayList<User>();
+             
+             
+             
+             stm = db.createStatement();
+            
+           // sessionResult.next();
+            
+            
+            
+            query1 = "select * from SessionUser where sessionId= '" + aInt + "'";
+            ResultSet sessionResult1 = stm.executeQuery(query1);
+            //sessionResult1.next();
+            int index=0;
+             while( sessionResult1.next() ) {
+                User myuser = User.getUserData(sessionResult1.getString("user"));
+                 
+                 usersList.add(myuser);
+                
+            
+             }
+            
+             query = "select * from Session where sessionId= '" + aInt + "'";
+            ResultSet sessionResult = stm.executeQuery(query);
+             sessionResult.next();
+             
+            Session retriveSession = new Session(sessionResult.getInt("sessionId") , usersList , sessionResult.getTime("start"));
+           return retriveSession;  
+           
+                                                   
+                    } catch (SQLException ex) {
+            Logger.getLogger(Message.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     
     }
 
     String getSessionId() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return sessionId+"";
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    
+    
+     public static void main(String[] args){
+        Session s = new Session();
+        s.getSession(1);
+    }
 }
