@@ -180,6 +180,23 @@ public class User extends UnicastRemoteObject implements IChatServer, IChatClien
     }
     
     
+    static public String getUserStatus(String username) throws RemoteException{
+        try {
+            
+            stm = db.createStatement();
+            query = "select status from User where username = '" + username + "'";
+            ResultSet userResult = stm.executeQuery(query);
+            userResult.next();
+            
+            return  userResult.getString("status");
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    
     static public List<User> getAllUsers() throws RemoteException{
         
         try {
@@ -324,7 +341,7 @@ public class User extends UnicastRemoteObject implements IChatServer, IChatClien
                     "' where email = '" + email + "'";
             stm.executeUpdate(query);
             return true;
-            
+                
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
