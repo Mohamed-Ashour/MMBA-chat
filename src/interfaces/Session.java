@@ -131,28 +131,25 @@ public class Session implements Serializable {
                 String date  ;
                     
                 date =  String.valueOf(year)+"-" + String.valueOf(month) +"-" + String.valueOf(day)+" " + String.valueOf(hour)+":" + String.valueOf(minute)+":" + String.valueOf(second) ;
-               
-                
-                
-                
-                
-                
 
                 //  Get The Last Sessio To Iincrement The Session ID
                 query = "select * from Session order by sessionId DESC limit 1";
                 ResultSet lastSession = stm.executeQuery(query);
-                 lastSession.next();
+                 //lastSession.next();
                  
                  
-                 Integer lastSessionIncrement ;
+                 Integer lastSessionIncrement  ;
                  
                  
-                 if (!lastSession.next() ) {
-                      //  System.out.println("no data");
-                      lastSessionIncrement = 1;
-                    } else {
-                     lastSessionIncrement = Integer.parseInt(lastSession.getString("sessionId")) + 1;
-            }
+                 if (lastSession.next()) {
+                   //  System.out.println(" data");
+                     lastSessionIncrement = (lastSession.getInt("sessionId")) + 1;
+                 } else {
+                     System.out.println("no data");
+                     lastSessionIncrement = 1;
+                 }
+                 
+                // System.out.println(lastSessionIncrement);
                  // Insert To Session Table
                  String sql = "INSERT INTO Session " +
                        "VALUES ('"+ lastSessionIncrement +"','"+date+"', '0000-00-00 00:00:00')";
@@ -168,6 +165,7 @@ public class Session implements Serializable {
                        "VALUES ('"+ lastSessionIncrement +"','"+mails.get(i)+"')";
                      stm.executeUpdate(insertUser);
                  }
+                 return true;
              
              } catch (SQLException ex) {
             Logger.getLogger(Message.class.getName()).log(Level.SEVERE, null, ex);
