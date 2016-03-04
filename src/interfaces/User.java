@@ -188,7 +188,24 @@ public class User extends UnicastRemoteObject implements IChatServer, IChatClien
             ResultSet userResult = stm.executeQuery(query);
             userResult.next();
             
-            return  userResult.getString("status");
+            return userResult.getString("status");
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    
+    static public String getUserEmail(String username) throws RemoteException{
+        try {
+            
+            stm = db.createStatement();
+            query = "select email from User where username = '" + username + "'";
+            ResultSet userResult = stm.executeQuery(query);
+            userResult.next();
+            
+            return userResult.getString("email");
             
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
@@ -372,5 +389,12 @@ public class User extends UnicastRemoteObject implements IChatServer, IChatClien
     public void register(ChatClient client) {
         this.clients.add(client);
     }
+    
+    
+    public static void main(String[] args) throws RemoteException {
+        System.out.println(User.getUserEmail("mohamed77"));
+    }
+    
+    
     
 }
