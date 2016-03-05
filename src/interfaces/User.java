@@ -1,11 +1,8 @@
 
 package interfaces;
 
-import client.ChatClient;
-import java.io.Serializable;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
@@ -18,7 +15,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import server.ChatServer;
 import server.DBConnect;
 
 /**
@@ -37,7 +33,7 @@ public class User extends UnicastRemoteObject implements IUser
     static private Connection db = DBConnect.getConn();
     static private Statement stm;
     static private String query; 
-    private ArrayList<Session> sessions = new ArrayList<>();
+    static private ArrayList<Session> sessions = new ArrayList<>();
 
 
     
