@@ -27,4 +27,5 @@ public interface IChatServer extends Remote{
             connected.add(s);
             System.out.println(s.getEmail() + "Connected to the server");
     }
+   
 }

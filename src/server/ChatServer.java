@@ -6,6 +6,8 @@
 package server;
 
 import interfaces.IChatServer;
+import static interfaces.IChatServer.connected;
+import interfaces.User;
 import java.awt.GraphicsConfiguration;
 import java.awt.Rectangle;
 import java.rmi.RemoteException;
@@ -22,12 +24,14 @@ import javax.swing.JOptionPane;
  */
 public class ChatServer extends UnicastRemoteObject implements IChatServer{
     public static Registry RMI_REGISTRY;
-    
+    public static boolean isconnected(User s){
+        return connected.contains(s);
+    }
     public static void main(String[] args){
         try {
             new ChatServer();
         } catch (RemoteException ex) {
-            JOptionPane.showMessageDialog(null, "The port seems to be used by another application!!");
+            JOptionPane.showMessageDialog(null, "The port seems to be used by another application!!" + ex.getMessage());
             System.exit(0);        }
     }
     public ChatServer() throws RemoteException {

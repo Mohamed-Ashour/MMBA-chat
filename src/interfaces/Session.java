@@ -16,9 +16,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
-
-
 public class Session implements Serializable {
 
     private static int sessionCount = 0;

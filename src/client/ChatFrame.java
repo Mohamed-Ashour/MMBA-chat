@@ -12,7 +12,7 @@ import javax.swing.JFileChooser;
  * @author bassem
  */
 
-class ChatFrame extends javax.swing.JInternalFrame {
+public class ChatFrame extends javax.swing.JInternalFrame {
 
     private static int chatFrameCount = 0;
     private int chatFrameId;

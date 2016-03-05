@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package client;
+
 import interfaces.IChatServer;
 import interfaces.Session;
 import interfaces.User;
@@ -29,26 +30,16 @@ import javax.swing.KeyStroke;
  * @author Ahmed
  */
 public class ClientGUI extends javax.swing.JFrame {
-    
-    public String[] emailsRetreived ;
-    
-    //our vars
-    
+
     private User user;
-    
-    
-    
+
     public ClientGUI(User user) throws RemoteException {
-        
-        
+
         initComponents();
 
-        addFriendBtn.setVisible(false);    
-        exit.setAccelerator( KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
-        
+        addFriendBtn.setVisible(false);
+        exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
 
-        
-        
     }
 
     /**
@@ -568,87 +559,80 @@ public class ClientGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void SignUpRegistrationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignUpRegistrationActionPerformed
-         
-        HashMap<String,String>  userInfo= validteRegistrationForm();
-        if (userInfo != null){
-            
+
+        HashMap<String, String> userInfo = validteRegistrationForm();
+        if (userInfo != null) {
+
             try {
-                user=new User(userInfo);
-                if( !user.isExist(user.getEmail() ) ){
+                user = new User(userInfo);
+                if (!user.isExist(user.getEmail())) {
                     user.add();
-                    CardLayout jj=(CardLayout) panalGroup.getLayout();
+                    CardLayout jj = (CardLayout) panalGroup.getLayout();
                     jj.show(panalGroup, "loginCard");
-                }
-                else {
+                } else {
                     JOptionPane.showMessageDialog(getContentPane(), "User already Exists!", "Error", JOptionPane.INFORMATION_MESSAGE);
                 }
             } catch (RemoteException ex) {
                 Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
             }
-             
-         
+
         }
-        
-        
+
+
     }//GEN-LAST:event_SignUpRegistrationActionPerformed
 
     private HashMap<String, String> validteRegistrationForm() {
         HashMap<String, String> userInfo = new HashMap<>();
         String error = "";
-        final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         Matcher matcher;
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
 
-   
         String inputName = nameSignUpTextField.getText().trim();
         String inputEmail = email.getText().trim();
         String inputUsername = usernameSignUpTextField.getText().trim();
-        String inputPassword =passwordSignUpTextField.getText().trim();
+        String inputPassword = passwordSignUpTextField.getText().trim();
         String inputPassword2 = confirmPasswordSignUpTextField.getText().trim();
         String inputGender = getGender();
         String inputCountry = countrySignUp.getSelectedItem().toString();
-        
-        
-        if(!inputName.equals("")){
+
+        if (!inputName.equals("")) {
             userInfo.put("name", inputName);
-        }else{
+        } else {
             error += "Please enter your Name\n";
         }
-        
-        
-        if(!inputEmail.equals("")){
+
+        if (!inputEmail.equals("")) {
             matcher = pattern.matcher(inputEmail);
-            if(matcher.matches()){
-               userInfo.put("email", inputEmail);
-            }
-            
-            else{
+            if (matcher.matches()) {
+                userInfo.put("email", inputEmail);
+            } else {
                 error += "email is not correct\n";
             }
-            
-        }else{
-           
-             error += "Please enter your Email\n";
+
+        } else {
+
+            error += "Please enter your Email\n";
         }
-        
-        if(!inputUsername.equals("")){
-               userInfo.put("username", inputUsername);
-        }else{
+
+        if (!inputUsername.equals("")) {
+            userInfo.put("username", inputUsername);
+        } else {
             error += "Please enter your UserName\n";
         }
-        if(!inputPassword.equals("") && !inputPassword2.equals("") && inputPassword.equals(inputPassword2)){
-            userInfo.put( "password",inputPassword);
-        }else{
+        if (!inputPassword.equals("") && !inputPassword2.equals("") && inputPassword.equals(inputPassword2)) {
+            userInfo.put("password", inputPassword);
+        } else {
             error += "Error in password\n";
         }
-        
-        if(!inputCountry .equals("Select conutry")){
-        userInfo.put( "country",inputCountry);
-        }else{
-        error += "you must select your country\n";
+
+        if (!inputCountry.equals("Select conutry")) {
+            userInfo.put("country", inputCountry);
+        } else {
+            error += "you must select your country\n";
         }
-        
-        userInfo.put("gender",getGender());
+
+        userInfo.put("gender", getGender());
         if (!error.equals("")) {
             JOptionPane.showMessageDialog(getContentPane(), error, "Error", JOptionPane.INFORMATION_MESSAGE);
             return null;
@@ -662,15 +646,16 @@ public class ClientGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_genderMaleRadioBtnActionPerformed
 
     public String getGender() {
-        if(genderMaleRadioBtn.isSelected())
+        if (genderMaleRadioBtn.isSelected()) {
             return genderMaleRadioBtn.getText();
+        }
         return genderFemaleRadioBtn.getText();
     }
-    
-    
+
+
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
         // TODO add your handling code here:
-        
+
         System.exit(0);
     }//GEN-LAST:event_exitActionPerformed
 
@@ -679,92 +664,84 @@ public class ClientGUI extends javax.swing.JFrame {
         ourHelp Oh = new ourHelp();
         jDesktopPane2.add(Oh);
         Oh.show();
-        
+
     }//GEN-LAST:event_AboutActionPerformed
 
     private void startChatBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startChatBtnActionPerformed
-        // TODO add your handling code here:
-        
-       List<String> newItem = contactList.getSelectedValuesList();
-        // Create Object From Chat Dialoge 1 
-        ChatFrame Ifo = new ChatFrame();
-        int itemsSize= newItem.size();
-        //newItem.add(user.getUsername());
-        if(itemsSize > 0)
-        {
-            List<String> newItem1 =  new ArrayList<String>();
-            List<String> mailsList =  new ArrayList<String>();
+
+        List<String> chosenContacts = contactList.getSelectedValuesList();
+        ChatFrame chatFrame = new ChatFrame();
+        int contactsCount = chosenContacts.size();
+        if (contactsCount < 1) {
+            JOptionPane.showMessageDialog(null, "You Must Choose One User At Least.");
+        } else {
+            List<String> newItem1 = new ArrayList<String>();
+            List<String> mailsList = new ArrayList<String>();
             String offlineUser = "";
-            for(int i=0 ; i< itemsSize ; i++)
-            {
-                
-                
+            for (int i = 0; i < contactsCount; i++) {
+
                 try {
-                    String returnStatus=User.getUserStatus(newItem.get(i));
-                    if(returnStatus.equals("online"))
-                    {
-                        newItem1.add(newItem.get(i));
-                    }else{
-                        offlineUser = offlineUser + " \n  " + newItem.get(i);
+                    String[] splitMail = chosenContacts.get(i).split("[(]");
+                    String returnStatus = User.getUserStatus(splitMail[0]);
+
+                    if (returnStatus.equals("online")) {
+                        newItem1.add(splitMail[0]);
+                    } else {
+                        offlineUser = offlineUser + " \n  " + splitMail[0];
                     }
                 } catch (RemoteException ex) {
                     Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
             }
-            
-            
+
             /*  add all online emails to mailsList  */
-            for(int j=0 ; j < newItem1.size();j++)
-            {
+            for (int j = 0; j < newItem1.size(); j++) {
                 try {
                     mailsList.add(User.getUserEmail(newItem1.get(j)));
                 } catch (RemoteException ex) {
                     Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            
+
             mailsList.add(user.getEmail());
             newItem1.add(user.getUsername());
-            
-           //boolean add = newItem.add(user.getUsername())
-                   // newItem1.remove(0);
-                   
-                   //Print
-                   /*           System.out.println(newItem);
-                   System.out.println(itemsSize);
-                   System.out.println(newItem1);*/;
-                
-                
-                
+
             // Enter All Contact To Chat List
-            Ifo.chatList.setModel(new javax.swing.AbstractListModel<String>() {
+            chatFrame.chatList.setModel(new javax.swing.AbstractListModel<String>() {
                 String[] strings = newItem1.toArray(new String[0]);
+
                 @Override
-                public int getSize() { return strings.length;}
+                public int getSize() {
+                    return strings.length;
+                }
+
                 @Override
-                public String getElementAt(int i) { return strings[i];}
+                public String getElementAt(int i) {
+                    return strings[i];
+                }
             });
-            
-            jDesktopPane2.add(Ifo);
-            Ifo.setTitle(newItem.toString());
-            Ifo.show();
-            JDialog fc = new JDialog();
-           JOptionPane.showMessageDialog(fc,  "User/s " + offlineUser + " \n Are Offline");
-            
-            
-            Session newSession = new Session();
-           try {
-                Boolean initSession = Session.initSession(mailsList);
-           } catch (SQLException ex) {
-               Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
-           }
+
+            if (newItem1.size() > 1) {
+                jDesktopPane2.add(chatFrame);
+                chatFrame.setTitle(newItem1.toString());
+                chatFrame.show();
+
+//            
+//                Session newSession = new Session();
+//               try {
+//                    Boolean initSession = Session.initSession(mailsList);
+//               } catch (SQLException ex) {
+//                   Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+//               }
+            }
+            if (!offlineUser.equals("")) {
+                JDialog fc = new JDialog();
+                JOptionPane.showMessageDialog(fc, "User/s " + offlineUser + " \n Are Offline");
+            }
+
         }
-        else
-        {
-           JDialog fc = new JDialog();
-           JOptionPane.showMessageDialog(fc, "You Must Choose One User At Least.");
-        }
+
     }//GEN-LAST:event_startChatBtnActionPerformed
 
     private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
@@ -775,89 +752,27 @@ public class ClientGUI extends javax.swing.JFrame {
         try {
             String emailInputed = emailTextField.getText();
             String passwordInputed = passwordTextField.getText();
-        
-            
-            
+
             if (emailInputed.equalsIgnoreCase("") || passwordInputed.equalsIgnoreCase("")) {
-                JOptionPane.showMessageDialog(getContentPane(), "Please enter user name and password", "Error", JOptionPane.INFORMATION_MESSAGE);        
-            }
-            else{
+                JOptionPane.showMessageDialog(getContentPane(), "Please enter user name and password", "Error", JOptionPane.INFORMATION_MESSAGE);
+            } else {
                 user = new User(emailInputed, passwordInputed);
-                if ( user.login() ) {
-                    
-                    
-                    // I ll Complete It After Finish Add Frinds
-                    //String[] myContactList = user.getContactList(user.getEmail());
-                    
-                    // Set User Status
+                if (user.login()) {
                     user = user.completeInfo();
                     IChatServer.registerClient(user);
+                    statusCombo.setSelectedItem(user.getStatus());
 
-                    int statusValue = 0;
-                    if( user.getStatus() !=  null  )
-                        switch (user.getStatus()) {
-                            case "online":
-                                statusValue = 0;
-                                break;
-                            case "away":
-                                statusValue = 1;
-                                break;
-                            default:
-                                statusValue = 2;
-                                break;
-                        }
-                    
-                    statusCombo.setSelectedIndex(statusValue);
-                    
-                    
-                    
-                    
-                    
                     List<User> contactUsers = user.getContactList();
-                    String[] emailsRetreived = new String[contactUsers.size()];
-                    String[] namesRetreived = new String[contactUsers.size()];
-                    for (int i = 0 ; i < contactUsers.size(); i++ ) {
-                        User contact = contactUsers.get(i);
-                        String retrievedEmail = contact.getEmail();
-                        emailsRetreived[i] = retrievedEmail;
-                        
-                        String retrievedName = contact.getUsername();
-                        namesRetreived[i] = retrievedName;
-                    }
-                    
-                    
-                    System.out.println(contactUsers);
-                    
-                    
-                    if(contactUsers.size() > 0)
-                    {
-                           // Enter All Contact To Chat List
-                            contactList.setModel(new javax.swing.AbstractListModel<String>() {
-                            String[] strings = namesRetreived;
-                            @Override
-                            public int getSize() { return strings.length;}
-                            @Override
-                            public String getElementAt(int i) { return strings[i];}
-                        });
-                        
-                        
-                    }
-                    
-                    
-                    
-                    
-                    //Set Welcome Name to User in Bottom Text Area
-                    recetUpdateArea.setText("Welcome , " + user.getUsername());
-                    // Put User Name in the Upper Label
+                    updateContactList(contactUsers);
                     upperUserNamelabel.setText(user.getUsername());
-                    CardLayout jj=(CardLayout) panalGroup.getLayout();
+                    recetUpdateArea.setText("Welcome , " + user.getUsername());
+
+                    CardLayout jj = (CardLayout) panalGroup.getLayout();
                     jj.show(panalGroup, "chatCard");
-                    // TODO show user info in chat panel*/
-                    
-                }
-                else {
+
+                } else {
                     JOptionPane.showMessageDialog(getContentPane(), "Email or password isn't correct", "Error", JOptionPane.INFORMATION_MESSAGE);
-                    
+
                 }
             }
         } catch (RemoteException ex) {
@@ -865,85 +780,77 @@ public class ClientGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_signInBtnActionPerformed
 
+    public void updateContactList(List<User> contactUsers) {
+        String[] emails = new String[contactUsers.size()];
+        for (int i = 0; i < emails.length; i++) {
+            emails[i] = contactUsers.get(i).getEmail();
+        }
+
+        System.out.println(contactUsers);
+
+        if (contactUsers.size() > 0) {
+            contactList.setModel(new javax.swing.AbstractListModel<String>() {
+                String[] strings = emails;
+
+                @Override
+                public int getSize() {
+                    return strings.length;
+                }
+
+                @Override
+                public String getElementAt(int i) {
+                    return strings[i];
+                }
+            });
+
+        }
+    }
+
     private void signUpBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpBtnActionPerformed
         // TODO add your handling code here:
-        
-        CardLayout jj=(CardLayout) panalGroup.getLayout();
-                jj.show(panalGroup, "signupCard");
-        
+
+        CardLayout jj = (CardLayout) panalGroup.getLayout();
+        jj.show(panalGroup, "signupCard");
+
     }//GEN-LAST:event_signUpBtnActionPerformed
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
         // TODO add your handling code here:
-                CardLayout jj=(CardLayout) panalGroup.getLayout();
-                jj.show(panalGroup, "loginCard");
-        
+        CardLayout jj = (CardLayout) panalGroup.getLayout();
+        jj.show(panalGroup, "loginCard");
+
     }//GEN-LAST:event_backBtnActionPerformed
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
         try {
             // TODO add your handling code here:
-            if(user.isExist(searchTextField.getText()))
-            {
-                User contact=user.findUser(searchTextField.getText());
+            if (user.isExist(searchTextField.getText())) {
+                User contact = user.findUser(searchTextField.getText());
                 if (contact != null) {
                     searchResultLabel.setText(contact.getEmail());
                     addFriendBtn.setVisible(true);
-                }
-                else {
+                } else {
                     // TODO you can't add yourself
                     searchResultLabel.setText("You Cant Add Your Self");
                 }
-            }
-            else
-            {
+            } else {
                 searchResultLabel.setText("No Emails Found");
             }
         } catch (RemoteException ex) {
-            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex); 
+            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void addFriendBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFriendBtnActionPerformed
         try {
-            // TODO add your handling code here:
-            if(user.addContact(searchResultLabel.getText()))
-            {
+            if (user.addContact(searchResultLabel.getText())) {
                 searchResultLabel.setText("Email Added Successfull");
                 addFriendBtn.setVisible(false);
-                
-                
+
                 List<User> contactUsers = user.getContactList();
-                String[] emailsRetreived = new String[contactUsers.size()];
-                String[] namesRetreived = new String[contactUsers.size()];
-                for (int i = 0 ; i < contactUsers.size(); i++ ) {
-                    User contact = contactUsers.get(i);
-                    String retrievedEmail = contact.getEmail();
-                    emailsRetreived[i] = retrievedEmail;
-                    
-                    String retrievedName = contact.getUsername();
-                    namesRetreived[i] = retrievedName;
-                }
-                
-                if(contactUsers.size() > 0)
-                {
-                    // Enter All Contact To Chat List
-                    contactList.setModel(new javax.swing.AbstractListModel<String>() {
-                        String[] strings = namesRetreived;
-                        @Override
-                        public int getSize() { return strings.length;}
-                        @Override
-                        public String getElementAt(int i) { return strings[i];}
-                    });
-                    
-                    
-                }
-                
-                
-                
-            }
-            else
-            {
+                updateContactList(contactUsers);
+
+            } else {
                 searchResultLabel.setText("You And This User Are already Friends");
                 addFriendBtn.setVisible(false);
             }
@@ -954,10 +861,8 @@ public class ClientGUI extends javax.swing.JFrame {
 
     private void statusComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusComboActionPerformed
         try {
-            // TODO add your handling code here:
-            String newStatusUpdate =(String) statusCombo.getSelectedItem();
+            String newStatusUpdate = (String) statusCombo.getSelectedItem();
             user.changeStatus(newStatusUpdate);
-            // searchTextField.setText("aaaaaaaaaa");
         } catch (RemoteException ex) {
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -965,21 +870,16 @@ public class ClientGUI extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            // TODO add your handling code here:
+            System.out.println(contactList.getSelectedValuesList());
             user.logout();
-            CardLayout jj=(CardLayout) panalGroup.getLayout();
+            CardLayout jj = (CardLayout) panalGroup.getLayout();
             jj.show(panalGroup, "loginCard");
         } catch (RemoteException ex) {
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    
 
-
-    
-    
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem About;
     private javax.swing.JMenu Help;
