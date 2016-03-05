@@ -676,9 +676,8 @@ public class ClientGUI extends javax.swing.JFrame {
 
     private void AboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutActionPerformed
         // TODO add your handling code here:
-        ourHelp Oh = new ourHelp();
-        jDesktopPane2.add(Oh);
-        Oh.show();
+        JDialog fc = new JDialog();
+           JOptionPane.showMessageDialog(fc, "This App Made By MMBA");
         
     }//GEN-LAST:event_AboutActionPerformed
 
@@ -976,15 +975,31 @@ public class ClientGUI extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
            // contactList.removeAllElements();
-            
-            
-            System.out.println(contactList.getSelectedValuesList());
-            
+             contactList.setModel(new javax.swing.AbstractListModel<String>() {
+                            String[] strings =new String[0];
+                            @Override
+                            public int getSize() { return strings.length;}
+                            @Override
+                            public String getElementAt(int i) { return strings[i];}
+                        });
+             
+             
+             
+             
+             
+             /*
+            List<String> friendList = contactList.getSelectedValuesList();
+            int listSize=friendList.Size();
+            System.out.println(listSize);
+            */
             user.logout();
             CardLayout jj=(CardLayout) panalGroup.getLayout();
             jj.show(panalGroup, "loginCard");
-            
-            
+           
+            emailTextField.setText("");
+             emailTextField.grabFocus();
+             passwordTextField.setText("");
+             searchResultLabel.setText("");
             
             
             
