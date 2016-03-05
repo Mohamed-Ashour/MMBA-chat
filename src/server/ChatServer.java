@@ -20,16 +20,23 @@ import javax.swing.JOptionPane;
  *
  * @author bassem
  */
+
+
+
 public class ChatServer extends UnicastRemoteObject implements IChatServer{
     public static Registry RMI_REGISTRY;
     private static ServerGUI gui;
     
     public static void main(String[] args){
+        
         try {
             new ChatServer();
         } catch (RemoteException ex) {
-            JOptionPane.showMessageDialog(null, "The port seems to be used by another application!!");
-            System.exit(0);        }
+            //Logger.getLogger(ChatServer.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "The port seems to be used by another application!!" + ex.getMessage());
+
+        }
+       
     }
     public ChatServer() throws RemoteException {
         RMI_REGISTRY = LocateRegistry.createRegistry(IChatServer.DEFAULT_PORT);
@@ -44,5 +51,18 @@ public class ChatServer extends UnicastRemoteObject implements IChatServer{
                     (int) ((bounds.height / 2) - (gui.getSize().height / 2)));
             gui.setVisible(true);
         });
+    }
+    
+    public  void updateConnectedLabel(int x) {
+      gui.updateConnectedLabel(x);
+  }  
+     public  void updateOnlineLabel(int x){
+         gui.updateOnlineLabel(x);
+     }
+    public  void updateAwayLabel(int x){
+        gui.updateAwayLabel(x);
+    }
+    public  void updateOfflineLabel(int x){
+        gui.updateOfflineLabel(x);
     }
 }

@@ -100,9 +100,9 @@
                                   <Component id="passwordLabel" min="-2" pref="82" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="passwordTextField" min="-2" pref="215" max="-2" attributes="0"/>
-                                  <Component id="EmailTextField" min="-2" pref="215" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="EmailTextField" pref="215" max="32767" attributes="0"/>
+                                  <Component id="jPasswordField1" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -120,12 +120,12 @@
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="passwordTextField" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                           <Component id="passwordLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jPasswordField1" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                       <Component id="loginBtn" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="276" max="32767" attributes="0"/>
+                      <EmptySpace pref="273" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -141,8 +141,6 @@
             </Component>
             <Component class="javax.swing.JTextField" name="EmailTextField">
             </Component>
-            <Component class="javax.swing.JTextField" name="passwordTextField">
-            </Component>
             <Component class="javax.swing.JLabel" name="EmailLabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Email"/>
@@ -152,6 +150,11 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Password"/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JPasswordField" name="jPasswordField1">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jPasswordField1ActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -295,8 +298,9 @@
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="onlineLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="onlineLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="onlineLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="offlineLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="awyLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="connectedLabel" alignment="0" min="-2" pref="75" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
@@ -310,12 +314,14 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="ServerStatusBtn" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="connectedLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="93" max="32767" attributes="0"/>
                           <Component id="onlineLabel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="113" max="-2" attributes="0"/>
-                          <Component id="onlineLabel1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="180" max="32767" attributes="0"/>
-                          <Component id="onlineLabel2" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
+                          <Component id="offlineLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="93" max="-2" attributes="0"/>
+                          <Component id="awyLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="119" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -335,14 +341,19 @@
                     <Property name="text" type="java.lang.String" value="Online"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="onlineLabel1">
+                <Component class="javax.swing.JLabel" name="offlineLabel">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Stataus 2"/>
+                    <Property name="text" type="java.lang.String" value="Offline"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JLabel" name="onlineLabel2">
+                <Component class="javax.swing.JLabel" name="awyLabel">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Stataus 3"/>
+                    <Property name="text" type="java.lang.String" value="Awy"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="connectedLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="connected"/>
                   </Properties>
                 </Component>
               </SubComponents>

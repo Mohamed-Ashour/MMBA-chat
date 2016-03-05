@@ -23,8 +23,15 @@ public interface IChatServer extends Remote{
      * @param s
      * @throws RemoteException
      */
+    
+    
+    
     public static void registerClient(User s) throws RemoteException {
             connected.add(s);
             System.out.println(s.getEmail() + "Connected to the server");
     }
+    public void updateConnectedLabel(int x) throws RemoteException;
+    public void updateOnlineLabel(int x) throws RemoteException;
+    public void updateAwayLabel (int x)throws RemoteException;
+    public void updateOfflineLabel(int x)throws RemoteException;
 }

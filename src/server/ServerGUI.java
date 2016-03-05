@@ -5,10 +5,18 @@
  */
 package server;
 
+import interfaces.IChatServer;
+import interfaces.Message;
 import interfaces.User;
 import java.awt.CardLayout;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,6 +36,64 @@ public class ServerGUI extends javax.swing.JFrame {
         initComponents();
     }
 
+    public static  void updateConnectedLabel(int x){
+        ChatServer.connected.size();
+        connectedLabel.setText(ChatServer.connected.size());
+    }
+    public static void updateOnlineLabel(int x){
+       // onlineLabel.setText(text);
+        try {
+            // connectedLabel
+            Connection db = DBConnect.getConn();
+            Statement stm;
+            String query;
+            stm = db.createStatement();
+            query = "select count(*) from User where status = 'online'" ;
+            ResultSet rs = stm.executeQuery(query);
+             while(rs.next()){
+            onlineLabel.setText("number of  online client is " + rs.getString("status"));
+             }
+        } catch (SQLException ex) {
+            Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    }
+    public static void updateAwayLabel(int x){
+        //offlineLabel
+        try {
+            // connectedLabel
+            Connection db = DBConnect.getConn();
+            Statement stm;
+            String query;
+            stm = db.createStatement();
+            query = "select count(*) from User where status = awy" ;
+           // awyLabel.setText(query);
+            ResultSet rs = stm.executeQuery(query);
+            while(rs.next()){
+            awyLabel.setText("number of Awy client is " +rs.getString("status"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public static void updateOfflineLabel(int x){
+       // awyLabel
+       try {
+            // connectedLabel
+            Connection db = DBConnect.getConn();
+            Statement stm;
+            String query;
+            stm = db.createStatement();
+            query = "select count(*) from User where status = offline" ;
+          //  offlineLabel.setText(query);
+             ResultSet rs = stm.executeQuery(query);
+             while(rs.next()){
+             offlineLabel.setText("number of  offline client is " + rs.getString("status"));
+             }
+        } catch (SQLException ex) {
+            Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,9 +107,9 @@ public class ServerGUI extends javax.swing.JFrame {
         loginPanel = new javax.swing.JPanel();
         loginBtn = new javax.swing.JButton();
         EmailTextField = new javax.swing.JTextField();
-        passwordTextField = new javax.swing.JTextField();
         EmailLabel = new javax.swing.JLabel();
         passwordLabel = new javax.swing.JLabel();
+        jPasswordField1 = new javax.swing.JPasswordField();
         adminPanel = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -57,8 +123,9 @@ public class ServerGUI extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         ServerStatusBtn = new javax.swing.JToggleButton();
         onlineLabel = new javax.swing.JLabel();
-        onlineLabel1 = new javax.swing.JLabel();
-        onlineLabel2 = new javax.swing.JLabel();
+        offlineLabel = new javax.swing.JLabel();
+        awyLabel = new javax.swing.JLabel();
+        connectedLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         Option = new javax.swing.JMenu();
         exit = new javax.swing.JMenuItem();
@@ -82,6 +149,12 @@ public class ServerGUI extends javax.swing.JFrame {
 
         passwordLabel.setText("Password");
 
+        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPasswordField1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout loginPanelLayout = new javax.swing.GroupLayout(loginPanel);
         loginPanel.setLayout(loginPanelLayout);
         loginPanelLayout.setHorizontalGroup(
@@ -95,9 +168,9 @@ public class ServerGUI extends javax.swing.JFrame {
                             .addComponent(EmailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(passwordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(59, 59, 59)
-                        .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(EmailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(EmailTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                            .addComponent(jPasswordField1))))
                 .addContainerGap(310, Short.MAX_VALUE))
         );
         loginPanelLayout.setVerticalGroup(
@@ -109,11 +182,11 @@ public class ServerGUI extends javax.swing.JFrame {
                     .addComponent(EmailLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(passwordLabel))
-                .addGap(33, 33, 33)
+                    .addComponent(passwordLabel)
+                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37)
                 .addComponent(loginBtn)
-                .addContainerGap(276, Short.MAX_VALUE))
+                .addContainerGap(273, Short.MAX_VALUE))
         );
 
         jPanel1.add(loginPanel, "card2");
@@ -191,9 +264,11 @@ public class ServerGUI extends javax.swing.JFrame {
 
         onlineLabel.setText("Online");
 
-        onlineLabel1.setText("Stataus 2");
+        offlineLabel.setText("Offline");
 
-        onlineLabel2.setText("Stataus 3");
+        awyLabel.setText("Awy");
+
+        connectedLabel.setText("connected");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -206,8 +281,9 @@ public class ServerGUI extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(onlineLabel)
-                            .addComponent(onlineLabel1)
-                            .addComponent(onlineLabel2))
+                            .addComponent(offlineLabel)
+                            .addComponent(awyLabel)
+                            .addComponent(connectedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -216,12 +292,14 @@ public class ServerGUI extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(ServerStatusBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addComponent(connectedLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
                 .addComponent(onlineLabel)
-                .addGap(113, 113, 113)
-                .addComponent(onlineLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 180, Short.MAX_VALUE)
-                .addComponent(onlineLabel2)
+                .addGap(84, 84, 84)
+                .addComponent(offlineLabel)
+                .addGap(93, 93, 93)
+                .addComponent(awyLabel)
                 .addGap(119, 119, 119))
         );
 
@@ -309,6 +387,10 @@ public class ServerGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ServerStatusBtnActionPerformed
 
+    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordField1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -353,7 +435,9 @@ public class ServerGUI extends javax.swing.JFrame {
     private javax.swing.JMenu Option;
     private javax.swing.JToggleButton ServerStatusBtn;
     private javax.swing.JPanel adminPanel;
+    private javax.swing.JLabel awyLabel;
     private javax.swing.JTextArea chatTextSend;
+    private javax.swing.JLabel connectedLabel;
     private javax.swing.JMenuItem exit;
     private javax.swing.JList<String> jList1;
     private javax.swing.JMenuBar jMenuBar1;
@@ -361,17 +445,16 @@ public class ServerGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextArea jTextArea3;
     private javax.swing.JButton loginBtn;
     private javax.swing.JPanel loginPanel;
+    private javax.swing.JLabel offlineLabel;
     private javax.swing.JLabel onlineLabel;
-    private javax.swing.JLabel onlineLabel1;
-    private javax.swing.JLabel onlineLabel2;
     private javax.swing.JLabel passwordLabel;
-    private javax.swing.JTextField passwordTextField;
     private javax.swing.JButton sendBtn;
     // End of variables declaration//GEN-END:variables
 }

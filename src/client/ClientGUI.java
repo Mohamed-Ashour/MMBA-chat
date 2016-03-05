@@ -792,7 +792,8 @@ public class ClientGUI extends javax.swing.JFrame {
                     // Set User Status
                     user = user.completeInfo();
                     IChatServer.registerClient(user);
-
+                  
+                    
                     int statusValue = 0;
                     if( user.getStatus() !=  null  )
                         switch (user.getStatus()) {
