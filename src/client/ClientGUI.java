@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -688,12 +689,57 @@ public class ClientGUI extends javax.swing.JFrame {
         // Create Object From Chat Dialoge 1 
         ChatFrame Ifo = new ChatFrame();
         int itemsSize= newItem.size();
-        newItem.add(user.getEmail());
+        //newItem.add(user.getUsername());
         if(itemsSize > 0)
         {
+            List<String> newItem1 =  new ArrayList<String>();
+            List<String> mailsList =  new ArrayList<String>();
+            String offlineUser = "";
+            for(int i=0 ; i< itemsSize ; i++)
+            {
+                
+                
+                try {
+                    String returnStatus=User.getUserStatus(newItem.get(i));
+                    if(returnStatus.equals("online"))
+                    {
+                        newItem1.add(newItem.get(i));
+                    }else{
+                        offlineUser = offlineUser + " \n  " + newItem.get(i);
+                    }
+                } catch (RemoteException ex) {
+                    Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }
+            
+            
+            /*  add all online emails to mailsList  */
+            for(int j=0 ; j < newItem1.size();j++)
+            {
+                try {
+                    mailsList.add(User.getUserEmail(newItem1.get(j)));
+                } catch (RemoteException ex) {
+                    Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+            mailsList.add(user.getEmail());
+            newItem1.add(user.getUsername());
+            
+           //boolean add = newItem.add(user.getUsername())
+                   // newItem1.remove(0);
+                   
+                   //Print
+                   /*           System.out.println(newItem);
+                   System.out.println(itemsSize);
+                   System.out.println(newItem1);*/;
+                
+                
+                
             // Enter All Contact To Chat List
             Ifo.chatList.setModel(new javax.swing.AbstractListModel<String>() {
-                String[] strings = newItem.toArray(new String[0]);
+                String[] strings = newItem1.toArray(new String[0]);
                 @Override
                 public int getSize() { return strings.length;}
                 @Override
@@ -703,9 +749,13 @@ public class ClientGUI extends javax.swing.JFrame {
             jDesktopPane2.add(Ifo);
             Ifo.setTitle(newItem.toString());
             Ifo.show();
+            JDialog fc = new JDialog();
+           JOptionPane.showMessageDialog(fc,  "User/s " + offlineUser + " \n Are Offline");
+            
+            
             Session newSession = new Session();
            try {
-                Boolean initSession = Session.initSession(newItem);
+                Boolean initSession = Session.initSession(mailsList);
            } catch (SQLException ex) {
                Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
            }
@@ -781,8 +831,8 @@ public class ClientGUI extends javax.swing.JFrame {
                     
                     if(contactUsers.size() > 0)
                     {
-                        // Enter All Contact To Chat List
-                        contactList.setModel(new javax.swing.AbstractListModel<String>() {
+                           // Enter All Contact To Chat List
+                            contactList.setModel(new javax.swing.AbstractListModel<String>() {
                             String[] strings = namesRetreived;
                             @Override
                             public int getSize() { return strings.length;}

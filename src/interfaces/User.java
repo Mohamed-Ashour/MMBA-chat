@@ -177,6 +177,40 @@ public class User extends UnicastRemoteObject implements IUser
     }
     
     
+    static public String getUserStatus(String username) throws RemoteException{
+        try {
+            
+            stm = db.createStatement();
+            query = "select status from User where username = '" + username + "'";
+            ResultSet userResult = stm.executeQuery(query);
+            userResult.next();
+            
+            return userResult.getString("status");
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    
+    static public String getUserEmail(String username) throws RemoteException{
+        try {
+            
+            stm = db.createStatement();
+            query = "select email from User where username = '" + username + "'";
+            ResultSet userResult = stm.executeQuery(query);
+            userResult.next();
+            
+            return userResult.getString("email");
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    
     static public List<User> getAllUsers() throws RemoteException{
         
         try {
@@ -321,7 +355,7 @@ public class User extends UnicastRemoteObject implements IUser
                     "' where email = '" + email + "'";
             stm.executeUpdate(query);
             return true;
-            
+                
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -361,4 +395,11 @@ public class User extends UnicastRemoteObject implements IUser
             System.exit(0);
         }
     }
+    
+    public static void main(String[] args) throws RemoteException {
+        System.out.println(User.getUserEmail("mohamed77"));
+    }
+    
+    
+    
 }
