@@ -661,10 +661,9 @@ public class ClientGUI extends javax.swing.JFrame {
 
     private void AboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutActionPerformed
         // TODO add your handling code here:
-        ourHelp Oh = new ourHelp();
-        jDesktopPane2.add(Oh);
-        Oh.show();
-
+        JDialog fc = new JDialog();
+           JOptionPane.showMessageDialog(fc, "This App Made By MMBA");
+        
     }//GEN-LAST:event_AboutActionPerformed
 
     private void startChatBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startChatBtnActionPerformed
@@ -870,10 +869,36 @@ public class ClientGUI extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            System.out.println(contactList.getSelectedValuesList());
+            // TODO add your handling code here:
+           // contactList.removeAllElements();
+             contactList.setModel(new javax.swing.AbstractListModel<String>() {
+                            String[] strings =new String[0];
+                            @Override
+                            public int getSize() { return strings.length;}
+                            @Override
+                            public String getElementAt(int i) { return strings[i];}
+                        });
+             
+             
+             
+             
+             
+             /*
+            List<String> friendList = contactList.getSelectedValuesList();
+            int listSize=friendList.Size();
+            System.out.println(listSize);
+            */
             user.logout();
             CardLayout jj = (CardLayout) panalGroup.getLayout();
             jj.show(panalGroup, "loginCard");
+           
+            emailTextField.setText("");
+             emailTextField.grabFocus();
+             passwordTextField.setText("");
+             searchResultLabel.setText("");
+            
+            
+            
         } catch (RemoteException ex) {
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }

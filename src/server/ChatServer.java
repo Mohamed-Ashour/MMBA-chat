@@ -22,12 +22,16 @@ import javax.swing.JOptionPane;
  *
  * @author bassem
  */
+
+
+
 public class ChatServer extends UnicastRemoteObject implements IChatServer{
     public static Registry RMI_REGISTRY;
     public static boolean isconnected(User s){
         return connected.contains(s);
     }
     public static void main(String[] args){
+        
         try {
             new ChatServer();
         } catch (RemoteException ex) {
@@ -47,5 +51,18 @@ public class ChatServer extends UnicastRemoteObject implements IChatServer{
                     (int) ((bounds.height / 2) - (frame.getSize().height / 2)));
             frame.setVisible(true);
         });
+    }
+    
+    public  void updateConnectedLabel(int x) {
+      gui.updateConnectedLabel(x);
+  }  
+     public  void updateOnlineLabel(int x){
+         gui.updateOnlineLabel(x);
+     }
+    public  void updateAwayLabel(int x){
+        gui.updateAwayLabel(x);
+    }
+    public  void updateOfflineLabel(int x){
+        gui.updateOfflineLabel(x);
     }
 }
