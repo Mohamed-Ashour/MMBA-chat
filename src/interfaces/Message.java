@@ -1,7 +1,6 @@
 
 package interfaces;
 
-import interfaces.Session;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.sql.Connection;

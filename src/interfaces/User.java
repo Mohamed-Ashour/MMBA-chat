@@ -3,7 +3,10 @@ package interfaces;
 
 import client.ChatClient;
 import java.io.Serializable;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -14,13 +17,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import server.ChatServer;
 import server.DBConnect;
 
 /**
  *
  * @author ashour
  */
-public class User extends UnicastRemoteObject implements IChatServer, IChatClient, Serializable 
+public class User extends UnicastRemoteObject implements IUser 
 {
     private String email;
     private String username;
@@ -32,14 +37,12 @@ public class User extends UnicastRemoteObject implements IChatServer, IChatClien
     static private Connection db = DBConnect.getConn();
     static private Statement stm;
     static private String query; 
-    private ArrayList<ChatClient> clients;
+    private ArrayList<Session> sessions = new ArrayList<>();
 
 
     
     public User(String email, String username, String name, String status,
-                String password, String country, String gender) throws RemoteException {
-        this.clients = new ArrayList<>();
-        
+                String password, String country, String gender) throws RemoteException {        
         this.email = email;
         this.username = username;
         this.name = name;
@@ -51,18 +54,13 @@ public class User extends UnicastRemoteObject implements IChatServer, IChatClien
     }
 
     
-    public User(String email, String password) throws RemoteException {
-        this.clients = new ArrayList<>();
-    
+    public User(String email, String password) throws RemoteException {    
         this.email = email;
         this.password = password;
-    
     }
     
     
-    public User ( HashMap<String, String> userInfo) throws RemoteException{
-        this.clients = new ArrayList<>();
-        
+    public User ( HashMap<String, String> userInfo) throws RemoteException{        
         email = userInfo.get("email");
         username = userInfo.get("username");
         name = userInfo.get("name");
@@ -74,7 +72,6 @@ public class User extends UnicastRemoteObject implements IChatServer, IChatClien
     }
 
     public User() throws RemoteException{
-        this.clients = new ArrayList<>();
     }
     
     
@@ -340,20 +337,28 @@ public class User extends UnicastRemoteObject implements IChatServer, IChatClien
     
     
     @Override
-    public void sendMessage() throws RemoteException{
+    public void sendMessage(Session s) throws RemoteException{
         
     }
     
     
     @Override
-    public void recieveMessage() throws RemoteException{
+    public void recieveMessage(Session s) throws RemoteException{
         
     }
 
-
+   
     @Override
-    public void register(ChatClient client) {
-        this.clients.add(client);
+    public void addSession(Session s) {
     }
     
+    @Override
+    public void connect(String host, Registry r) throws RemoteException{
+        try {
+            r.lookup("client");
+        } catch (NotBoundException ex) {
+            JOptionPane.showMessageDialog(null, "The service can't be located!!");
+            System.exit(0);
+        }
+    }
 }

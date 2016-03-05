@@ -5,30 +5,36 @@
  */
 package server;
 
-import interfaces.IChatClient;
 import interfaces.IChatServer;
 import java.awt.GraphicsConfiguration;
 import java.awt.Rectangle;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.ArrayList;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author bassem
  */
-public class ChatServer {
-    public static Registry RMI_REGISTRY; 
+public class ChatServer extends UnicastRemoteObject implements IChatServer{
+    public static Registry RMI_REGISTRY;
     
     public static void main(String[] args){
         try {
-            RMI_REGISTRY = LocateRegistry.createRegistry(IChatServer.DEFAULT_PORT);
+            new ChatServer();
         } catch (RemoteException ex) {
-            Logger.getLogger(ChatServer.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            JOptionPane.showMessageDialog(null, "The port seems to be used by another application!!");
+            System.exit(0);        }
+    }
+    public ChatServer() throws RemoteException {
+        RMI_REGISTRY = LocateRegistry.createRegistry(IChatServer.DEFAULT_PORT);
+        ChatServer.RMI_REGISTRY.rebind("server", this);
+        Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, "Registered: {0} -> {1}", new Object[]{"Start", this.getClass().getName()});
+        
         java.awt.EventQueue.invokeLater(() -> {
             ServerGUI frame = new ServerGUI();
             GraphicsConfiguration gc = frame.getGraphicsConfiguration();
@@ -38,5 +44,4 @@ public class ChatServer {
             frame.setVisible(true);
         });
     }
-
 }

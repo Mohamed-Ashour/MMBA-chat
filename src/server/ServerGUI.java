@@ -5,11 +5,9 @@
  */
 package server;
 
-import interfaces.IChatServer;
 import interfaces.User;
 import java.awt.CardLayout;
 import java.rmi.NotBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -300,7 +298,7 @@ public class ServerGUI extends javax.swing.JFrame {
                 this.ServerStatusBtn.setText("Start");
 
             } else {
-                Remote remote = (IChatServer) new User();
+                User remote = new User();
                 ChatServer.RMI_REGISTRY.rebind("client", remote);
                 this.isServerRunning = true;
                 Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, "Registered: {0} -> {1}", new Object[]{"Start", remote.getClass().getName()});

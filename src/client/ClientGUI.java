@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package client;
+import interfaces.IChatServer;
 import interfaces.Session;
 import interfaces.User;
 import java.awt.CardLayout;
@@ -38,9 +39,7 @@ public class ClientGUI extends javax.swing.JFrame {
     
     public ClientGUI(User user) throws RemoteException {
         
-        this.user = user;
-        ChatClient c = new ChatClient();
-         c.connect("localhost");
+        
         initComponents();
 
         addFriendBtn.setVisible(false);    
@@ -706,7 +705,7 @@ public class ClientGUI extends javax.swing.JFrame {
             Ifo.show();
             Session newSession = new Session();
            try {
-                Boolean initSession = newSession.initSession(newItem);
+                Boolean initSession = Session.initSession(newItem);
            } catch (SQLException ex) {
                Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
            }
@@ -742,7 +741,8 @@ public class ClientGUI extends javax.swing.JFrame {
                     
                     // Set User Status
                     user = user.completeInfo();
-                    
+                    IChatServer.registerClient(user);
+
                     int statusValue = 0;
                     if( user.getStatus() !=  null  )
                         switch (user.getStatus()) {
