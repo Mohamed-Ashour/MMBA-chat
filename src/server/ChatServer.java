@@ -22,7 +22,6 @@ import javax.swing.JOptionPane;
  */
 public class ChatServer extends UnicastRemoteObject implements IChatServer{
     public static Registry RMI_REGISTRY;
-    private static ServerGUI gui;
     
     public static void main(String[] args){
         try {
@@ -37,12 +36,12 @@ public class ChatServer extends UnicastRemoteObject implements IChatServer{
         Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, "Registered: {0} -> {1}", new Object[]{"Start", this.getClass().getName()});
         
         java.awt.EventQueue.invokeLater(() -> {
-            gui = new ServerGUI();
-            GraphicsConfiguration gc = gui.getGraphicsConfiguration();
+            ServerGUI frame = new ServerGUI();
+            GraphicsConfiguration gc = frame.getGraphicsConfiguration();
             Rectangle bounds = gc.getBounds();
-            gui.setLocation((int) ((bounds.width / 2) - (gui.getSize().width / 2)),
-                    (int) ((bounds.height / 2) - (gui.getSize().height / 2)));
-            gui.setVisible(true);
+            frame.setLocation((int) ((bounds.width / 2) - (frame.getSize().width / 2)),
+                    (int) ((bounds.height / 2) - (frame.getSize().height / 2)));
+            frame.setVisible(true);
         });
     }
 }

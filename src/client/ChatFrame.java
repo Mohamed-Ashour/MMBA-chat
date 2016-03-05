@@ -14,14 +14,19 @@ import javax.swing.JFileChooser;
 
 class ChatFrame extends javax.swing.JInternalFrame {
 
+    private static int chatFrameCount = 0;
+    private int chatFrameId;
     /**
      * Creates new form NewFrame
      */
     public ChatFrame() {
         initComponents();
+        this.chatFrameId = chatFrameCount++;
     }
-    public String d;
-    public void yess(){};
+    
+    public int getChatFrameId() {
+        return chatFrameId;
+    } 
    
     /**
      * This method is called from within the constructor to initialize the form.

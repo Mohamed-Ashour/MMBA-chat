@@ -1,6 +1,7 @@
 
 package interfaces;
 
+import client.ChatFrame;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
@@ -33,7 +34,7 @@ public class User extends UnicastRemoteObject implements IUser
     static private Connection db = DBConnect.getConn();
     static private Statement stm;
     static private String query; 
-    static private ArrayList<Session> sessions = new ArrayList<>();
+    static private HashMap<Session, ChatFrame> sessions = new HashMap<>();
 
 
     
