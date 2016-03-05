@@ -700,12 +700,14 @@ public class ClientGUI extends javax.swing.JFrame {
                 
                 
                 try {
-                    String returnStatus=User.getUserStatus(newItem.get(i));
+                    String[] splitMail=newItem.get(i).split("[(]");
+                    String returnStatus=User.getUserStatus(splitMail[0]);
+                    
                     if(returnStatus.equals("online"))
                     {
-                        newItem1.add(newItem.get(i));
+                        newItem1.add(splitMail[0]);
                     }else{
-                        offlineUser = offlineUser + " \n  " + newItem.get(i);
+                        offlineUser = offlineUser + " \n  " + splitMail[0];
                     }
                 } catch (RemoteException ex) {
                     Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -727,15 +729,7 @@ public class ClientGUI extends javax.swing.JFrame {
             mailsList.add(user.getEmail());
             newItem1.add(user.getUsername());
             
-           //boolean add = newItem.add(user.getUsername())
-                   // newItem1.remove(0);
-                   
-                   //Print
-                   /*           System.out.println(newItem);
-                   System.out.println(itemsSize);
-                   System.out.println(newItem1);*/;
-                
-                
+          
                 
             // Enter All Contact To Chat List
             Ifo.chatList.setModel(new javax.swing.AbstractListModel<String>() {
@@ -746,19 +740,26 @@ public class ClientGUI extends javax.swing.JFrame {
                 public String getElementAt(int i) { return strings[i];}
             });
             
-            jDesktopPane2.add(Ifo);
-            Ifo.setTitle(newItem.toString());
-            Ifo.show();
-            JDialog fc = new JDialog();
-           JOptionPane.showMessageDialog(fc,  "User/s " + offlineUser + " \n Are Offline");
+            if(newItem1.size() > 1)
+            {
+                jDesktopPane2.add(Ifo);
+                Ifo.setTitle(newItem1.toString());
+                Ifo.show();
+
             
+                Session newSession = new Session();
+               try {
+                    Boolean initSession = Session.initSession(mailsList);
+               } catch (SQLException ex) {
+                   Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+               }
+            }
+            if(!offlineUser.equals(""))
+            {
+                JDialog fc = new JDialog();
+                JOptionPane.showMessageDialog(fc,  "User/s " + offlineUser + " \n Are Offline");
+            }
             
-            Session newSession = new Session();
-           try {
-                Boolean initSession = Session.initSession(mailsList);
-           } catch (SQLException ex) {
-               Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
-           }
         }
         else
         {
@@ -818,11 +819,19 @@ public class ClientGUI extends javax.swing.JFrame {
                     String[] namesRetreived = new String[contactUsers.size()];
                     for (int i = 0 ; i < contactUsers.size(); i++ ) {
                         User contact = contactUsers.get(i);
+                        
+                        // 3ak3ak
+                        
+                        
+                        
+                        
+                        /* End 3ak3ak */
                         String retrievedEmail = contact.getEmail();
                         emailsRetreived[i] = retrievedEmail;
                         
                         String retrievedName = contact.getUsername();
-                        namesRetreived[i] = retrievedName;
+                        String retrievedStatus = contact.getStatus();
+                        namesRetreived[i] = retrievedName + "( " + retrievedStatus + " ) " ;
                     }
                     
                     
@@ -966,9 +975,19 @@ public class ClientGUI extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             // TODO add your handling code here:
+           // contactList.removeAllElements();
+            
+            
+            System.out.println(contactList.getSelectedValuesList());
+            
             user.logout();
             CardLayout jj=(CardLayout) panalGroup.getLayout();
             jj.show(panalGroup, "loginCard");
+            
+            
+            
+            
+            
         } catch (RemoteException ex) {
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
