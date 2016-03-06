@@ -6,9 +6,9 @@
 package client;
 
 import interfaces.IChatServer;
-import interfaces.Session;
 import interfaces.User;
 import java.awt.CardLayout;
+import java.awt.HeadlessException;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,7 +17,6 @@ import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.rmi.RemoteException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -30,17 +29,19 @@ import javax.swing.KeyStroke;
  * @author Ahmed
  */
 public class ClientGUI extends javax.swing.JFrame {
-
+    public static int count = 0;
     private User user;
 
     public ClientGUI(User user) throws RemoteException {
-
+        count++;
         initComponents();
 
         addFriendBtn.setVisible(false);
         exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
 
     }
+
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -669,79 +670,44 @@ public class ClientGUI extends javax.swing.JFrame {
     private void startChatBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startChatBtnActionPerformed
 
         List<String> chosenContacts = contactList.getSelectedValuesList();
-        ChatFrame chatFrame = new ChatFrame();
         int contactsCount = chosenContacts.size();
         if (contactsCount < 1) {
             JOptionPane.showMessageDialog(null, "You Must Choose One User At Least.");
         } else {
-            List<String> newItem1 = new ArrayList<String>();
-            List<String> mailsList = new ArrayList<String>();
-            String offlineUser = "";
-            for (int i = 0; i < contactsCount; i++) {
-
-                try {
-                    String[] splitMail = chosenContacts.get(i).split("[(]");
-                    String returnStatus = User.getUserStatus(splitMail[0]);
-
-                    if (returnStatus.equals("online")) {
-                        newItem1.add(splitMail[0]);
-                    } else {
-                        offlineUser = offlineUser + " \n  " + splitMail[0];
-                    }
-                } catch (RemoteException ex) {
-                    Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            }
-
-            /*  add all online emails to mailsList  */
-            for (int j = 0; j < newItem1.size(); j++) {
-                try {
-                    mailsList.add(User.getUserEmail(newItem1.get(j)));
-                } catch (RemoteException ex) {
-                    Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            mailsList.add(user.getEmail());
-            newItem1.add(user.getUsername());
-
-            // Enter All Contact To Chat List
-            chatFrame.chatList.setModel(new javax.swing.AbstractListModel<String>() {
-                String[] strings = newItem1.toArray(new String[0]);
-
-                @Override
-                public int getSize() {
-                    return strings.length;
-                }
-
-                @Override
-                public String getElementAt(int i) {
-                    return strings[i];
-                }
-            });
-
-            if (newItem1.size() > 1) {
-                jDesktopPane2.add(chatFrame);
-                chatFrame.setTitle(newItem1.toString());
-                chatFrame.show();
-
-//            
-//                Session newSession = new Session();
-//               try {
-//                    Boolean initSession = Session.initSession(mailsList);
-//               } catch (SQLException ex) {
-//                   Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
-//               }
-            }
-            if (!offlineUser.equals("")) {
-                JDialog fc = new JDialog();
-                JOptionPane.showMessageDialog(fc, "User/s " + offlineUser + " \n Are Offline");
-            }
+            createChatFrame(chosenContacts);
 
         }
 
     }//GEN-LAST:event_startChatBtnActionPerformed
+
+    private void createChatFrame(List<String> chosenContacts) throws HeadlessException {
+        
+        List<String> mailList = new ArrayList<>();
+        String offlineUser = "";
+        for (String chosenContact : chosenContacts) {
+            try {
+                User s = User.getUserData(chosenContact);
+                if (null != s & s.getStatus().equals("online")) {
+                    mailList.add(chosenContact);
+                } else {
+                    offlineUser += "\n User " + chosenContact + " is offline";
+                }
+            } catch (RemoteException ex) {
+                Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (mailList.size() > 0) {
+            try {
+                user.initSession(mailList);
+            } catch (RemoteException ex) {
+                Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (!offlineUser.equals("")) {
+            JDialog fc = new JDialog();
+            JOptionPane.showMessageDialog(fc, offlineUser );
+        }
+    }
 
     private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
         // TODO add your handling code here:
@@ -965,4 +931,11 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JLabel upperUserNamelabel;
     private javax.swing.JTextField usernameSignUpTextField;
     // End of variables declaration//GEN-END:variables
+
+    public void addChatFrame(ChatFrame chatFrame, List<String> mailList) {
+        System.out.println("HI");
+        chatFrame.setTitle(mailList.toString());
+        chatFrame.show(); 
+        this.jDesktopPane2.add(chatFrame);
+    }
 }

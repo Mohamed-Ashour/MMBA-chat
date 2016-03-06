@@ -5,18 +5,10 @@
  */
 package interfaces;
 
-import server.DBConnect;
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class Session implements Serializable {
+public class Session implements ISession {
 
     private static int sessionCount = 0;
     private int sessionId;
@@ -29,9 +21,13 @@ public class Session implements Serializable {
         this.sessionId = sessionCount++;
         this.users = users;
     }
+    
 
     int getSessionId() {
         return sessionId;
+    }
+    List<User> getUserList() {
+        return users;
     }
     
    

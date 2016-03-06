@@ -5,6 +5,7 @@
  */
 package client;
 
+import interfaces.IChatClient;
 import interfaces.IChatServer;
 import interfaces.User;
 import java.awt.GraphicsConfiguration;
@@ -15,6 +16,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -23,14 +25,17 @@ import javax.swing.JOptionPane;
  *
  * @author bassem
  */
-public class ChatClient implements Serializable{
+public class ChatClient implements Serializable, IChatClient{
     private static Registry registry;
     private ClientGUI gui;
     
     public static void main(String[] args){   
         new ChatClient();
     }
-
+    @Override
+    public void createChatFrame(ChatFrame chatFrame, List<String> mailList) {
+        gui.addChatFrame(chatFrame, mailList);
+    }
     /**
      *
      * @throws HeadlessException
@@ -43,6 +48,8 @@ public class ChatClient implements Serializable{
             //System.out.println("Connected to server :)");
             User client = new User();
             client.connect("localhost",registry);
+            client.setGui(this);
+
             //System.out.println("Obtained Remote User  :)");
 
             /* Set the Nimbus look and feel */

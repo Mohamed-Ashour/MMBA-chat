@@ -5,8 +5,6 @@
  */
 package server;
 
-import interfaces.IChatServer;
-import interfaces.Message;
 import interfaces.User;
 import java.awt.CardLayout;
 import java.rmi.NotBoundException;
@@ -15,8 +13,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,11 +32,11 @@ public class ServerGUI extends javax.swing.JFrame {
         initComponents();
     }
 
-    public static  void updateConnectedLabel(int x){
+    public  void updateConnectedLabel(int x){
         ChatServer.connected.size();
-        connectedLabel.setText(ChatServer.connected.size());
+        connectedLabel.setText("Connected: " + ChatServer.connected.size());
     }
-    public static void updateOnlineLabel(int x){
+    public void updateOnlineLabel(int x){
        // onlineLabel.setText(text);
         try {
             // connectedLabel
@@ -58,7 +54,7 @@ public class ServerGUI extends javax.swing.JFrame {
         }
     
     }
-    public static void updateAwayLabel(int x){
+    public void updateAwayLabel(int x){
         //offlineLabel
         try {
             // connectedLabel
@@ -76,7 +72,7 @@ public class ServerGUI extends javax.swing.JFrame {
             Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public static void updateOfflineLabel(int x){
+    public void updateOfflineLabel(int x){
        // awyLabel
        try {
             // connectedLabel

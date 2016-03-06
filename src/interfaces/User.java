@@ -1,7 +1,8 @@
-
 package interfaces;
 
+import client.ChatClient;
 import client.ChatFrame;
+import client.ClientGUI;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
@@ -22,8 +23,8 @@ import server.DBConnect;
  *
  * @author ashour
  */
-public class User extends UnicastRemoteObject implements IUser 
-{
+public class User extends UnicastRemoteObject implements IUser {
+
     private String email;
     private String username;
     private String name;
@@ -33,13 +34,12 @@ public class User extends UnicastRemoteObject implements IUser
     private String gender;
     static private Connection db = DBConnect.getConn();
     static private Statement stm;
-    static private String query; 
+    static private String query;
     static private HashMap<Session, ChatFrame> sessions = new HashMap<>();
+    private ChatClient gui;
 
-
-    
     public User(String email, String username, String name, String status,
-                String password, String country, String gender) throws RemoteException {        
+            String password, String country, String gender) throws RemoteException {
         this.email = email;
         this.username = username;
         this.name = name;
@@ -47,17 +47,20 @@ public class User extends UnicastRemoteObject implements IUser
         this.password = password;
         this.country = country;
         this.gender = gender;
-    
+
     }
 
-    
-    public User(String email, String password) throws RemoteException {    
+    @Override
+    public void setGui(ChatClient gui) {
+        this.gui = gui;
+        System.out.println(gui + " As GUI");
+    }
+    public User(String email, String password) throws RemoteException {
         this.email = email;
         this.password = password;
     }
-    
-    
-    public User ( HashMap<String, String> userInfo) throws RemoteException{        
+
+    public User(HashMap<String, String> userInfo) throws RemoteException {
         email = userInfo.get("email");
         username = userInfo.get("username");
         name = userInfo.get("name");
@@ -65,235 +68,223 @@ public class User extends UnicastRemoteObject implements IUser
         password = userInfo.get("password");
         country = userInfo.get("country");
         gender = userInfo.get("gender");
-        
+
     }
 
-    public User() throws RemoteException{
+    public User() throws RemoteException {
     }
-    
-    
+
     @Override
-    public Boolean isExist(String searchEmail) throws RemoteException{
+    public Boolean isExist(String searchEmail) throws RemoteException {
         try {
-            
+
             stm = db.createStatement();
-            query = "select * from User where email = '" + searchEmail + "'" ;
+            query = "select * from User where email = '" + searchEmail + "'";
             ResultSet rs = stm.executeQuery(query);
             return (rs.next());
-        
+
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return false;
     }
-    
-    
+
     @Override
-    public Boolean login() throws RemoteException{
-    
+    public Boolean login() throws RemoteException {
+
         try {
-            
+
             stm = db.createStatement();
             query = "select * from User where email = '" + email + "' and password = '" + password + "'";
             ResultSet rs = stm.executeQuery(query);
             return (rs.next());
-        
-        } catch (SQLException ex) {  
+
+        } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return false;
 
     }
-    
+
     @Override
-    public void logout() throws RemoteException{
+    public void logout() throws RemoteException {
         setStatus("offline");
         changeStatus("offline");
     }
-    
-    
+
     @Override
-    public Boolean add() throws RemoteException{
-        
+    public Boolean add() throws RemoteException {
+
         try {
             // student insertion
             stm = db.createStatement();
             query = "insert into User (name, username, email, password,"
                     + " country, gender, status) values ('"
-                    + name + "','" + username + "','" + email + "','" + password 
+                    + name + "','" + username + "','" + email + "','" + password
                     + "','" + country + "','" + gender + "','" + status + "')";
             int rs = stm.executeUpdate(query);
             return true;
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return false;
-        
+
     }
-    
-        
-    @Override
-    public User completeInfo() throws RemoteException{
-        return getUserData(this.email);
-    }
-    
 
     @Override
-    public User findUser(String searchEmail) throws RemoteException{
-        if ( isExist(searchEmail) && !searchEmail.equals(email) ){
+    public User completeInfo() throws RemoteException {
+        return getUserData(this.email);
+    }
+
+    @Override
+    public User findUser(String searchEmail) throws RemoteException {
+        if (isExist(searchEmail) && !searchEmail.equals(email)) {
             return getUserData(searchEmail);
         }
-        
+
         return null;
     }
 
-    static public User getUserData(String searchEmail) throws RemoteException{
+    static public User getUserData(String searchEmail) throws RemoteException {
         try {
-            
+
             stm = db.createStatement();
             query = "select * from User where email = '" + searchEmail + "'";
             ResultSet userResult = stm.executeQuery(query);
             userResult.next();
-            
-            return new User( userResult.getString("email"),
+
+            return new User(userResult.getString("email"),
                     userResult.getString("username"),
                     userResult.getString("name"),
                     userResult.getString("status"),
                     userResult.getString("password"),
                     userResult.getString("country"),
-                    userResult.getString("gender") );
-            
+                    userResult.getString("gender"));
+
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-    
-    
-    static public String getUserStatus(String username) throws RemoteException{
+
+    static public String getUserStatus(String username) throws RemoteException {
         try {
-            
+
             stm = db.createStatement();
             query = "select status from User where username = '" + username + "'";
             ResultSet userResult = stm.executeQuery(query);
             userResult.next();
-            
+
             return userResult.getString("status");
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-    
-    
-    static public String getUserEmail(String username) throws RemoteException{
+
+    static public String getUserEmail(String username) throws RemoteException {
         try {
-            
+
             stm = db.createStatement();
             query = "select email from User where username = '" + username + "'";
             ResultSet userResult = stm.executeQuery(query);
             userResult.next();
-            
+
             return userResult.getString("email");
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-    
-    
-    static public List<User> getAllUsers() throws RemoteException{
-        
+
+    static public List<User> getAllUsers() throws RemoteException {
+
         try {
-            List<User> users = new ArrayList<>();   
+            List<User> users = new ArrayList<>();
             stm = db.createStatement();
-            query = "select * from User" ;
+            query = "select * from User";
             ResultSet userResult = stm.executeQuery(query);
-            while( userResult.next() ) {
-                User retrievedUser = new User( userResult.getString("email"),
-                                            userResult.getString("username"),
-                                            userResult.getString("name"),
-                                            userResult.getString("status"),
-                                            userResult.getString("password"),
-                                            userResult.getString("country"),
-                                            userResult.getString("gender") );
+            while (userResult.next()) {
+                User retrievedUser = new User(userResult.getString("email"),
+                        userResult.getString("username"),
+                        userResult.getString("name"),
+                        userResult.getString("status"),
+                        userResult.getString("password"),
+                        userResult.getString("country"),
+                        userResult.getString("gender"));
                 users.add(retrievedUser);
             }
-            
+
             return users;
 
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return null;
     }
-    
-    
-    
+
     @Override
-    public List<User> getContactList() throws RemoteException{
+    public List<User> getContactList() throws RemoteException {
         try {
-            List<User> contacts = new ArrayList<>();        
+            List<User> contacts = new ArrayList<>();
             stm = db.createStatement();
-            query = "select contact as email from Contact where user = '" + email + 
-                    "' union select user as email from Contact where contact = '" +
-                    email + "'" ;
+            query = "select contact as email from Contact where user = '" + email
+                    + "' union select user as email from Contact where contact = '"
+                    + email + "'";
             ResultSet userResult = stm.executeQuery(query);
-            
-            while( userResult.next() ) {
-                
+
+            while (userResult.next()) {
+
                 User retrievedUser = User.getUserData(userResult.getString("email"));
                 contacts.add(retrievedUser);
-            
+
             }
             return contacts;
-                
+
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return null;
     }
-    
-    
+
     @Override
     public Boolean isContact(String contactEmail) {
-        
+
         try {
-                // check if user is friend with contact
-                query = "select * from Contact";
-                ResultSet contactsResult = stm.executeQuery(query);
-                while ( contactsResult.next() ) {
-                    String contactFound = contactsResult.getString("contact");
-                    String userFound = contactsResult.getString("user");
-                    
-                    if( (userFound.equals(email) && contactFound.equals(contactEmail)) ||
-                        (userFound.equals(contactEmail) && contactFound.equals(email))    ) {
-                        return true;
-                    }
+            // check if user is friend with contact
+            query = "select * from Contact";
+            ResultSet contactsResult = stm.executeQuery(query);
+            while (contactsResult.next()) {
+                String contactFound = contactsResult.getString("contact");
+                String userFound = contactsResult.getString("user");
+
+                if ((userFound.equals(email) && contactFound.equals(contactEmail))
+                        || (userFound.equals(contactEmail) && contactFound.equals(email))) {
+                    return true;
                 }
-                
-            } catch (SQLException ex) {
-                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
             }
-        
+
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         return false;
     }
-    
-    
+
     @Override
-    public Boolean addContact(String contactEmail) throws RemoteException{
-        if( isExist(contactEmail) ) {
-            
-            if( !isContact(contactEmail) ) {
-            
+    public Boolean addContact(String contactEmail) throws RemoteException {
+        if (isExist(contactEmail)) {
+
+            if (!isContact(contactEmail)) {
+
                 try {
                     stm = db.createStatement();
                     query = "insert into Contact (user, contact) values ('"
@@ -304,15 +295,12 @@ public class User extends UnicastRemoteObject implements IUser
 
                 } catch (SQLException ex) {
                     Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-                }   
+                }
             }
         }
         return false;
     }
-    
-    
-    
-    
+
     @Override
     public String getGender() {
         return gender;
@@ -336,55 +324,90 @@ public class User extends UnicastRemoteObject implements IUser
     @Override
     public String getPassword() {
         return password;
-    }    
+    }
 
     @Override
-    public void setStatus(String status) throws RemoteException{
+    public void setStatus(String status) throws RemoteException {
         this.status = status;
     }
-    
+
     @Override
-    public Boolean changeStatus(String status) throws RemoteException{
-     
+    public Boolean changeStatus(String status) throws RemoteException {
+
         try {
             stm = db.createStatement();
-            query = "update User  set status = '" + status + 
-                    "' where email = '" + email + "'";
+            query = "update User  set status = '" + status
+                    + "' where email = '" + email + "'";
             stm.executeUpdate(query);
             return true;
-                
+
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return false;
     }
-    
-    
+
     @Override
-    public void initSession(List<User> users) throws RemoteException{
-        
-    }
-    
-    
-    @Override
-    public void sendMessage(Session s) throws RemoteException{
-        
-    }
-    
-    
-    @Override
-    public void recieveMessage(Session s) throws RemoteException{
-        
+    public void initSession(List<String> mailList) throws RemoteException {
+        mailList.add(getEmail());
+        List<User> users = new ArrayList<>();
+        for (String string : mailList) {
+            users.add(User.getUserData(string));
+        }
+        Session s = new Session(users);
+
+        for (User user : users) {
+            ChatFrame chatFrame = new ChatFrame();
+
+            chatFrame.chatList.setModel(new javax.swing.AbstractListModel<String>() {
+                String[] strings = mailList.toArray(new String[0]);
+
+                @Override
+                public int getSize() {
+                    return strings.length;
+                }
+
+                @Override
+                public String getElementAt(int i) {
+                    return strings[i];
+                }
+            });
+            user.createChatFrame(chatFrame, mailList);
+            user.addSession(s, chatFrame);
+
+        }
     }
 
-   
+    private void createChatFrame(ChatFrame chatFrame, List<String> mailList) throws RemoteException{
+        for (String string : mailList) {
+            System.out.println(string);
+        }
+        System.out.println(gui);
+        gui.createChatFrame(chatFrame, mailList);
+       
+    }
+
+    public void addSession(Session s, ChatFrame f) {
+        sessions.put(s, f);
+    }
+
+    @Override
+    public void sendMessage(Session s) throws RemoteException {
+
+    }
+
+    @Override
+    public void recieveMessage(Session s) throws RemoteException {
+
+    }
+
     @Override
     public void addSession(Session s) {
     }
-    
+
     @Override
-    public void connect(String host, Registry r) throws RemoteException{
+    public void connect(String host, Registry r) throws RemoteException {
         try {
             r.lookup("client");
         } catch (NotBoundException ex) {
@@ -392,11 +415,7 @@ public class User extends UnicastRemoteObject implements IUser
             System.exit(0);
         }
     }
-    
-    public static void main(String[] args) throws RemoteException {
-        System.out.println(User.getUserEmail("mohamed77"));
-    }
-    
-    
-    
+
+   
+
 }
