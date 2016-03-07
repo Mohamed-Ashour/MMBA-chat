@@ -7,14 +7,19 @@ package server;
 
 import interfaces.User;
 import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 
 
 /**
@@ -30,6 +35,7 @@ public class ServerGUI extends javax.swing.JFrame {
     public ServerGUI() {
         this.isServerRunning = false;
         initComponents();
+        exit.setAccelerator( KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
     }
 
     public  void updateConnectedLabel(){
@@ -118,7 +124,7 @@ public class ServerGUI extends javax.swing.JFrame {
         sendBtn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        contactList = new javax.swing.JList<>();
         jPanel3 = new javax.swing.JPanel();
         ServerStatusBtn = new javax.swing.JToggleButton();
         onlineLabel = new javax.swing.JLabel();
@@ -214,7 +220,7 @@ public class ServerGUI extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
+            .addComponent(jScrollPane2)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jScrollPane3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -234,18 +240,18 @@ public class ServerGUI extends javax.swing.JFrame {
 
         adminPanel.add(jPanel4);
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        contactList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane4.setViewportView(jList1);
+        jScrollPane4.setViewportView(contactList);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -276,7 +282,7 @@ public class ServerGUI extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ServerStatusBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
+                    .addComponent(ServerStatusBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(onlineLabel)
@@ -343,8 +349,63 @@ public class ServerGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
-        CardLayout c1 = (CardLayout) jPanel1.getLayout();
-        c1.next(jPanel1);
+        try {
+            
+            if(EmailTextField.getText().equals("admin") && jPasswordField1.getText().equals("admin"))
+            {
+                // TODO add your handling code here:
+                CardLayout c1 = (CardLayout) jPanel1.getLayout();
+                c1.next(jPanel1);
+
+
+                List<User> contactUsers = User.getAllUsers();
+                String[] emailsRetreived = new String[contactUsers.size()];
+                String[] namesRetreived = new String[contactUsers.size()];
+                for (int i = 0 ; i < contactUsers.size(); i++ ) {
+                    User contact = contactUsers.get(i);
+
+                    // 3ak3ak
+
+
+
+
+                    /* End 3ak3ak */
+                    String retrievedEmail = contact.getEmail();
+                    emailsRetreived[i] = retrievedEmail;
+
+                    String retrievedName = contact.getUsername();
+                    String retrievedStatus = contact.getStatus();
+                    namesRetreived[i] = retrievedName + "( " + retrievedStatus + " ) " ;
+                }
+
+
+                System.out.println(contactUsers);
+
+
+                if(contactUsers.size() > 0)
+                {
+                    // Enter All Contact To Chat List
+                    contactList.setModel(new javax.swing.AbstractListModel<String>() {
+                        String[] strings = namesRetreived;
+                        @Override
+                        public int getSize() { return strings.length;}
+                        @Override
+                        public String getElementAt(int i) { return strings[i];}
+                    });
+
+
+                }
+            
+            }
+            else {
+                JOptionPane.showMessageDialog(getContentPane(), "Email or password isn't correct", "Error", JOptionPane.INFORMATION_MESSAGE);
+
+            }
+        } catch (RemoteException ex) {
+            Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+         
     }//GEN-LAST:event_loginBtnActionPerformed
 
     private void sendBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendBtnActionPerformed
@@ -353,7 +414,7 @@ public class ServerGUI extends javax.swing.JFrame {
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
         // TODO add your handling code here:
-
+        
         System.exit(0);
     }//GEN-LAST:event_exitActionPerformed
 
@@ -435,8 +496,8 @@ public class ServerGUI extends javax.swing.JFrame {
     private javax.swing.JLabel awyLabel;
     private javax.swing.JTextArea chatTextSend;
     private javax.swing.JLabel connectedLabel;
+    private javax.swing.JList<String> contactList;
     private javax.swing.JMenuItem exit;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

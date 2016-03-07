@@ -30,10 +30,11 @@ import javax.swing.JOptionPane;
 public class ChatClient extends UnicastRemoteObject implements Serializable, IChatClient{
     private static Registry registry;
     private ClientGUI gui;
-    private static IChatServer server;
-    public static void main(String[] args){   
+    private IChatServer server;
+    public static void main(String[] args){
         try {
-            new ChatClient();
+            ChatClient cs = new ChatClient();
+            cs.showGui();
         } catch (RemoteException ex) {
             Logger.getLogger(ChatClient.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -56,52 +57,48 @@ public class ChatClient extends UnicastRemoteObject implements Serializable, ICh
      * @throws HeadlessException
      */
     public ChatClient() throws RemoteException {
+    }
+
+    private void showGui() {
+        User client = getRemoteObjects();   
+        //Create and display the form
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                gui = new ClientGUI(client, this);
+                GraphicsConfiguration gc = gui.getGraphicsConfiguration();
+                Rectangle bounds = gc.getBounds();
+                gui.setLocation((int) ((bounds.width / 2) - (gui.getSize().width / 2)),
+                        (int) ((bounds.height / 2) - (gui.getSize().height / 2)));
+                gui.setVisible(true);
+            } catch (RemoteException ex) {
+                JOptionPane.showMessageDialog(null, "The server can't be located!");
+                System.exit(0);
+            }
+        });
+    }
+
+    private User getRemoteObjects() {
         try {
             registry = LocateRegistry.getRegistry("localhost", IChatServer.DEFAULT_PORT);
-            
             server = (IChatServer) registry.lookup("server");
-            //System.out.println("Connected to server :)");
+            System.out.println(server);
+            registry.lookup("client");
             User client = new User();
             client.connect("localhost",registry);
+            return client;
+        } catch (RemoteException | NotBoundException ex) {
+                JOptionPane.showMessageDialog(null, "The server can't be located!");
+                System.exit(0);        }
+        return null;
+    }
 
-            //System.out.println("Obtained Remote User  :)");
+    @Override
+    public void removeClient(IUser user) throws RemoteException {
+        server.removeClient(user);
+    }
 
-            /* Set the Nimbus look and feel */
-            //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-            /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-            * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-            */
-            try {
-                for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                    if ("Nimbus".equals(info.getName())) {
-                        javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                        break;
-                    }
-                }
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-                java.util.logging.Logger.getLogger(ChatClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            }
-            //</editor-fold>
-        
-            //Create and display the form
-            java.awt.EventQueue.invokeLater(() -> {
-                try {
-                    gui = new ClientGUI(client, this);
-                    GraphicsConfiguration gc = gui.getGraphicsConfiguration();
-                    Rectangle bounds = gc.getBounds();
-                    gui.setLocation((int) ((bounds.width / 2) - (gui.getSize().width / 2)),
-                            (int) ((bounds.height / 2) - (gui.getSize().height / 2)));
-                    gui.setVisible(true);
-                } catch (RemoteException ex) {
-                    JOptionPane.showMessageDialog(null, "The server can't be located!");
-                    System.exit(0);
-                }
-            });          
-        } catch (RemoteException ex) {
-            JOptionPane.showMessageDialog(null, "The server can't be located!");
-            System.exit(0);
-        } catch (NotBoundException ex) {
-            Logger.getLogger(ChatClient.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    @Override
+    public boolean isConnected(IUser user) throws RemoteException {
+        return server.isConnected(user);
     }
 }
