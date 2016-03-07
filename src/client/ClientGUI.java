@@ -534,7 +534,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
 
         Option.setText("Options");
 
-        exit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, 0));
+        exit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
         exit.setText("Exit");
         exit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -681,7 +681,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
             System.out.println(listSize);
             */
             user.logout();
-            
+            client.removeClient(user);
            
             emailTextField.setText("");
             emailTextField.grabFocus();
@@ -764,17 +764,20 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
                     user = user.completeInfo();
                     user.setGui(client);
                     user.setStatus("online");
-                    client.registerClient(user);
-                    
-                    statusCombo.setSelectedItem(user.getStatus());
+                    if (client.isConnected(user)) {
+                        JOptionPane.showMessageDialog(getContentPane(), "Your're loged in from another device", "Error", JOptionPane.INFORMATION_MESSAGE);
 
-                    List<User> contactUsers = user.getContactList();
-                    updateContactList(contactUsers);
-                    upperUserNamelabel.setText(user.getUsername());
-                    recetUpdateArea.setText("Welcome , " + user.getUsername());
+                    } else {
+                        client.registerClient(user);
+                        statusCombo.setSelectedItem(user.getStatus());
+                        List<User> contactUsers = user.getContactList();
+                        updateContactList(contactUsers);
+                        upperUserNamelabel.setText(user.getUsername());
+                        recetUpdateArea.setText("Welcome , " + user.getUsername());
 
-                    CardLayout jj = (CardLayout) panalGroup.getLayout();
-                    jj.show(panalGroup, "chatCard");
+                        CardLayout jj = (CardLayout) panalGroup.getLayout();
+                        jj.show(panalGroup, "chatCard");
+                    }
 
                 } else {
                     JOptionPane.showMessageDialog(getContentPane(), "Email or password isn't correct", "Error", JOptionPane.INFORMATION_MESSAGE);
@@ -896,6 +899,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
             System.out.println(listSize);
             */
             user.logout();
+            client.removeClient(user);
             CardLayout jj = (CardLayout) panalGroup.getLayout();
             jj.show(panalGroup, "loginCard");
            
@@ -933,8 +937,10 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
             int listSize=friendList.Size();
             System.out.println(listSize);
             */
-            user.logout();
-            
+            if (user != null) {
+                user.logout();
+                client.removeClient(user);
+            }
            
             emailTextField.setText("");
             emailTextField.grabFocus();
@@ -1026,7 +1032,6 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
                     return strings[i];
                 }
             });
-        System.out.println("HI");
         chatFrame.setTitle(mailList.toString());
         chatFrame.show(); 
         chatFrame.requestFocus();
