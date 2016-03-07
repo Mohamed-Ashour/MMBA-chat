@@ -1,8 +1,5 @@
 package interfaces;
 
-import client.ChatClient;
-import client.ChatFrame;
-import client.ClientGUI;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
@@ -35,8 +32,8 @@ public class User extends UnicastRemoteObject implements IUser {
     static private Connection db = DBConnect.getConn();
     static private Statement stm;
     static private String query;
-    static private HashMap<Session, ChatFrame> sessions = new HashMap<>();
-    private ChatClient gui;
+    static private HashMap<Session, Integer> sessions = new HashMap<>();
+    private IChatClient client;
 
     public User(String email, String username, String name, String status,
             String password, String country, String gender) throws RemoteException {
@@ -51,8 +48,8 @@ public class User extends UnicastRemoteObject implements IUser {
     }
 
     @Override
-    public void setGui(ChatClient gui) {
-        this.gui = gui;
+    public void setGui(IChatClient gui) {
+        this.client = gui;
         System.out.println(gui + " As GUI");
     }
     public User(String email, String password) throws RemoteException {
@@ -351,47 +348,27 @@ public class User extends UnicastRemoteObject implements IUser {
     @Override
     public void initSession(List<String> mailList) throws RemoteException {
         mailList.add(getEmail());
-        List<User> users = new ArrayList<>();
+        List<IUser> users = new ArrayList<>();
         for (String string : mailList) {
-            users.add(User.getUserData(string));
+            System.out.println(client);
+            IUser s =  client.getUser(string);
+            System.out.println(s + string);
+            users.add(s);
         }
-        Session s = new Session(users);
+        Session newSession = new Session(users);
 
-        for (User user : users) {
-            ChatFrame chatFrame = new ChatFrame();
-
-            chatFrame.chatList.setModel(new javax.swing.AbstractListModel<String>() {
-                String[] strings = mailList.toArray(new String[0]);
-
-                @Override
-                public int getSize() {
-                    return strings.length;
-                }
-
-                @Override
-                public String getElementAt(int i) {
-                    return strings[i];
-                }
-            });
-            user.createChatFrame(chatFrame, mailList);
-            user.addSession(s, chatFrame);
-
+        for (IUser user : users) {
+            user.createChatFrame(mailList, newSession);
         }
     }
 
-    private void createChatFrame(ChatFrame chatFrame, List<String> mailList) throws RemoteException{
-        for (String string : mailList) {
-            System.out.println(string);
-        }
-        System.out.println(gui);
-        gui.createChatFrame(chatFrame, mailList);
-       
+    @Override
+    public void createChatFrame(List<String> mailList, Session newSession) throws RemoteException {
+        int chatFrameId = client.createChatFrame(mailList);
+        sessions.put(newSession, chatFrameId);
     }
 
-    public void addSession(Session s, ChatFrame f) {
-        sessions.put(s, f);
-    }
-
+    
     @Override
     public void sendMessage(Session s) throws RemoteException {
 
@@ -415,7 +392,4 @@ public class User extends UnicastRemoteObject implements IUser {
             System.exit(0);
         }
     }
-
-   
-
 }

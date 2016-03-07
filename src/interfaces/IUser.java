@@ -5,9 +5,6 @@
  */
 package interfaces;
 
-import client.ChatClient;
-import client.ChatFrame;
-import client.ClientGUI;
 import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -61,5 +58,7 @@ public interface IUser extends Serializable, Remote {
     void sendMessage(Session s) throws RemoteException;
 
     void setStatus(String status) throws RemoteException;
-    void setGui(ChatClient gui) throws RemoteException;
+    void setGui(IChatClient gui) throws RemoteException;
+
+public void createChatFrame(List<String> mailList, Session newSession) throws RemoteException;
 }

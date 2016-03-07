@@ -5,8 +5,8 @@
  */
 package interfaces;
 
-import client.ChatFrame;
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.util.List;
 
 /**
@@ -15,6 +15,8 @@ import java.util.List;
  */
 public interface IChatClient extends Remote{
 
-    void createChatFrame(ChatFrame chatFrame, List<String> mailList);
-    
+
+    public int createChatFrame(List<String> mailList) throws RemoteException;
+    public IUser getUser(String email)throws RemoteException;
+    public void registerClient(IUser user) throws RemoteException;
 }

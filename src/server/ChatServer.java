@@ -6,7 +6,7 @@
 package server;
 
 import interfaces.IChatServer;
-import static interfaces.IChatServer.connected;
+import interfaces.IUser;
 import interfaces.User;
 import java.awt.GraphicsConfiguration;
 import java.awt.Rectangle;
@@ -14,6 +14,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -27,6 +28,7 @@ import javax.swing.JOptionPane;
 
 public class ChatServer extends UnicastRemoteObject implements IChatServer{
     public static Registry RMI_REGISTRY;
+    public static ArrayList<IUser> connected = new ArrayList<>(); 
     private static ServerGUI gui;
     public static boolean isconnected(User s){
         return connected.contains(s);
@@ -54,15 +56,33 @@ public class ChatServer extends UnicastRemoteObject implements IChatServer{
         });
     }
     
+    @Override
+    public void registerClient(IUser s) throws RemoteException {
+        connected.add(s);
+        connected.stream().forEach((user) -> {
+            System.out.println(user + "Connected to the server");
+        });
+    }
+    @Override
+    public IUser getUser(String email) throws RemoteException {
+        for (IUser user : connected)
+            if (user.getEmail().equals(email))
+                return user;
+        return null;
+    }
+    @Override
     public  void updateConnectedLabel(int x) {
       gui.updateConnectedLabel(x);
   }  
+    @Override
      public  void updateOnlineLabel(int x){
          gui.updateOnlineLabel(x);
      }
+    @Override
     public  void updateAwayLabel(int x){
         gui.updateAwayLabel(x);
     }
+    @Override
     public  void updateOfflineLabel(int x){
         gui.updateOfflineLabel(x);
     }

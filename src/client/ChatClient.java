@@ -7,6 +7,7 @@ package client;
 
 import interfaces.IChatClient;
 import interfaces.IChatServer;
+import interfaces.IUser;
 import interfaces.User;
 import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
@@ -16,6 +17,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,30 +27,42 @@ import javax.swing.JOptionPane;
  *
  * @author bassem
  */
-public class ChatClient implements Serializable, IChatClient{
+public class ChatClient extends UnicastRemoteObject implements Serializable, IChatClient{
     private static Registry registry;
     private ClientGUI gui;
-    
+    private static IChatServer server;
     public static void main(String[] args){   
-        new ChatClient();
+        try {
+            new ChatClient();
+        } catch (RemoteException ex) {
+            Logger.getLogger(ChatClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     @Override
-    public void createChatFrame(ChatFrame chatFrame, List<String> mailList) {
-        gui.addChatFrame(chatFrame, mailList);
+    public int createChatFrame(List<String> mailList) throws RemoteException {
+        return gui.addChatFrame(mailList);
+    }
+    @Override
+    public IUser getUser(String email)throws RemoteException{
+        return server.getUser(email);
+    }
+    @Override
+    public void registerClient(IUser user) throws RemoteException {
+        server.registerClient(user);
     }
     /**
      *
+     * @throws java.rmi.RemoteException
      * @throws HeadlessException
      */
-    public ChatClient() throws HeadlessException {
+    public ChatClient() throws RemoteException {
         try {
             registry = LocateRegistry.getRegistry("localhost", IChatServer.DEFAULT_PORT);
             
-            registry.lookup("server");
+            server = (IChatServer) registry.lookup("server");
             //System.out.println("Connected to server :)");
             User client = new User();
             client.connect("localhost",registry);
-            client.setGui(this);
 
             //System.out.println("Obtained Remote User  :)");
 
@@ -72,7 +86,7 @@ public class ChatClient implements Serializable, IChatClient{
             //Create and display the form
             java.awt.EventQueue.invokeLater(() -> {
                 try {
-                    gui = new ClientGUI(client);
+                    gui = new ClientGUI(client, this);
                     GraphicsConfiguration gc = gui.getGraphicsConfiguration();
                     Rectangle bounds = gc.getBounds();
                     gui.setLocation((int) ((bounds.width / 2) - (gui.getSize().width / 2)),

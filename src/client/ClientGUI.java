@@ -5,17 +5,18 @@
  */
 package client;
 
-import interfaces.IChatServer;
+import interfaces.IChatClient;
 import interfaces.User;
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.HeadlessException;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +29,15 @@ import javax.swing.KeyStroke;
  *
  * @author Ahmed
  */
-public class ClientGUI extends javax.swing.JFrame {
+public class ClientGUI extends javax.swing.JFrame implements Serializable{
     public static int count = 0;
     private User user;
-
-    public ClientGUI(User user) throws RemoteException {
+    private IChatClient client;
+    public ClientGUI(User user, IChatClient client) throws RemoteException {
         count++;
+        this.client = client;
         initComponents();
-
+        
         addFriendBtn.setVisible(false);
         exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
 
@@ -724,7 +726,10 @@ public class ClientGUI extends javax.swing.JFrame {
                 user = new User(emailInputed, passwordInputed);
                 if (user.login()) {
                     user = user.completeInfo();
-                    IChatServer.registerClient(user);
+                    user.setGui(client);
+
+                    client.registerClient(user);
+
                     statusCombo.setSelectedItem(user.getStatus());
 
                     List<User> contactUsers = user.getContactList();
@@ -932,10 +937,26 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JTextField usernameSignUpTextField;
     // End of variables declaration//GEN-END:variables
 
-    public void addChatFrame(ChatFrame chatFrame, List<String> mailList) {
+    public int addChatFrame(List<String> mailList) {
+        ChatFrame chatFrame = new ChatFrame();
+
+            chatFrame.chatList.setModel(new javax.swing.AbstractListModel<String>() {
+                String[] strings = mailList.toArray(new String[0]);
+
+                @Override
+                public int getSize() {
+                    return strings.length;
+                }
+
+                @Override
+                public String getElementAt(int i) {
+                    return strings[i];
+                }
+            });
         System.out.println("HI");
         chatFrame.setTitle(mailList.toString());
         chatFrame.show(); 
-        this.jDesktopPane2.add(chatFrame);
+        this.jDesktopPane2.add((Component) chatFrame);
+        return chatFrame.getChatFrameId();
     }
 }

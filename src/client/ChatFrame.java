@@ -5,6 +5,7 @@
  */
 package client;
 
+import java.io.Serializable;
 import javax.swing.JFileChooser;
 
 /**
@@ -12,7 +13,7 @@ import javax.swing.JFileChooser;
  * @author bassem
  */
 
-public class ChatFrame extends javax.swing.JInternalFrame {
+public class ChatFrame extends javax.swing.JInternalFrame implements Serializable{
 
     private static int chatFrameCount = 0;
     private int chatFrameId;

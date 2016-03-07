@@ -5,28 +5,29 @@
  */
 package interfaces;
 
-import java.io.Serializable;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
-public class Session implements ISession {
+public class Session extends UnicastRemoteObject{
 
     private static int sessionCount = 0;
     private int sessionId;
-    private List<User> users;
+    private List<IUser> users;
    
     
     
     
-    public Session(List<User> users){
+    Session(List<IUser> users) throws RemoteException{
         this.sessionId = sessionCount++;
-        this.users = users;
+        this.users = users;   
     }
     
 
     int getSessionId() {
         return sessionId;
     }
-    List<User> getUserList() {
+    List<IUser> getUserList() {
         return users;
     }
     

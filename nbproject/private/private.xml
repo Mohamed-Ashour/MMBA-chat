@@ -5,9 +5,12 @@
         <group>
             <file>file:/home/bassem/NetBeansProjects/chat/src/interfaces/IUser.java</file>
             <file>file:/home/bassem/NetBeansProjects/chat/src/client/ChatClient.java</file>
+            <file>file:/home/bassem/NetBeansProjects/chat/src/interfaces/IChatClient.java</file>
             <file>file:/home/bassem/NetBeansProjects/chat/src/interfaces/User.java</file>
-            <file>file:/home/bassem/NetBeansProjects/chat/src/interfaces/IChatServer.java</file>
             <file>file:/home/bassem/NetBeansProjects/chat/src/server/ChatServer.java</file>
+            <file>file:/home/bassem/NetBeansProjects/chat/src/interfaces/IChatServer.java</file>
+            <file>file:/home/bassem/NetBeansProjects/chat/src/server/ServerGUI.java</file>
+            <file>file:/home/bassem/NetBeansProjects/chat/src/interfaces/ISession.java</file>
             <file>file:/home/bassem/NetBeansProjects/chat/src/interfaces/Session.java</file>
             <file>file:/home/bassem/NetBeansProjects/chat/src/client/ChatFrame.java</file>
             <file>file:/home/bassem/NetBeansProjects/chat/src/client/ClientGUI.java</file>

@@ -7,7 +7,6 @@ package interfaces;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 
 /**
  *
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 public interface IChatServer extends Remote{
 
     public static final int DEFAULT_PORT = 1099;
-    public static ArrayList<User> connected = new ArrayList<>(); 
     
     /**
      *
@@ -26,10 +24,15 @@ public interface IChatServer extends Remote{
     
     
     
-    public static void registerClient(User s) throws RemoteException {
-            connected.add(s);
-            System.out.println(s.getEmail() + "Connected to the server");
-    }
+    public void registerClient(IUser s) throws RemoteException;
+
+    /**
+     *
+     * @param email
+     * @return
+     * @throws RemoteException
+     */
+    public IUser getUser(String email) throws RemoteException;
     public void updateConnectedLabel(int x) throws RemoteException;
     public void updateOnlineLabel(int x) throws RemoteException;
     public void updateAwayLabel (int x)throws RemoteException;
