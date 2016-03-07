@@ -19,4 +19,6 @@ public interface IChatClient extends Remote{
     public int createChatFrame(List<String> mailList) throws RemoteException;
     public IUser getUser(String email)throws RemoteException;
     public void registerClient(IUser user) throws RemoteException;
+    public void removeClient(IUser user) throws RemoteException;
+    public boolean isConnected(IUser user) throws RemoteException;
 }

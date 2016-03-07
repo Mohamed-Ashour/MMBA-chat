@@ -32,7 +32,7 @@ public class User extends UnicastRemoteObject implements IUser {
     static private Connection db = DBConnect.getConn();
     static private Statement stm;
     static private String query;
-    static private HashMap<Session, Integer> sessions = new HashMap<>();
+    static private HashMap<ISession, Integer> sessions = new HashMap<>();
     private IChatClient client;
 
     public User(String email, String username, String name, String status,
@@ -367,24 +367,24 @@ public class User extends UnicastRemoteObject implements IUser {
     }
 
     @Override
-    public void createChatFrame(List<String> mailList, Session newSession) throws RemoteException {
+    public void createChatFrame(List<String> mailList, ISession newSession) throws RemoteException {
         int chatFrameId = client.createChatFrame(mailList);
         sessions.put(newSession, chatFrameId);
     }
 
     
     @Override
-    public void sendMessage(Session s) throws RemoteException {
+    public void sendMessage(ISession s) throws RemoteException {
 
     }
 
     @Override
-    public void recieveMessage(Session s) throws RemoteException {
+    public void recieveMessage(ISession s) throws RemoteException {
 
     }
 
     @Override
-    public void addSession(Session s) {
+    public void addSession(ISession s) {
     }
 
     @Override

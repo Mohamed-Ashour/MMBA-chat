@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 import server.DBConnect;
 
-public class Session extends UnicastRemoteObject{
+public class Session extends UnicastRemoteObject implements ISession{
 
     private static int sessionCount = 0;
     private int sessionId;
