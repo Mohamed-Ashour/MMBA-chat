@@ -81,6 +81,7 @@ public class ChatClient extends UnicastRemoteObject implements Serializable, ICh
         try {
             registry = LocateRegistry.getRegistry("localhost", IChatServer.DEFAULT_PORT);
             server = (IChatServer) registry.lookup("server");
+            
             System.out.println(server);
             registry.lookup("client");
             User client = new User();

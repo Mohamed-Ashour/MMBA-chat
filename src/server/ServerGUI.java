@@ -28,11 +28,12 @@ import javax.swing.KeyStroke;
  */
 public class ServerGUI extends javax.swing.JFrame {
     private boolean isServerRunning;
-
+    private final ChatServer server;
     /**
      * Creates new form ServerGUI
      */
-    public ServerGUI() {
+    public ServerGUI(ChatServer server) {
+        this.server = server;
         this.isServerRunning = false;
         initComponents();
         exit.setAccelerator( KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
@@ -53,10 +54,7 @@ public class ServerGUI extends javax.swing.JFrame {
             query = "select count(*) from User where status = 'online'" ;
             ResultSet rs = stm.executeQuery(query);
             rs.next();
-            System.out.println(rs.getString("status")); 
-                        System.out.println(rs.getString("hi"));  
-
-            onlineLabel.setText("number of  online client is " + rs.getString("status"));
+            onlineLabel.setText("number of  online client is " + rs.getInt("count(*)"));
              
         } catch (SQLException ex) {
             Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -75,7 +73,7 @@ public class ServerGUI extends javax.swing.JFrame {
            // awyLabel.setText(query);
             ResultSet rs = stm.executeQuery(query);
             while(rs.next()){
-            awyLabel.setText("number of Away client is " +rs.getString("status"));
+            awyLabel.setText("number of Away client is " +rs.getInt("count(*)"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -93,7 +91,7 @@ public class ServerGUI extends javax.swing.JFrame {
           //  offlineLabel.setText(query);
              ResultSet rs = stm.executeQuery(query);
              while(rs.next()){
-             offlineLabel.setText("number of  offline client is " + rs.getString("status"));
+             offlineLabel.setText("number of  offline client is " + rs.getInt("count(*)"));
              }
         } catch (SQLException ex) {
             Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -356,32 +354,32 @@ public class ServerGUI extends javax.swing.JFrame {
                 // TODO add your handling code here:
                 CardLayout c1 = (CardLayout) jPanel1.getLayout();
                 c1.next(jPanel1);
-
-
+                
+                
                 List<User> contactUsers = User.getAllUsers();
                 String[] emailsRetreived = new String[contactUsers.size()];
                 String[] namesRetreived = new String[contactUsers.size()];
                 for (int i = 0 ; i < contactUsers.size(); i++ ) {
                     User contact = contactUsers.get(i);
-
+                    
                     // 3ak3ak
-
-
-
-
+                    
+                    
+                    
+                    
                     /* End 3ak3ak */
                     String retrievedEmail = contact.getEmail();
                     emailsRetreived[i] = retrievedEmail;
-
+                    
                     String retrievedName = contact.getUsername();
                     String retrievedStatus = contact.getStatus();
                     namesRetreived[i] = retrievedName + "( " + retrievedStatus + " ) " ;
                 }
-
-
+                
+                
                 System.out.println(contactUsers);
-
-
+                
+                
                 if(contactUsers.size() > 0)
                 {
                     // Enter All Contact To Chat List
@@ -392,20 +390,22 @@ public class ServerGUI extends javax.swing.JFrame {
                         @Override
                         public String getElementAt(int i) { return strings[i];}
                     });
-
-
+                    
+                    
                 }
-            
+
             }
             else {
                 JOptionPane.showMessageDialog(getContentPane(), "Email or password isn't correct", "Error", JOptionPane.INFORMATION_MESSAGE);
-
+                
             }
         } catch (RemoteException ex) {
             Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-         
+        server.updateConnectedLabel();
+        server.updateOnlineLabel();
+        server.updateOfflineLabel();
+        server.updateAwayLabel();
     }//GEN-LAST:event_loginBtnActionPerformed
 
     private void sendBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendBtnActionPerformed

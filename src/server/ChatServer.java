@@ -39,11 +39,7 @@ public class ChatServer extends UnicastRemoteObject implements IChatServer{
         
         try {
            
-             ChatServer server = new ChatServer();
-            server.updateConnectedLabel();
-            server.updateOnlineLabel();
-            server.updateOfflineLabel();
-            server.updateAwayLabel();
+             new ChatServer();
             
         } catch (RemoteException ex) {
             JOptionPane.showMessageDialog(null, "The port seems to be used by another application!!" + ex.getMessage());
@@ -57,7 +53,7 @@ public class ChatServer extends UnicastRemoteObject implements IChatServer{
         Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, "Registered: {0} -> {1}", new Object[]{"Start", this.getClass().getName()});
         
         java.awt.EventQueue.invokeLater(() -> {
-            gui = new ServerGUI();
+            gui = new ServerGUI(this);
           
             GraphicsConfiguration gc = gui.getGraphicsConfiguration();
             Rectangle bounds = gc.getBounds();
