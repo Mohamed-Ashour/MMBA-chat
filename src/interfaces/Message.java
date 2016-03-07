@@ -8,18 +8,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import static java.time.Instant.now;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import server.DBConnect;
 
 
-public class Message implements Serializable{
+public class Message implements IMessage{
     
     private int messageId;
     private String messageText;
+    private String messageTime;
     private User from;
     private int sessionId;
     private Boolean delivered;
@@ -32,6 +35,9 @@ public class Message implements Serializable{
         this.from = from;
         this.sessionId = sessionId;
         this.delivered=delivered;
+        Date dt = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        messageTime = sdf.format(dt);
     }
     
 //     public Boolean addMessage() {
@@ -127,4 +133,28 @@ public class Message implements Serializable{
 //        return null;
 //    }
 //    
+
+    @Override
+    public int getMessageId() {
+        return messageId;
+    }
+
+    @Override
+    public String getMessageText() {
+        return messageText;
+    }
+
+    @Override
+    public User getFrom() {
+        return from;
+    }
+
+    public String getMessageTime() {
+        return messageTime;
+    }
+
+    public Boolean getDelivered() {
+        return delivered;
+    }
+
 }

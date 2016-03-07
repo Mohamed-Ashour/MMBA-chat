@@ -323,6 +323,10 @@ public class User extends UnicastRemoteObject implements IUser {
         return password;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public void setStatus(String status) throws RemoteException {
         this.status = status;
