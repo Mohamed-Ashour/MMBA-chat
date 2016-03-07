@@ -15,10 +15,12 @@ public class Session extends UnicastRemoteObject implements ISession{
     private int sessionId;
     private List<IUser> users;
    
+    public Session() {
+        
+    }
     
     
-    
-    Session(List<IUser> users) throws RemoteException{
+    public Session(List<IUser> users) throws RemoteException{
         this.sessionId = sessionCount++;
         this.users = users;   
     }

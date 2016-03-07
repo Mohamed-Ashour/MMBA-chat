@@ -6,8 +6,10 @@
 package server;
 
 import client.ChatClient;
+import com.mysql.jdbc.interceptors.SessionAssociationInterceptor;
 import interfaces.IChatServer;
 import interfaces.IUser;
+import interfaces.Session;
 import interfaces.User;
 import java.awt.GraphicsConfiguration;
 import java.awt.Rectangle;
@@ -45,9 +47,11 @@ public class ChatServer extends UnicastRemoteObject implements IChatServer{
     public ChatServer() throws RemoteException {
         RMI_REGISTRY = LocateRegistry.createRegistry(IChatServer.DEFAULT_PORT);
         RMI_REGISTRY.rebind("server", this);
+        Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, "Registered: {0} -> {1}", new Object[]{"Start", this.getClass().getName()});
         ChatClient client = new ChatClient();
         RMI_REGISTRY.rebind("client", client);
-        Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, "Registered: {0} -> {1}", new Object[]{"Start", this.getClass().getName()});
+        Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, "Registered: {0} -> {1}", new Object[]{"Start", client.getClass().getName()});
+        Session session = new Session
         
         java.awt.EventQueue.invokeLater(() -> {
             gui = new ServerGUI();

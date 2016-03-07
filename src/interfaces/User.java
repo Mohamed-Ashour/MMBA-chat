@@ -350,9 +350,7 @@ public class User extends UnicastRemoteObject implements IUser {
         mailList.add(getEmail());
         List<IUser> users = new ArrayList<>();
         for (String string : mailList) {
-            System.out.println(client);
             IUser s =  client.getUser(string);
-            System.out.println(s + string);
             users.add(s);
         }
         Session newSession = new Session(users);
