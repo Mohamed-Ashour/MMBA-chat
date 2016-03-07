@@ -25,10 +25,9 @@ public interface IChatServer extends Remote{
     
     
     public void registerClient(IUser s) throws RemoteException;
-
     public void removeClient(IUser s) throws RemoteException;
     public IUser getUser(String email) throws RemoteException;
- 
+    public boolean isConnected(IUser s) throws RemoteException;
     public void updateConnectedLabel(int x) throws RemoteException;
     public void updateOnlineLabel(int x) throws RemoteException;
     public void updateAwayLabel (int x)throws RemoteException;

@@ -68,7 +68,7 @@ public class ChatServer extends UnicastRemoteObject implements IChatServer{
     @Override
     public void removeClient(IUser s) throws RemoteException {
         connected.remove(s);
-        System.out.println("Logged out" + s);
+        System.out.println("Logged out: " + s);
     }
     @Override
     public IUser getUser(String email) throws RemoteException {
@@ -92,5 +92,14 @@ public class ChatServer extends UnicastRemoteObject implements IChatServer{
     @Override
     public  void updateOfflineLabel(int x){
         gui.updateOfflineLabel(x);
+    }
+
+    @Override
+    public boolean isConnected(IUser s) throws RemoteException {
+        for (IUser iUser : connected) {
+            if (s.getEmail().equals(iUser.getEmail()))
+                return true;
+        }
+        return false;
     }
 }

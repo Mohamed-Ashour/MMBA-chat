@@ -96,4 +96,9 @@ public class ChatClient extends UnicastRemoteObject implements Serializable, ICh
     public void removeClient(IUser user) throws RemoteException {
         server.removeClient(user);
     }
+
+    @Override
+    public boolean isConnected(IUser user) throws RemoteException {
+        return server.isConnected(user);
+    }
 }
