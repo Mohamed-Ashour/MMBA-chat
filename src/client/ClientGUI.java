@@ -760,9 +760,9 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
                 if (user.login()) {
                     user = user.completeInfo();
                     user.setGui(client);
-
+                    user.setStatus("online");
                     client.registerClient(user);
-
+                    
                     statusCombo.setSelectedItem(user.getStatus());
 
                     List<User> contactUsers = user.getContactList();
