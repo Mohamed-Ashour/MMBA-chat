@@ -114,6 +114,11 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
         Helper = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         panalGroup.setLayout(new java.awt.CardLayout());
 
@@ -434,7 +439,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
                         .addComponent(jLabel24)))
                 .addContainerGap(39, Short.MAX_VALUE))
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(recetUdateArea, javax.swing.GroupLayout.DEFAULT_SIZE, 436, Short.MAX_VALUE))
+                .addComponent(recetUdateArea, javax.swing.GroupLayout.PREFERRED_SIZE, 436, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -657,9 +662,37 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
 
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
-        // TODO add your handling code here:
-
-        System.exit(0);
+        try {
+            // TODO add your handling code here:
+            contactList.setModel(new javax.swing.AbstractListModel<String>() {
+                String[] strings =new String[0];
+                @Override
+                public int getSize() { return strings.length;}
+                @Override
+                public String getElementAt(int i) { return strings[i];}
+            });
+            
+            
+            
+            
+            
+            /*
+            List<String> friendList = contactList.getSelectedValuesList();
+            int listSize=friendList.Size();
+            System.out.println(listSize);
+            */
+            user.logout();
+            
+           
+            emailTextField.setText("");
+            emailTextField.grabFocus();
+            passwordTextField.setText("");
+            searchResultLabel.setText("");
+            
+            System.exit(0);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_exitActionPerformed
 
     private void AboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutActionPerformed
@@ -727,9 +760,9 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
                 if (user.login()) {
                     user = user.completeInfo();
                     user.setGui(client);
-
+                    user.setStatus("online");
                     client.registerClient(user);
-
+                    
                     statusCombo.setSelectedItem(user.getStatus());
 
                     List<User> contactUsers = user.getContactList();
@@ -875,6 +908,43 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        
+        try {
+            // TODO add your handling code here:
+            contactList.setModel(new javax.swing.AbstractListModel<String>() {
+                String[] strings =new String[0];
+                @Override
+                public int getSize() { return strings.length;}
+                @Override
+                public String getElementAt(int i) { return strings[i];}
+            });
+            
+            
+            
+            
+            
+            /*
+            List<String> friendList = contactList.getSelectedValuesList();
+            int listSize=friendList.Size();
+            System.out.println(listSize);
+            */
+            user.logout();
+            
+           
+            emailTextField.setText("");
+            emailTextField.grabFocus();
+            passwordTextField.setText("");
+            searchResultLabel.setText("");
+            
+            System.exit(0);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_formWindowClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
