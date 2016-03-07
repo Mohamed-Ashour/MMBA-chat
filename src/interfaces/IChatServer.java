@@ -33,8 +33,8 @@ public interface IChatServer extends Remote{
      * @throws RemoteException
      */
     public IUser getUser(String email) throws RemoteException;
-    public void updateConnectedLabel(int x) throws RemoteException;
-    public void updateOnlineLabel(int x) throws RemoteException;
-    public void updateAwayLabel (int x)throws RemoteException;
-    public void updateOfflineLabel(int x)throws RemoteException;
+    public void updateConnectedLabel() throws RemoteException;
+    public void updateOnlineLabel() throws RemoteException;
+    public void updateAwayLabel ()throws RemoteException;
+    public void updateOfflineLabel()throws RemoteException;
 }

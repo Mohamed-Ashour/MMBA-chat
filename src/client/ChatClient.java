@@ -96,7 +96,7 @@ public class ChatClient extends UnicastRemoteObject implements Serializable, ICh
                     JOptionPane.showMessageDialog(null, "The server can't be located!");
                     System.exit(0);
                 }
-            });
+            });          
         } catch (RemoteException ex) {
             JOptionPane.showMessageDialog(null, "The server can't be located!");
             System.exit(0);

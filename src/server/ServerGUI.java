@@ -32,11 +32,11 @@ public class ServerGUI extends javax.swing.JFrame {
         initComponents();
     }
 
-    public  void updateConnectedLabel(int x){
-        ChatServer.connected.size();
+    public  void updateConnectedLabel(){
+        System.out.println(ChatServer.connected);
         connectedLabel.setText("Connected: " + ChatServer.connected.size());
     }
-    public void updateOnlineLabel(int x){
+    public void updateOnlineLabel(){
        // onlineLabel.setText(text);
         try {
             // connectedLabel
@@ -46,15 +46,18 @@ public class ServerGUI extends javax.swing.JFrame {
             stm = db.createStatement();
             query = "select count(*) from User where status = 'online'" ;
             ResultSet rs = stm.executeQuery(query);
-             while(rs.next()){
+            rs.next();
+            System.out.println(rs.getString("status")); 
+                        System.out.println(rs.getString("hi"));  
+
             onlineLabel.setText("number of  online client is " + rs.getString("status"));
-             }
+             
         } catch (SQLException ex) {
             Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     
     }
-    public void updateAwayLabel(int x){
+    public void updateAwayLabel(){
         //offlineLabel
         try {
             // connectedLabel
@@ -62,17 +65,17 @@ public class ServerGUI extends javax.swing.JFrame {
             Statement stm;
             String query;
             stm = db.createStatement();
-            query = "select count(*) from User where status = awy" ;
+            query = "select count(*) from User where status = 'away'" ;
            // awyLabel.setText(query);
             ResultSet rs = stm.executeQuery(query);
             while(rs.next()){
-            awyLabel.setText("number of Awy client is " +rs.getString("status"));
+            awyLabel.setText("number of Away client is " +rs.getString("status"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void updateOfflineLabel(int x){
+    public void updateOfflineLabel(){
        // awyLabel
        try {
             // connectedLabel
@@ -80,7 +83,7 @@ public class ServerGUI extends javax.swing.JFrame {
             Statement stm;
             String query;
             stm = db.createStatement();
-            query = "select count(*) from User where status = offline" ;
+            query = "select count(*) from User where status = 'offline'" ;
           //  offlineLabel.setText(query);
              ResultSet rs = stm.executeQuery(query);
              while(rs.next()){
@@ -340,10 +343,8 @@ public class ServerGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
-        // TODO add your handling code here:
         CardLayout c1 = (CardLayout) jPanel1.getLayout();
         c1.next(jPanel1);
-         
     }//GEN-LAST:event_loginBtnActionPerformed
 
     private void sendBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendBtnActionPerformed
