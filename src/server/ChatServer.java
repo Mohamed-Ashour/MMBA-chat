@@ -5,6 +5,7 @@
  */
 package server;
 
+import client.ChatClient;
 import interfaces.IChatServer;
 import interfaces.IUser;
 import interfaces.User;
@@ -43,7 +44,9 @@ public class ChatServer extends UnicastRemoteObject implements IChatServer{
     }
     public ChatServer() throws RemoteException {
         RMI_REGISTRY = LocateRegistry.createRegistry(IChatServer.DEFAULT_PORT);
-        ChatServer.RMI_REGISTRY.rebind("server", this);
+        RMI_REGISTRY.rebind("server", this);
+        ChatClient client = new ChatClient();
+        RMI_REGISTRY.rebind("client", client);
         Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, "Registered: {0} -> {1}", new Object[]{"Start", this.getClass().getName()});
         
         java.awt.EventQueue.invokeLater(() -> {
@@ -59,9 +62,7 @@ public class ChatServer extends UnicastRemoteObject implements IChatServer{
     @Override
     public void registerClient(IUser s) throws RemoteException {
         connected.add(s);
-        connected.stream().forEach((user) -> {
-            System.out.println(user + "Connected to the server");
-        });
+        System.out.println(s + "Connected to the server");
     }
     @Override
     public IUser getUser(String email) throws RemoteException {

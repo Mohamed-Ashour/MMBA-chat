@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
-public class Session extends UnicastRemoteObject{
+public class Session extends UnicastRemoteObject implements ISession{
 
     private static int sessionCount = 0;
     private int sessionId;

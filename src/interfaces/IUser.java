@@ -21,7 +21,7 @@ public interface IUser extends Serializable, Remote {
 
     Boolean addContact(String contactEmail) throws RemoteException;
 
-    void addSession(Session s) throws RemoteException;
+    void addSession(ISession s) throws RemoteException;
 
     Boolean changeStatus(String status) throws RemoteException;
 
@@ -53,12 +53,12 @@ public interface IUser extends Serializable, Remote {
 
     void logout() throws RemoteException;
 
-    void recieveMessage(Session s) throws RemoteException;
+    void recieveMessage(ISession s) throws RemoteException;
 
-    void sendMessage(Session s) throws RemoteException;
+    void sendMessage(ISession s) throws RemoteException;
 
     void setStatus(String status) throws RemoteException;
     void setGui(IChatClient gui) throws RemoteException;
 
-public void createChatFrame(List<String> mailList, Session newSession) throws RemoteException;
+public void createChatFrame(List<String> mailList, ISession newSession) throws RemoteException;
 }
