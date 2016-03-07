@@ -531,7 +531,7 @@
                               <EmptySpace pref="39" max="32767" attributes="0"/>
                           </Group>
                           <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                              <Component id="recetUdateArea" alignment="0" pref="436" max="32767" attributes="0"/>
+                              <Component id="recetUdateArea" alignment="0" pref="449" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
