@@ -62,7 +62,13 @@ public class ChatServer extends UnicastRemoteObject implements IChatServer{
     @Override
     public void registerClient(IUser s) throws RemoteException {
         connected.add(s);
-        System.out.println(s + "Connected to the server");
+        System.out.println("Logged in: " + s);
+    }
+    
+    @Override
+    public void removeClient(IUser s) throws RemoteException {
+        connected.remove(s);
+        System.out.println("Logged out" + s);
     }
     @Override
     public IUser getUser(String email) throws RemoteException {

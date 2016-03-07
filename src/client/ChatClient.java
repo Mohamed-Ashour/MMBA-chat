@@ -13,7 +13,6 @@ import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
 import java.awt.Rectangle;
 import java.io.Serializable;
-import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -91,5 +90,10 @@ public class ChatClient extends UnicastRemoteObject implements Serializable, ICh
                 JOptionPane.showMessageDialog(null, "The server can't be located!");
                 System.exit(0);        }
         return null;
+    }
+
+    @Override
+    public void removeClient(IUser user) throws RemoteException {
+        server.removeClient(user);
     }
 }

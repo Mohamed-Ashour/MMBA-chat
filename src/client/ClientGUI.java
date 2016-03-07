@@ -860,6 +860,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
             System.out.println(listSize);
             */
             user.logout();
+            client.removeClient(user);
             CardLayout jj = (CardLayout) panalGroup.getLayout();
             jj.show(panalGroup, "loginCard");
            
@@ -953,7 +954,6 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
                     return strings[i];
                 }
             });
-        System.out.println("HI");
         chatFrame.setTitle(mailList.toString());
         chatFrame.show(); 
         this.jDesktopPane2.add((Component) chatFrame);
