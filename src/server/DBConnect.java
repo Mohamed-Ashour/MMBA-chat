@@ -31,7 +31,7 @@ public class DBConnect
                 connect = DriverManager.getConnection("jdbc:mysql://localhost/Chat?user=mmba&password=iti");
 
             } catch (ClassNotFoundException | SQLException e) {
-                System.out.println(e.getMessage());
+                System.out.println(e.getMessage() + e.getCause());
             }
             
             return connect;
@@ -46,6 +46,9 @@ public class DBConnect
             System.out.println(ex.getMessage());
         }
         connect = null;
+    }
+    public static void main(String[] arg) {
+        DBConnect.getConn();
     }
             
 }
