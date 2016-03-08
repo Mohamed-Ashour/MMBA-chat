@@ -425,16 +425,16 @@ public class ServerGUI extends javax.swing.JFrame {
         try {
 
             if (this.isServerRunning) {
-                ChatServer.RMI_REGISTRY.unbind("client");
+                ChatServer.RMI_REGISTRY.unbind("user");
                 Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, "Unregistered: {0}", new Object[]{"Stop"});
                 this.isServerRunning = false;
                 this.ServerStatusBtn.setText("Start");
 
             } else {
-                User remote = new User();
-                ChatServer.RMI_REGISTRY.rebind("client", remote);
+                User user = new User();
+                ChatServer.RMI_REGISTRY.rebind("user", user);
                 this.isServerRunning = true;
-                Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, "Registered: {0} -> {1}", new Object[]{"Start", remote.getClass().getName()});
+                Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, "Registered: {0} -> {1}", new Object[]{"Start", user.getClass().getName()});
                 this.ServerStatusBtn.setText("Stop");
             }
         } catch (RemoteException | NotBoundException ex) {

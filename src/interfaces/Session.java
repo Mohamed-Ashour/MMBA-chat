@@ -19,29 +19,23 @@ import java.util.Date;
 import java.util.List;
 import server.DBConnect;
 
-public class Session extends UnicastRemoteObject implements ISession{
+public class Session extends UnicastRemoteObject implements ISession {
 
     private static int sessionCount = 0;
     private int sessionId;
     private String sessionStart;
     private String sessionEnd;
+    private List<IMessage> messages;
     private List<IUser> users;
+    private Statement stm;
+    private String query;
+    private final Connection db = DBConnect.getConn();
    
-    public Session() {
+    public Session() throws RemoteException {
         
     }
-    
-    
+  
     public Session(List<IUser> users) throws RemoteException{
-    private List<IMessage> messages;
-    static private Statement stm;
-    static private String query;
-    static private Connection db = DBConnect.getConn();
-
-    
-    
-    
-    Session(List<IUser> users) throws RemoteException{
         messages = new ArrayList<>();
         this.sessionId = sessionCount++;
         this.users = users;
@@ -50,20 +44,25 @@ public class Session extends UnicastRemoteObject implements ISession{
         sessionStart = sdf.format(dt);
     }
     
-
-    int getSessionId() {
+   
+    public int getSessionId() {
         return sessionId;
     }
     
-    List<IUser> getUserList() {
+    public List<IUser> getUserList() {
         return users;
     }
     
+    public void setUserList(List<IUser> users) throws RemoteException{
+        this.users = users;
+    }
+    
+    @Override
     public void addMessage(IMessage message) {
         messages.add(message);
     }
     
-    void saveSession() throws RemoteException, SQLException, FileNotFoundException, IOException {
+    public void saveSession() throws RemoteException, SQLException, FileNotFoundException, IOException {
       
         Date dt = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

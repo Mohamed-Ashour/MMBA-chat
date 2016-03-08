@@ -6,7 +6,6 @@
 package server;
 
 import client.ChatClient;
-import com.mysql.jdbc.interceptors.SessionAssociationInterceptor;
 import interfaces.IChatServer;
 import interfaces.IUser;
 import interfaces.Session;
@@ -42,7 +41,8 @@ public class ChatServer extends UnicastRemoteObject implements IChatServer{
             new ChatServer();
         } catch (RemoteException ex) {
             JOptionPane.showMessageDialog(null, "The port seems to be used by another application!!" + ex.getMessage());
-            System.exit(0);        }
+            System.exit(0);      
+        }
     }
     public ChatServer() throws RemoteException {
         RMI_REGISTRY = LocateRegistry.createRegistry(IChatServer.DEFAULT_PORT);
@@ -51,8 +51,10 @@ public class ChatServer extends UnicastRemoteObject implements IChatServer{
         ChatClient client = new ChatClient();
         RMI_REGISTRY.rebind("client", client);
         Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, "Registered: {0} -> {1}", new Object[]{"Start", client.getClass().getName()});
-        Session session = new Session
-        
+        Session session = new Session();
+        RMI_REGISTRY.rebind("session", session);
+        Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, "Registered: {0} -> {1}", new Object[]{"Start", session.getClass().getName()});
+
         java.awt.EventQueue.invokeLater(() -> {
             gui = new ServerGUI();
             GraphicsConfiguration gc = gui.getGraphicsConfiguration();

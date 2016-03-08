@@ -32,7 +32,7 @@ import javax.swing.KeyStroke;
 public class ClientGUI extends javax.swing.JFrame implements Serializable{
     public static int count = 0;
     private User user;
-    private IChatClient client;
+    private final IChatClient client;
     public ClientGUI(User user, IChatClient client) throws RemoteException {
         count++;
         this.client = client;
@@ -170,7 +170,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(emailTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
                                     .addComponent(passwordTextField))))))
-                .addContainerGap(450, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -190,7 +190,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
                             .addComponent(signInBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
                             .addComponent(signUpBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(462, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         loginPanel.add(jPanel1, new java.awt.GridBagConstraints());
@@ -283,7 +283,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
                         .addComponent(usernameSignUpTextField, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(nameSignUpTextField, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)))
-                .addContainerGap(924, Short.MAX_VALUE))
+                .addContainerGap(726, Short.MAX_VALUE))
         );
         signupPanelLayout.setVerticalGroup(
             signupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -323,7 +323,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(SignUpRegistration)
-                .addContainerGap(317, Short.MAX_VALUE))
+                .addContainerGap(273, Short.MAX_VALUE))
         );
 
         panalGroup.add(signupPanel, "signupCard");
@@ -466,7 +466,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel25)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE))
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                     .addContainerGap(242, Short.MAX_VALUE)
@@ -487,11 +487,11 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
         jDesktopPane2.setLayout(jDesktopPane2Layout);
         jDesktopPane2Layout.setHorizontalGroup(
             jDesktopPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 849, Short.MAX_VALUE)
+            .addGap(0, 651, Short.MAX_VALUE)
         );
         jDesktopPane2Layout.setVerticalGroup(
             jDesktopPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 751, Short.MAX_VALUE)
+            .addGap(0, 707, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -709,13 +709,13 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
         if (contactsCount < 1) {
             JOptionPane.showMessageDialog(null, "You Must Choose One User At Least.");
         } else {
-            createChatFrame(chosenContacts);
+            initSession(chosenContacts);
 
         }
 
     }//GEN-LAST:event_startChatBtnActionPerformed
 
-    private void createChatFrame(List<String> chosenContacts) throws HeadlessException {
+    private void initSession(List<String> chosenContacts) throws HeadlessException {
         
         List<String> mailList = new ArrayList<>();
         String offlineUser = "";
@@ -733,7 +733,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
         }
         if (mailList.size() > 0) {
             try {
-                user.initSession(mailList);
+                client.getSession(mailList);
             } catch (RemoteException ex) {
                 Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
             }

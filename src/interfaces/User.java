@@ -349,20 +349,6 @@ public class User extends UnicastRemoteObject implements IUser {
         return false;
     }
 
-    @Override
-    public void initSession(List<String> mailList) throws RemoteException {
-        mailList.add(getEmail());
-        List<IUser> users = new ArrayList<>();
-        for (String string : mailList) {
-            IUser s =  client.getUser(string);
-            users.add(s);
-        }
-        Session newSession = new Session(users);
-
-        for (IUser user : users) {
-            user.createChatFrame(mailList, newSession);
-        }
-    }
 
     @Override
     public void createChatFrame(List<String> mailList, ISession newSession) throws RemoteException {
@@ -386,9 +372,9 @@ public class User extends UnicastRemoteObject implements IUser {
     }
 
     @Override
-    public void connect(String host, Registry r) throws RemoteException {
+    public void connect(Registry r) throws RemoteException {
         try {
-            r.lookup("client");
+            r.lookup("user");
         } catch (NotBoundException ex) {
             JOptionPane.showMessageDialog(null, "The service can't be located!!");
             System.exit(0);
