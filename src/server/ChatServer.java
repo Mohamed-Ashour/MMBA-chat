@@ -19,6 +19,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sound.midi.SysexMessage;
 import javax.swing.JOptionPane;
 
 /**
@@ -38,7 +39,9 @@ public class ChatServer extends UnicastRemoteObject implements IChatServer{
     public static void main(String[] args){
         
         try {
-            new ChatServer();
+           
+             new ChatServer();
+            
         } catch (RemoteException ex) {
             JOptionPane.showMessageDialog(null, "The port seems to be used by another application!!" + ex.getMessage());
             System.exit(0);      
@@ -56,7 +59,8 @@ public class ChatServer extends UnicastRemoteObject implements IChatServer{
         Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, "Registered: {0} -> {1}", new Object[]{"Start", session.getClass().getName()});
 
         java.awt.EventQueue.invokeLater(() -> {
-            gui = new ServerGUI();
+            gui = new ServerGUI(this);
+          
             GraphicsConfiguration gc = gui.getGraphicsConfiguration();
             Rectangle bounds = gc.getBounds();
             gui.setLocation((int) ((bounds.width / 2) - (gui.getSize().width / 2)),
@@ -75,29 +79,34 @@ public class ChatServer extends UnicastRemoteObject implements IChatServer{
     public void removeClient(IUser s) throws RemoteException {
         connected.remove(s);
         System.out.println("Logged out: " + s);
+        connected.stream().forEach((user) -> {
+            System.out.println(user + "Connected to the server");
+        });
+        
     }
     @Override
     public IUser getUser(String email) throws RemoteException {
+        System.out.println(connected);
         for (IUser user : connected)
             if (user.getEmail().equals(email))
                 return user;
         return null;
     }
     @Override
-    public  void updateConnectedLabel(int x) {
-      gui.updateConnectedLabel(x);
+    public  void updateConnectedLabel() {
+      gui.updateConnectedLabel();
   }  
     @Override
-     public  void updateOnlineLabel(int x){
-         gui.updateOnlineLabel(x);
+     public  void updateOnlineLabel(){
+         gui.updateOnlineLabel();
      }
     @Override
-    public  void updateAwayLabel(int x){
-        gui.updateAwayLabel(x);
+    public  void updateAwayLabel(){
+        gui.updateAwayLabel();
     }
     @Override
-    public  void updateOfflineLabel(int x){
-        gui.updateOfflineLabel(x);
+    public  void updateOfflineLabel(){
+        gui.updateOfflineLabel();
     }
 
     @Override
