@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyVetoException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -33,6 +34,8 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
     public static int count = 0;
     private User user;
     private IChatClient client;
+    public static int xOffset=10;
+    public static int yOffset=10;
     public ClientGUI(User user, IChatClient client) throws RemoteException {
         count++;
         this.client = client;
@@ -1033,11 +1036,20 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
                 }
             });
         chatFrame.setTitle(mailList.toString());
+/*        chatFrame.requestFocus(); // Nothing
+        chatFrame.requestFocusInWindow(); // Nothing
+        chatFrame.setVisible(true);*/
+
+       chatFrame.setLocation(xOffset, yOffset);
+       
+       xOffset+=20;
+       yOffset+=20;
         chatFrame.show(); 
-        chatFrame.requestFocus();
+        
         this.jDesktopPane2.add((Component) chatFrame);
+        
+        
+        
         return chatFrame.getChatFrameId();
-        
-        
     }
 }
