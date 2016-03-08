@@ -27,7 +27,7 @@ public interface IUser extends Serializable, Remote {
 
     User completeInfo() throws RemoteException;
 
-    public void connect(String host, Registry r) throws RemoteException;
+    public void connect(Registry r) throws RemoteException;
     
     User findUser(String searchEmail) throws RemoteException;
 
@@ -43,8 +43,7 @@ public interface IUser extends Serializable, Remote {
 
     String getUsername() throws RemoteException;
 
-    void initSession(List<String> users) throws RemoteException;
-
+    
     Boolean isContact(String contactEmail) throws RemoteException;
 
     Boolean isExist(String searchEmail) throws RemoteException;
@@ -60,5 +59,5 @@ public interface IUser extends Serializable, Remote {
     void setStatus(String status) throws RemoteException;
     void setGui(IChatClient gui) throws RemoteException;
 
-public void createChatFrame(List<String> mailList, ISession newSession) throws RemoteException;
+    public void createChatFrame(List<String> mailList, ISession newSession) throws RemoteException;
 }

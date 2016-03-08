@@ -28,21 +28,22 @@ import javax.swing.KeyStroke;
  */
 public class ServerGUI extends javax.swing.JFrame {
     private boolean isServerRunning;
-
+    private final ChatServer server;
     /**
      * Creates new form ServerGUI
      */
-    public ServerGUI() {
+    public ServerGUI(ChatServer server) {
+        this.server = server;
         this.isServerRunning = false;
         initComponents();
         exit.setAccelerator( KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
     }
 
-    public  void updateConnectedLabel(int x){
-        ChatServer.connected.size();
+    public  void updateConnectedLabel(){
+        System.out.println(ChatServer.connected);
         connectedLabel.setText("Connected: " + ChatServer.connected.size());
     }
-    public void updateOnlineLabel(int x){
+    public void updateOnlineLabel(){
        // onlineLabel.setText(text);
         try {
             // connectedLabel
@@ -52,15 +53,15 @@ public class ServerGUI extends javax.swing.JFrame {
             stm = db.createStatement();
             query = "select count(*) from User where status = 'online'" ;
             ResultSet rs = stm.executeQuery(query);
-             while(rs.next()){
-            onlineLabel.setText("number of  online client is " + rs.getString("status"));
-             }
+            rs.next();
+            onlineLabel.setText("number of  online client is " + rs.getInt("count(*)"));
+             
         } catch (SQLException ex) {
             Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     
     }
-    public void updateAwayLabel(int x){
+    public void updateAwayLabel(){
         //offlineLabel
         try {
             // connectedLabel
@@ -68,17 +69,17 @@ public class ServerGUI extends javax.swing.JFrame {
             Statement stm;
             String query;
             stm = db.createStatement();
-            query = "select count(*) from User where status = awy" ;
+            query = "select count(*) from User where status = 'away'" ;
            // awyLabel.setText(query);
             ResultSet rs = stm.executeQuery(query);
             while(rs.next()){
-            awyLabel.setText("number of Awy client is " +rs.getString("status"));
+            awyLabel.setText("number of Away client is " +rs.getInt("count(*)"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void updateOfflineLabel(int x){
+    public void updateOfflineLabel(){
        // awyLabel
        try {
             // connectedLabel
@@ -86,11 +87,11 @@ public class ServerGUI extends javax.swing.JFrame {
             Statement stm;
             String query;
             stm = db.createStatement();
-            query = "select count(*) from User where status = offline" ;
+            query = "select count(*) from User where status = 'offline'" ;
           //  offlineLabel.setText(query);
              ResultSet rs = stm.executeQuery(query);
              while(rs.next()){
-             offlineLabel.setText("number of  offline client is " + rs.getString("status"));
+             offlineLabel.setText("number of  offline client is " + rs.getInt("count(*)"));
              }
         } catch (SQLException ex) {
             Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -353,32 +354,32 @@ public class ServerGUI extends javax.swing.JFrame {
                 // TODO add your handling code here:
                 CardLayout c1 = (CardLayout) jPanel1.getLayout();
                 c1.next(jPanel1);
-
-
+                
+                
                 List<User> contactUsers = User.getAllUsers();
                 String[] emailsRetreived = new String[contactUsers.size()];
                 String[] namesRetreived = new String[contactUsers.size()];
                 for (int i = 0 ; i < contactUsers.size(); i++ ) {
                     User contact = contactUsers.get(i);
-
+                    
                     // 3ak3ak
-
-
-
-
+                    
+                    
+                    
+                    
                     /* End 3ak3ak */
                     String retrievedEmail = contact.getEmail();
                     emailsRetreived[i] = retrievedEmail;
-
+                    
                     String retrievedName = contact.getUsername();
                     String retrievedStatus = contact.getStatus();
                     namesRetreived[i] = retrievedName + "( " + retrievedStatus + " ) " ;
                 }
-
-
+                
+                
                 System.out.println(contactUsers);
-
-
+                
+                
                 if(contactUsers.size() > 0)
                 {
                     // Enter All Contact To Chat List
@@ -389,20 +390,22 @@ public class ServerGUI extends javax.swing.JFrame {
                         @Override
                         public String getElementAt(int i) { return strings[i];}
                     });
-
-
+                    
+                    
                 }
-            
+
             }
             else {
                 JOptionPane.showMessageDialog(getContentPane(), "Email or password isn't correct", "Error", JOptionPane.INFORMATION_MESSAGE);
-
+                
             }
         } catch (RemoteException ex) {
             Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-         
+        server.updateConnectedLabel();
+        server.updateOnlineLabel();
+        server.updateOfflineLabel();
+        server.updateAwayLabel();
     }//GEN-LAST:event_loginBtnActionPerformed
 
     private void sendBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendBtnActionPerformed
@@ -425,16 +428,16 @@ public class ServerGUI extends javax.swing.JFrame {
         try {
 
             if (this.isServerRunning) {
-                ChatServer.RMI_REGISTRY.unbind("client");
+                ChatServer.RMI_REGISTRY.unbind("user");
                 Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, "Unregistered: {0}", new Object[]{"Stop"});
                 this.isServerRunning = false;
                 this.ServerStatusBtn.setText("Start");
 
             } else {
-                User remote = new User();
-                ChatServer.RMI_REGISTRY.rebind("client", remote);
+                User user = new User();
+                ChatServer.RMI_REGISTRY.rebind("user", user);
                 this.isServerRunning = true;
-                Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, "Registered: {0} -> {1}", new Object[]{"Start", remote.getClass().getName()});
+                Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, "Registered: {0} -> {1}", new Object[]{"Start", user.getClass().getName()});
                 this.ServerStatusBtn.setText("Stop");
             }
         } catch (RemoteException | NotBoundException ex) {

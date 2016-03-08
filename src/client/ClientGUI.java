@@ -327,7 +327,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(SignUpRegistration)
-                .addContainerGap(317, Short.MAX_VALUE))
+                .addContainerGap(273, Short.MAX_VALUE))
         );
 
         panalGroup.add(signupPanel, "signupCard");
@@ -468,7 +468,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel25)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE))
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                     .addContainerGap(242, Short.MAX_VALUE)
@@ -493,7 +493,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
         );
         jDesktopPane2Layout.setVerticalGroup(
             jDesktopPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 751, Short.MAX_VALUE)
+            .addGap(0, 707, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -711,13 +711,13 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
         if (contactsCount < 1) {
             JOptionPane.showMessageDialog(null, "You Must Choose One User At Least.");
         } else {
-            createChatFrame(chosenContacts);
+            initSession(chosenContacts);
 
         }
 
     }//GEN-LAST:event_startChatBtnActionPerformed
 
-    private void createChatFrame(List<String> chosenContacts) throws HeadlessException {
+    private void initSession(List<String> chosenContacts) throws HeadlessException {
         
         List<String> mailList = new ArrayList<>();
         String offlineUser = "";
@@ -739,7 +739,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
         }
         if (mailList.size() > 0) {
             try {
-                user.initSession(mailList);
+                client.getSession(mailList);
             } catch (RemoteException ex) {
                 Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
             }

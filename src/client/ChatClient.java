@@ -7,7 +7,9 @@ package client;
 
 import interfaces.IChatClient;
 import interfaces.IChatServer;
+import interfaces.ISession;
 import interfaces.IUser;
+import interfaces.Session;
 import interfaces.User;
 import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
@@ -18,6 +20,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -81,10 +84,11 @@ public class ChatClient extends UnicastRemoteObject implements Serializable, ICh
         try {
             registry = LocateRegistry.getRegistry("localhost", IChatServer.DEFAULT_PORT);
             server = (IChatServer) registry.lookup("server");
+            
             System.out.println(server);
             registry.lookup("client");
             User client = new User();
-            client.connect("localhost",registry);
+            client.connect(registry);
             return client;
         } catch (RemoteException | NotBoundException ex) {
                 JOptionPane.showMessageDialog(null, "The server can't be located!");
@@ -92,6 +96,30 @@ public class ChatClient extends UnicastRemoteObject implements Serializable, ICh
         return null;
     }
 
+    /**
+     *
+     * @param users
+     * @throws RemoteException
+     */
+    @Override
+    public void getSession(List<String> mailList) throws RemoteException{
+        List<IUser> users = new ArrayList<>();
+        for (String string : mailList) {
+            IUser s =  getUser(string);
+            users.add(s);
+        }
+        try {
+            ISession newSession = (ISession) registry.lookup("session");
+
+            for (IUser user : users) {
+                user.createChatFrame(mailList, newSession);
+            }
+        } catch (NotBoundException ex) {
+            JOptionPane.showMessageDialog(null, "Can't get a session!!");
+            System.exit(0);
+        }
+        
+    }
     @Override
     public void removeClient(IUser user) throws RemoteException {
         server.removeClient(user);
