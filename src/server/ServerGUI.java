@@ -21,14 +21,15 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
-
 /**
  *
  * @author Ahmed
  */
 public class ServerGUI extends javax.swing.JFrame {
+
     private boolean isServerRunning;
     private final ChatServer server;
+
     /**
      * Creates new form ServerGUI
      */
@@ -36,67 +37,108 @@ public class ServerGUI extends javax.swing.JFrame {
         this.server = server;
         this.isServerRunning = false;
         initComponents();
-        exit.setAccelerator( KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
+        exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
     }
 
-    public  void updateConnectedLabel(){
-        System.out.println(ChatServer.connected);
-        connectedLabel.setText("Connected: " + ChatServer.connected.size());
+    
+    public void updateUsersList() throws RemoteException {
+        List<User> contactUsers = User.getAllUsers();
+        String[] emailsRetreived = new String[contactUsers.size()];
+        for (int i = 0; i < contactUsers.size(); i++) {
+            User contact = contactUsers.get(i);
+
+            // 3ak3ak
+            /* End 3ak3ak */
+            String retrievedEmail = contact.getEmail();
+
+            String retrievedStatus = contact.getStatus();
+            emailsRetreived[i] = retrievedEmail + "( " + retrievedStatus + " ) ";
+        }
+
+        System.out.println(contactUsers);
+
+        if (contactUsers.size() > 0) {
+            // Enter All Contact To Chat List
+            contactList.setModel(new javax.swing.AbstractListModel<String>() {
+                String[] strings = emailsRetreived;
+
+                @Override
+                public int getSize() {
+                    return strings.length;
+                }
+
+                @Override
+                public String getElementAt(int i) {
+                    return strings[i];
+                }
+            });
+
+        }
     }
-    public void updateOnlineLabel(){
-       // onlineLabel.setText(text);
+    
+    
+    
+    public void updateOnlineLabel() {
+        // onlineLabel.setText(text);
         try {
             // connectedLabel
             Connection db = DBConnect.getConn();
             Statement stm;
             String query;
             stm = db.createStatement();
-            query = "select count(*) from User where status = 'online'" ;
+            query = "select count(*) from User where status = 'online'";
             ResultSet rs = stm.executeQuery(query);
             rs.next();
-            onlineLabel.setText("number of  online client is " + rs.getInt("count(*)"));
-             
+            onlineLabel.setText("Number of online client is " + rs.getInt("count(*)"));
+
         } catch (SQLException ex) {
             Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
+
     }
-    public void updateAwayLabel(){
-        //offlineLabel
+
+    
+    
+    
+    
+//    public void updateAwayLabel() {
+//        //offlineLabel
+//        try {
+//            // connectedLabel
+//            Connection db = DBConnect.getConn();
+//            Statement stm;
+//            String query;
+//            stm = db.createStatement();
+//            query = "select count(*) from User where status = 'away'";
+//            // awyLabel.setText(query);
+//            ResultSet rs = stm.executeQuery(query);
+//            while (rs.next()) {
+//                awyLabel.setText("Number of Away client is " + rs.getInt("count(*)"));
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
+
+    public void updateOfflineLabel() {
+        // awyLabel
         try {
             // connectedLabel
             Connection db = DBConnect.getConn();
             Statement stm;
             String query;
             stm = db.createStatement();
-            query = "select count(*) from User where status = 'away'" ;
-           // awyLabel.setText(query);
+            query = "select count(*) from User where status = 'offline'";
+            //  offlineLabel.setText(query);
             ResultSet rs = stm.executeQuery(query);
-            while(rs.next()){
-            awyLabel.setText("number of Away client is " +rs.getInt("count(*)"));
+            while (rs.next()) {
+                offlineLabel.setText("Number of  offline client is " + rs.getInt("count(*)"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void updateOfflineLabel(){
-       // awyLabel
-       try {
-            // connectedLabel
-            Connection db = DBConnect.getConn();
-            Statement stm;
-            String query;
-            stm = db.createStatement();
-            query = "select count(*) from User where status = 'offline'" ;
-          //  offlineLabel.setText(query);
-             ResultSet rs = stm.executeQuery(query);
-             while(rs.next()){
-             offlineLabel.setText("number of  offline client is " + rs.getInt("count(*)"));
-             }
-        } catch (SQLException ex) {
-            Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -127,8 +169,6 @@ public class ServerGUI extends javax.swing.JFrame {
         ServerStatusBtn = new javax.swing.JToggleButton();
         onlineLabel = new javax.swing.JLabel();
         offlineLabel = new javax.swing.JLabel();
-        awyLabel = new javax.swing.JLabel();
-        connectedLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         Option = new javax.swing.JMenu();
         exit = new javax.swing.JMenuItem();
@@ -220,15 +260,14 @@ public class ServerGUI extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane2)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jScrollPane3)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sendBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(sendBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane3)
@@ -249,7 +288,7 @@ public class ServerGUI extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -269,10 +308,6 @@ public class ServerGUI extends javax.swing.JFrame {
 
         offlineLabel.setText("Offline");
 
-        awyLabel.setText("Awy");
-
-        connectedLabel.setText("connected");
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -280,13 +315,11 @@ public class ServerGUI extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ServerStatusBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
+                    .addComponent(ServerStatusBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(onlineLabel)
-                            .addComponent(offlineLabel)
-                            .addComponent(awyLabel)
-                            .addComponent(connectedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(offlineLabel))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -295,15 +328,11 @@ public class ServerGUI extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(ServerStatusBtn)
-                .addGap(18, 18, 18)
-                .addComponent(connectedLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
-                .addComponent(onlineLabel)
-                .addGap(84, 84, 84)
-                .addComponent(offlineLabel)
-                .addGap(93, 93, 93)
-                .addComponent(awyLabel)
-                .addGap(119, 119, 119))
+                .addGap(101, 101, 101)
+                .addComponent(onlineLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68)
+                .addComponent(offlineLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(240, Short.MAX_VALUE))
         );
 
         adminPanel.add(jPanel3);
@@ -347,65 +376,25 @@ public class ServerGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
-        try {
+        if (EmailTextField.getText().equals("admin") && jPasswordField1.getText().equals("admin")) {
+            // TODO add your handling code here:
+            CardLayout c1 = (CardLayout) jPanel1.getLayout();
+            c1.next(jPanel1);
             
-            if(EmailTextField.getText().equals("admin") && jPasswordField1.getText().equals("admin"))
-            {
-                // TODO add your handling code here:
-                CardLayout c1 = (CardLayout) jPanel1.getLayout();
-                c1.next(jPanel1);
-                
-                
-                List<User> contactUsers = User.getAllUsers();
-                String[] emailsRetreived = new String[contactUsers.size()];
-                String[] namesRetreived = new String[contactUsers.size()];
-                for (int i = 0 ; i < contactUsers.size(); i++ ) {
-                    User contact = contactUsers.get(i);
-                    
-                    // 3ak3ak
-                    
-                    
-                    
-                    
-                    /* End 3ak3ak */
-                    String retrievedEmail = contact.getEmail();
-                    emailsRetreived[i] = retrievedEmail;
-                    
-                    String retrievedName = contact.getUsername();
-                    String retrievedStatus = contact.getStatus();
-                    namesRetreived[i] = retrievedName + "( " + retrievedStatus + " ) " ;
-                }
-                
-                
-                System.out.println(contactUsers);
-                
-                
-                if(contactUsers.size() > 0)
-                {
-                    // Enter All Contact To Chat List
-                    contactList.setModel(new javax.swing.AbstractListModel<String>() {
-                        String[] strings = namesRetreived;
-                        @Override
-                        public int getSize() { return strings.length;}
-                        @Override
-                        public String getElementAt(int i) { return strings[i];}
-                    });
-                    
-                    
-                }
-
-            }
-            else {
-                JOptionPane.showMessageDialog(getContentPane(), "Email or password isn't correct", "Error", JOptionPane.INFORMATION_MESSAGE);
-                
-            }
+            
+            
+        } else {
+            JOptionPane.showMessageDialog(getContentPane(), "Email or password isn't correct", "Error", JOptionPane.INFORMATION_MESSAGE);
+            
+        }
+        try {
+            server.updateUsersList();
         } catch (RemoteException ex) {
             Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        server.updateConnectedLabel();
         server.updateOnlineLabel();
         server.updateOfflineLabel();
-        server.updateAwayLabel();
+//        server.updateAwayLabel();
     }//GEN-LAST:event_loginBtnActionPerformed
 
     private void sendBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendBtnActionPerformed
@@ -414,13 +403,13 @@ public class ServerGUI extends javax.swing.JFrame {
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
         // TODO add your handling code here:
-        
+
         System.exit(0);
     }//GEN-LAST:event_exitActionPerformed
 
     private void AboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutActionPerformed
         // TODO add your handling code here:
-        
+
 
     }//GEN-LAST:event_AboutActionPerformed
 
@@ -493,9 +482,7 @@ public class ServerGUI extends javax.swing.JFrame {
     private javax.swing.JMenu Option;
     private javax.swing.JToggleButton ServerStatusBtn;
     private javax.swing.JPanel adminPanel;
-    private javax.swing.JLabel awyLabel;
     private javax.swing.JTextArea chatTextSend;
-    private javax.swing.JLabel connectedLabel;
     private javax.swing.JList<String> contactList;
     private javax.swing.JMenuItem exit;
     private javax.swing.JMenuBar jMenuBar1;

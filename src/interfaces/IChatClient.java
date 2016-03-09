@@ -29,4 +29,6 @@ public interface IChatClient extends Remote{
     public void reciveMessage(IMessage msg, Integer get) throws RemoteException;
     public void addChatFrame(ChatFrame frame)throws RemoteException;
 
+    public void updateStateInServer(IUser user, String newStatusUpdate) throws RemoteException ;
+    public void updateNotfication(String string) throws RemoteException;
 }

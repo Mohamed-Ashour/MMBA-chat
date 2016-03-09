@@ -588,7 +588,6 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
 
         }
 
-
     }//GEN-LAST:event_SignUpRegistrationActionPerformed
 
     private HashMap<String, String> validteRegistrationForm() {
@@ -876,6 +875,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
         try {
             String newStatusUpdate = (String) statusCombo.getSelectedItem();
             user.changeStatus(newStatusUpdate);
+            client.updateStateInServer(user, newStatusUpdate);
         } catch (RemoteException ex) {
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -892,9 +892,6 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
                             @Override
                             public String getElementAt(int i) { return strings[i];}
                         });
-             
-             
-             
              
              
              /*
@@ -1064,5 +1061,9 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
         } catch (RemoteException ex) {
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    void updateNotficationArea(String string) {
+        System.out.println("hello zenafi");
+        recetUpdateArea.append(string);
     }
 }
