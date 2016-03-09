@@ -100,7 +100,7 @@ public class ChatClient extends UnicastRemoteObject implements Serializable, ICh
 
     /**
      *
-     * @param users
+     * @param mailList
      * @throws RemoteException
      */
     @Override
@@ -126,7 +126,7 @@ public class ChatClient extends UnicastRemoteObject implements Serializable, ICh
     }
 
     @Override
-    public void updateNotfication(String string) {
+    public void updateNotfication(String string) throws RemoteException {
         System.out.println("hello zaza");
 
         gui.updateNotficationArea(string);
@@ -141,11 +141,13 @@ public class ChatClient extends UnicastRemoteObject implements Serializable, ICh
         }
     }
     
+    @Override
     public void addChatFrame(ChatFrame frame) {
         cf.add(frame);
     }
-
+    
   
+    @Override
     public ISession getRemoteSession(int x) throws RemoteException{
         try {
             return server.getSession(x);

@@ -1,4 +1,4 @@
-package interfaces;
+    package interfaces;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -398,9 +398,9 @@ public class User extends UnicastRemoteObject implements IUser {
 
    
 
+    @Override
     public void sendNotifecation(String string) throws RemoteException {
-        System.out.println("hello hanafi");
-
+        
         client.updateNotfication(string);
     }
 }

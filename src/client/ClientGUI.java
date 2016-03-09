@@ -370,8 +370,11 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
         recetUdateArea.setEnabled(false);
         recetUdateArea.setName("recetUpdateArea"); // NOI18N
 
+        recetUpdateArea.setBackground(new java.awt.Color(248, 244, 241));
         recetUpdateArea.setColumns(20);
+        recetUpdateArea.setFont(new java.awt.Font("Ubuntu", 2, 16)); // NOI18N
         recetUpdateArea.setRows(5);
+        recetUpdateArea.setDisabledTextColor(new java.awt.Color(79, 70, 70));
         recetUpdateArea.setEnabled(false);
         recetUpdateArea.setOpaque(false);
         jScrollPane1.setViewportView(recetUpdateArea);
@@ -776,7 +779,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
                         List<User> contactUsers = user.getContactList();
                         updateContactList(contactUsers);
                         upperUserNamelabel.setText(user.getUsername());
-                        recetUpdateArea.setText("Welcome , " + user.getUsername());
+                        recetUpdateArea.setText("Welcome, " + user.getUsername());
 
                         CardLayout jj = (CardLayout) panalGroup.getLayout();
                         jj.show(panalGroup, "chatCard");
@@ -795,7 +798,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
     public void updateContactList(List<User> contactUsers) {
         String[] emails = new String[contactUsers.size()];
         for (int i = 0; i < emails.length; i++) {
-            emails[i] = contactUsers.get(i).getEmail() + "( " + contactUsers.get(i).getStatus() + " ) " ;;
+            emails[i] = contactUsers.get(i).getEmail() + "( " + contactUsers.get(i).getStatus() + " ) " ;
         }
 
         System.out.println(contactUsers);
@@ -1062,8 +1065,10 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    void updateNotficationArea(String string) {
+    void updateNotficationArea(String string) throws RemoteException {
         System.out.println("hello zenafi");
         recetUpdateArea.append(string);
+        List<User> contactUsers = user.getContactList();
+        updateContactList(contactUsers);
     }
 }
