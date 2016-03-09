@@ -25,10 +25,13 @@ public class ChatFrame extends javax.swing.JInternalFrame implements Serializabl
         this.gui = cc;
         initComponents();
         this.chatFrameId = chatFrameCount++;
+        jTextArea2.setDisabledTextColor(new java.awt.Color(1, 1, 1));
+        chatTextArea.setDisabledTextColor(new java.awt.Color(1, 1, 1));
     }
     
     public int getChatFrameId() {
         return chatFrameId;
+        
     } 
    
     /**
