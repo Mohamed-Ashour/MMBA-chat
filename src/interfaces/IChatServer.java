@@ -15,7 +15,7 @@ import java.util.List ;
  */
 public interface IChatServer extends Remote{
 
-    public static final int DEFAULT_PORT = 1099 ;
+    public static final int DEFAULT_PORT = 1099;
     
     /**
      *
