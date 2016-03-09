@@ -97,6 +97,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
         searchBtn = new javax.swing.JButton();
         jLabel24 = new javax.swing.JLabel();
         recetUdateArea = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
         recetUpdateArea = new javax.swing.JTextArea();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel25 = new javax.swing.JLabel();
@@ -390,22 +391,22 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
         recetUpdateArea.setDisabledTextColor(new java.awt.Color(79, 70, 70));
         recetUpdateArea.setEnabled(false);
         recetUpdateArea.setOpaque(false);
+        jScrollPane1.setViewportView(recetUpdateArea);
+        recetUpdateArea.getAccessibleContext().setAccessibleName("");
 
         javax.swing.GroupLayout recetUdateAreaLayout = new javax.swing.GroupLayout(recetUdateArea);
         recetUdateArea.setLayout(recetUdateAreaLayout);
         recetUdateAreaLayout.setHorizontalGroup(
             recetUdateAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, recetUdateAreaLayout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
-                .addComponent(recetUpdateArea, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
                 .addContainerGap())
         );
         recetUdateAreaLayout.setVerticalGroup(
             recetUdateAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(recetUpdateArea, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
-
-        recetUpdateArea.getAccessibleContext().setAccessibleName("");
 
         jLabel25.setText("My Contacts");
 
@@ -414,6 +415,11 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
         jScrollPane8.setViewportView(contactList);
 
         searchTextField.setText("Enter Email Address Here ");
+        searchTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchTextFieldActionPerformed(evt);
+            }
+        });
 
         addFriendBtn.setText("Add");
         addFriendBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -482,7 +488,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel24)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 191, Short.MAX_VALUE)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel25)
@@ -491,9 +497,9 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
                 .addContainerGap())
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                    .addContainerGap(240, Short.MAX_VALUE)
+                    .addContainerGap(218, Short.MAX_VALUE)
                     .addComponent(recetUdateArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(232, Short.MAX_VALUE)))
+                    .addContainerGap(241, Short.MAX_VALUE)))
         );
 
         startChatBtn.setText("Start Chat");
@@ -599,6 +605,17 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
                     user.add();
                     CardLayout jj = (CardLayout) panalGroup.getLayout();
                     jj.show(panalGroup, "loginCard");
+                    
+                    
+                    nameSignUpTextField.setText("");
+                    email.setText("");
+                    usernameSignUpTextField.setText("");
+                    passwordSignUpTextField.setText("");
+                    confirmPasswordSignUpTextField.setText("");
+                    countrySignUp.setSelectedIndex(0);
+                    
+                    
+                    
                 } else {
                     JOptionPane.showMessageDialog(getContentPane(), "User already Exists!", "Error", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -843,6 +860,10 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
 
         CardLayout jj = (CardLayout) panalGroup.getLayout();
         jj.show(panalGroup, "signupCard");
+        
+        emailTextField.setText("");
+        
+        passwordTextField.setText("");
 
     }//GEN-LAST:event_signUpBtnActionPerformed
 
@@ -850,6 +871,15 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
         // TODO add your handling code here:
         CardLayout jj = (CardLayout) panalGroup.getLayout();
         jj.show(panalGroup, "loginCard");
+        
+        nameSignUpTextField.setText("");
+        email.setText("");
+        usernameSignUpTextField.setText("");
+        passwordSignUpTextField.setText("");
+        confirmPasswordSignUpTextField.setText("");
+        countrySignUp.setSelectedIndex(0);
+        emailTextField.requestFocus();
+        
 
     }//GEN-LAST:event_backBtnActionPerformed
 
@@ -861,9 +891,11 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
                 if (contact != null) {
                     searchResultLabel.setText(contact.getEmail());
                     addFriendBtn.setVisible(true);
+                    
                 } else {
                     // TODO you can't add yourself
                     searchResultLabel.setText("You Cant Add Your Self");
+                    searchTextField.setText("Enter Email Address Here ");
                 }
             } else {
                 searchResultLabel.setText("No Emails Found");
@@ -975,6 +1007,10 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
         
     }//GEN-LAST:event_formWindowClosing
 
+    private void searchTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchTextFieldActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem About;
@@ -1014,6 +1050,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
