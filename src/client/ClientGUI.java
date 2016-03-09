@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyVetoException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -1042,9 +1043,24 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
        
        xOffset+=20;
        yOffset+=20;
-        chatFrame.show(); 
+      
         
+       // this.jDesktopPane2.add((Component) chatFrame);
+        
+        
+        try {
+            chatFrame.setSelected(true);
+        } catch (PropertyVetoException ex) {
+            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.jDesktopPane2.add((Component) chatFrame);
+       
+       chatFrame.moveToFront();
+       
+        chatFrame.show();
+        
+        
+        
         
         try {
             client.addChatFrame(chatFrame);
