@@ -56,6 +56,7 @@ public class ChatClient extends UnicastRemoteObject implements Serializable, ICh
     public IUser getUser(String email)throws RemoteException{
         return server.getUser(email);
     }
+    
     @Override
     public void registerClient(IUser user) throws RemoteException {
         server.registerClient(user);
