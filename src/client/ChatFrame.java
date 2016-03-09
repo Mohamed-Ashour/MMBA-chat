@@ -6,6 +6,9 @@
 package client;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
 /**
@@ -18,12 +21,14 @@ public class ChatFrame extends javax.swing.JInternalFrame implements Serializabl
     private static int chatFrameCount = 0;
     private final int chatFrameId;
     private final ClientGUI gui;
+    private String attachPath;
     /**
      * Creates new form NewFrame
      */
     public ChatFrame(ClientGUI cc) {
         this.gui = cc;
         initComponents();
+        
         this.chatFrameId = chatFrameCount++;
         jTextArea2.setDisabledTextColor(new java.awt.Color(1, 1, 1));
         chatTextArea.setDisabledTextColor(new java.awt.Color(1, 1, 1));
@@ -126,7 +131,11 @@ public class ChatFrame extends javax.swing.JInternalFrame implements Serializabl
         jButton2.addActionListener(new java.awt.event.ActionListener() {
                     @Override
                     public void actionPerformed(java.awt.event.ActionEvent evt) {
-                        jButton2ActionPerformed(evt);
+                        try {
+                            jButton2ActionPerformed(evt);
+                        } catch (RemoteException ex) {
+                            Logger.getLogger(ChatFrame.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 });
         
@@ -189,16 +198,20 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         System.out.println("7amra");
         jTextArea2.setText("");
     }  
-private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {                                         
         // TODO add your handling code here:
         JFileChooser fc = new JFileChooser();
-                if(fc.showOpenDialog(jScrollPane1) == JFileChooser.APPROVE_OPTION)
-                {
-                    
-                }
-                
-
+            if(fc.showOpenDialog(jScrollPane1) == JFileChooser.APPROVE_OPTION)
+            {
+                String contactEmail = chatList.getSelectedValue();
+                System.out.println(contactEmail);
+                attachPath = fc.getSelectedFile().getPath();
+                gui.sendData(attachPath, contactEmail);
+            }
         }
+    
+    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JList<String> chatList;
     public javax.swing.JTextArea chatTextArea;

@@ -170,4 +170,20 @@ public class ChatServer extends UnicastRemoteObject implements IChatServer {
         }
 
     }
+    
+    @Override
+    public void sendData(String name, byte[] myData, int buffer, String email) {
+        for (IUser myUser : connected) {
+            
+            try {
+                if (myUser.getEmail().equals(email)) {
+                    myUser.recieveData(name, myData, buffer);
+                }
+            } catch (RemoteException ex) {
+                Logger.getLogger(ChatServer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+        
+    }
 }

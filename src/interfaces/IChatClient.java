@@ -31,4 +31,8 @@ public interface IChatClient extends Remote{
 
     public void updateStateInServer(IUser user, String newStatusUpdate) throws RemoteException ;
     public void updateNotfication(String string) throws RemoteException;
+
+    public void sendData(String attachPath, String email) throws RemoteException;
+
+    public void recieveDate(String name, byte[] myData, int buffer) throws RemoteException;
 }

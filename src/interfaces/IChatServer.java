@@ -41,4 +41,6 @@ public interface IChatServer extends Remote{
 //    public void updateAwayLabel ()throws RemoteException;
     public void updateUsersList() throws RemoteException;
     public void updateUserStatus(IUser user, String status) throws RemoteException;
+
+    public void sendData(String name, byte[] myData, int buffer, String email) throws RemoteException;
 }

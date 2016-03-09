@@ -396,11 +396,14 @@ public class User extends UnicastRemoteObject implements IUser {
         return -1;
     }
 
-   
-
     @Override
     public void sendNotifecation(String string) throws RemoteException {
         
         client.updateNotfication(string);
+    }
+    
+    
+    public void recieveData(String name, byte[] myData, int buffer) throws RemoteException {
+        client.recieveDate(name, myData, buffer);
     }
 }

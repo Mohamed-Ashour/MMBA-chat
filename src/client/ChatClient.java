@@ -14,6 +14,11 @@ import interfaces.User;
 import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
 import java.awt.Rectangle;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -155,5 +160,48 @@ public class ChatClient extends UnicastRemoteObject implements Serializable, ICh
             Logger.getLogger(ChatClient.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    @Override
+    public void sendData(String attachPath, String email) {
+        FileInputStream in = null;
+        try {
+            File f1 = new File(attachPath);
+            in = new FileInputStream(f1);
+            byte [] myData= new byte[1024*1024];
+            int buffer = in.read(myData);
+            while(buffer>0) {
+                server.sendData(f1.getName(), myData, buffer, email);
+                buffer = in.read(myData);
+            }
+            System.out.println("File Sent Successfully");
+ 
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ChatClient.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ChatClient.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                in.close();
+            } catch (IOException ex) {
+                Logger.getLogger(ChatClient.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    @Override
+    public void recieveDate(String name, byte[] myData, int buffer){
+        try {
+            File f1 = new File(name);
+            f1.createNewFile();
+            FileOutputStream out = new FileOutputStream(f1, true);
+            out.write(myData, 0, buffer);
+            System.out.println("File Recieved Successfully");
+            out.flush();
+            out.close();
+        } catch (IOException ex) {
+            Logger.getLogger(ChatClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                
     }
 }

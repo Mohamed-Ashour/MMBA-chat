@@ -1139,4 +1139,14 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
         List<User> contactUsers = user.getContactList();
         updateContactList(contactUsers);
     }
+
+    void sendData(String attachPath, String contactEmail) throws RemoteException {
+        if(!user.getEmail().equals(contactEmail) && !contactEmail.equals(null)){
+            client.sendData(attachPath, contactEmail);
+        }
+        else {
+            JOptionPane.showMessageDialog(getContentPane(), "Select friend to send the attachment to him!", "Error", JOptionPane.INFORMATION_MESSAGE);
+            
+        }
+    }
 }
