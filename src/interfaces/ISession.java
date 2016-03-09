@@ -5,6 +5,7 @@
  */
 package interfaces;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
@@ -12,9 +13,10 @@ import java.util.List;
  *
  * @author bassem
  */
-public interface ISession {
+public interface ISession extends Remote{
 
-    public void addMessage(IMessage message);
-
+    
+    public void sendToAll(IMessage message) throws RemoteException;
     public void setUserList(List<IUser> users) throws RemoteException;
+    public int getSessionId() throws RemoteException;
 }

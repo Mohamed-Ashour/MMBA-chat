@@ -5,6 +5,7 @@
  */
 package interfaces;
 
+import client.ChatFrame;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -22,4 +23,10 @@ public interface IChatClient extends Remote{
     public void registerClient(IUser user) throws RemoteException;
     public void removeClient(IUser user) throws RemoteException;
     public boolean isConnected(IUser user) throws RemoteException;
+
+    public ISession getRemoteSession(int x) throws RemoteException;
+
+    public void reciveMessage(IMessage msg, Integer get) throws RemoteException;
+    public void addChatFrame(ChatFrame frame)throws RemoteException;
+
 }

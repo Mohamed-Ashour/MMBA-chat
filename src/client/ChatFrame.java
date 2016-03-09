@@ -16,11 +16,13 @@ import javax.swing.JFileChooser;
 public class ChatFrame extends javax.swing.JInternalFrame implements Serializable{
 
     private static int chatFrameCount = 0;
-    private int chatFrameId;
+    private final int chatFrameId;
+    private final ClientGUI gui;
     /**
      * Creates new form NewFrame
      */
-    public ChatFrame() {
+    public ChatFrame(ClientGUI cc) {
+        this.gui = cc;
         initComponents();
         this.chatFrameId = chatFrameCount++;
     }
@@ -110,7 +112,13 @@ public class ChatFrame extends javax.swing.JInternalFrame implements Serializabl
         jScrollPane3.setViewportView(jTextArea2);
 
         jButton1.setText("Send");
-
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+                    @Override
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        jButton1ActionPerformed(evt);
+                    }
+                });
+        
         jButton2.setText("Attach");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
                     @Override
@@ -173,6 +181,11 @@ public class ChatFrame extends javax.swing.JInternalFrame implements Serializabl
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        gui.sendMessage(jTextArea2.getText(), chatFrameId);
+        System.out.println("7amra");
+        jTextArea2.setText("");
+    }  
 private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
         JFileChooser fc = new JFileChooser();
@@ -200,5 +213,9 @@ private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
     // End of variables declaration//GEN-END:variables
     
     //JFileChooser fc = new JFileChooser(); 
+
+    void displayMsg(String string) {
+        chatTextArea.append(string + "\n");
+    }
 			
 }

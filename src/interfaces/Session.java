@@ -8,6 +8,7 @@ package interfaces;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
@@ -19,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 import server.DBConnect;
 
-public class Session extends UnicastRemoteObject implements ISession {
+public class Session extends UnicastRemoteObject implements ISession, Serializable {
 
     private static int sessionCount = 0;
     private int sessionId;
@@ -58,7 +59,10 @@ public class Session extends UnicastRemoteObject implements ISession {
     }
     
     @Override
-    public void addMessage(IMessage message) {
+    public void sendToAll(IMessage message) throws RemoteException {
+        for (IUser user : users) {
+            user.recieveMessage(this, message);
+        }
         messages.add(message);
     }
     

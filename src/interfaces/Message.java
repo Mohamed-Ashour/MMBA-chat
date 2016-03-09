@@ -3,27 +3,16 @@ package interfaces;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Time;
 import java.text.SimpleDateFormat;
-import static java.time.Instant.now;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import server.DBConnect;
 
 
-public class Message implements IMessage{
+public class Message implements IMessage, Serializable{
     
     private int messageId;
     private String messageText;
     private String messageTime;
-    private User from;
+    private IUser from;
     private int sessionId;
     private Boolean delivered;
     private static int messageCount = 0;
@@ -38,6 +27,11 @@ public class Message implements IMessage{
         Date dt = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         messageTime = sdf.format(dt);
+    }
+
+    Message(String text, User aThis) {
+        this.messageText = text;
+        this.from = aThis;
     }
     
 //     public Boolean addMessage() {
@@ -135,25 +129,25 @@ public class Message implements IMessage{
 //    
 
     @Override
-    public int getMessageId() {
+    public int getMessageId() throws RemoteException{
         return messageId;
     }
 
     @Override
-    public String getMessageText() {
+    public String getMessageText() throws RemoteException{
         return messageText;
     }
 
     @Override
-    public User getFrom() {
+    public IUser getFrom() throws RemoteException{
         return from;
     }
 
-    public String getMessageTime() {
+    public String getMessageTime() throws RemoteException{
         return messageTime;
     }
 
-    public Boolean getDelivered() {
+    public Boolean getDelivered() throws RemoteException{
         return delivered;
     }
 

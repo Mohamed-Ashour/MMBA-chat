@@ -7,9 +7,9 @@ package client;
 
 import interfaces.IChatClient;
 import interfaces.IChatServer;
+import interfaces.IMessage;
 import interfaces.ISession;
 import interfaces.IUser;
-import interfaces.Session;
 import interfaces.User;
 import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
@@ -34,6 +34,7 @@ public class ChatClient extends UnicastRemoteObject implements Serializable, ICh
     private static Registry registry;
     private ClientGUI gui;
     private IChatServer server;
+    private List<ChatFrame> cf = new ArrayList<>();
     public static void main(String[] args){
         try {
             ChatClient cs = new ChatClient();
@@ -92,7 +93,8 @@ public class ChatClient extends UnicastRemoteObject implements Serializable, ICh
             return client;
         } catch (RemoteException | NotBoundException ex) {
                 JOptionPane.showMessageDialog(null, "The server can't be located!");
-                System.exit(0);        }
+                System.exit(0);       
+        }
         return null;
     }
 
@@ -103,21 +105,9 @@ public class ChatClient extends UnicastRemoteObject implements Serializable, ICh
      */
     @Override
     public void getSession(List<String> mailList) throws RemoteException{
-        List<IUser> users = new ArrayList<>();
-        for (String string : mailList) {
-            IUser s =  getUser(string);
-            users.add(s);
-        }
-        try {
-            ISession newSession = (ISession) registry.lookup("session");
-
-            for (IUser user : users) {
-                user.createChatFrame(mailList, newSession);
-            }
-        } catch (NotBoundException ex) {
-            JOptionPane.showMessageDialog(null, "Can't get a session!!");
-            System.exit(0);
-        }
+        
+         server.newSession(mailList);
+       
         
     }
     @Override
@@ -128,5 +118,28 @@ public class ChatClient extends UnicastRemoteObject implements Serializable, ICh
     @Override
     public boolean isConnected(IUser user) throws RemoteException {
         return server.isConnected(user);
+    }
+
+    @Override
+    public void reciveMessage(IMessage msg, Integer get) throws RemoteException{
+        for (ChatFrame chatFrame : cf) {
+            if (chatFrame.getChatFrameId() == get) {
+                chatFrame.displayMsg(msg.getFrom().getUsername() + ": " + msg.getMessageText());
+            }
+        }
+    }
+    
+    public void addChatFrame(ChatFrame frame) {
+        cf.add(frame);
+    }
+
+  
+    public ISession getRemoteSession(int x) throws RemoteException{
+        try {
+            return server.getSession(x);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ChatClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

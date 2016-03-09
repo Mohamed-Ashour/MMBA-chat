@@ -7,6 +7,7 @@ package server;
 
 import client.ChatClient;
 import interfaces.IChatServer;
+import interfaces.ISession;
 import interfaces.IUser;
 import interfaces.Session;
 import interfaces.User;
@@ -17,9 +18,9 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.sound.midi.SysexMessage;
 import javax.swing.JOptionPane;
 
 /**
@@ -32,7 +33,10 @@ import javax.swing.JOptionPane;
 public class ChatServer extends UnicastRemoteObject implements IChatServer{
     public static Registry RMI_REGISTRY;
     public static ArrayList<IUser> connected = new ArrayList<>(); 
+    public static ArrayList<ISession> sessions = new ArrayList<>(); 
+
     private static ServerGUI gui;
+    
     public static boolean isconnected(User s){
         return connected.contains(s);
     }
@@ -52,11 +56,10 @@ public class ChatServer extends UnicastRemoteObject implements IChatServer{
         RMI_REGISTRY.rebind("server", this);
         Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, "Registered: {0} -> {1}", new Object[]{"Start", this.getClass().getName()});
         ChatClient client = new ChatClient();
-        RMI_REGISTRY.rebind("client", client);
-        Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, "Registered: {0} -> {1}", new Object[]{"Start", client.getClass().getName()});
         Session session = new Session();
+        RMI_REGISTRY.rebind("client", client);
         RMI_REGISTRY.rebind("session", session);
-        Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, "Registered: {0} -> {1}", new Object[]{"Start", session.getClass().getName()});
+        Logger.getLogger(ChatServer.class.getName()).log(Level.INFO, "Registered: {0} -> {1}", new Object[]{"Start", client.getClass().getName()});
 
         java.awt.EventQueue.invokeLater(() -> {
             gui = new ServerGUI(this);
@@ -116,5 +119,28 @@ public class ChatServer extends UnicastRemoteObject implements IChatServer{
                 return true;
         }
         return false;
+    }
+    @Override
+    public void newSession(List<String> mailList) throws RemoteException {
+        List<IUser> users = new ArrayList<>();
+        for (String string : mailList) {
+            IUser s =  getUser(string);
+            users.add(s);
+        }
+        Session s =  new Session(users);
+        sessions.add(s);
+         for (IUser user : users) {
+            user.createChatFrame(mailList, s.getSessionId());
+        }
+        
+    }
+
+    @Override
+    public ISession getSession(int id) throws RemoteException{
+        for (ISession s : sessions) {
+            if (s.getSessionId() == id)
+                return s;
+        }
+        return null;
     }
 }

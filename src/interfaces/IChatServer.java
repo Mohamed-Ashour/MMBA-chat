@@ -7,6 +7,7 @@ package interfaces;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 /**
  *
@@ -22,8 +23,12 @@ public interface IChatServer extends Remote{
      * @throws RemoteException
      */
     
-    
-    
+    /**
+     *
+     * @param mailList
+     * @throws RemoteException
+     */
+    public void newSession(List<String> mailList) throws RemoteException;
     public void registerClient(IUser s) throws RemoteException;
     public void removeClient(IUser s) throws RemoteException;
     public IUser getUser(String email) throws RemoteException;
@@ -32,4 +37,6 @@ public interface IChatServer extends Remote{
     public void updateOnlineLabel() throws RemoteException;
     public void updateAwayLabel ()throws RemoteException;
     public void updateOfflineLabel()throws RemoteException;
+
+    public ISession getSession(int chatFrameId)throws RemoteException;
 }

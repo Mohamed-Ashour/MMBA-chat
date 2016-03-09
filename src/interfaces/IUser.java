@@ -52,12 +52,13 @@ public interface IUser extends Serializable, Remote {
 
     void logout() throws RemoteException;
 
-    void recieveMessage(ISession s) throws RemoteException;
+    public void recieveMessage(ISession s, IMessage msg) throws RemoteException;
 
-    void sendMessage(ISession s) throws RemoteException;
+    void sendMessage(String text, ISession s) throws RemoteException;
 
     void setStatus(String status) throws RemoteException;
     void setGui(IChatClient gui) throws RemoteException;
+    public int getSessionId(int chatFrameId) throws RemoteException;
+    public void createChatFrame(List<String> mailList, int newSession) throws RemoteException;
 
-    public void createChatFrame(List<String> mailList, ISession newSession) throws RemoteException;
 }

@@ -16,7 +16,6 @@ import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.beans.PropertyVetoException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -39,6 +38,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
     public ClientGUI(User user, IChatClient client) throws RemoteException {
         count++;
         this.client = client;
+        this.user = user; 
         initComponents();
         
         addFriendBtn.setVisible(false);
@@ -707,6 +707,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
     private void startChatBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startChatBtnActionPerformed
 
         List<String> chosenContacts = contactList.getSelectedValuesList();
+        chosenContacts.add(user.getEmail());
         int contactsCount = chosenContacts.size();
         if (contactsCount < 1) {
             JOptionPane.showMessageDialog(null, "You Must Choose One User At Least.");
@@ -1020,7 +1021,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
     // End of variables declaration//GEN-END:variables
 
     public int addChatFrame(List<String> mailList) {
-        ChatFrame chatFrame = new ChatFrame();
+        ChatFrame chatFrame = new ChatFrame(this);
 
             chatFrame.chatList.setModel(new javax.swing.AbstractListModel<String>() {
                 String[] strings = mailList.toArray(new String[0]);
@@ -1037,8 +1038,8 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
             });
         chatFrame.setTitle(mailList.toString());
 /*        chatFrame.requestFocus(); // Nothing
-        chatFrame.requestFocusInWindow(); // Nothing
-        chatFrame.setVisible(true);*/
+        chatFrame.requestFocusInWindow(); // Nothing */
+        chatFrame.setVisible(true);
 
        chatFrame.setLocation(xOffset, yOffset);
        
@@ -1048,8 +1049,20 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
         
         this.jDesktopPane2.add((Component) chatFrame);
         
-        
+        try {
+            client.addChatFrame(chatFrame);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         return chatFrame.getChatFrameId();
+    }
+
+    void sendMessage(String text, int chatFrameId) {
+        try {
+            user.sendMessage(text, client.getRemoteSession(user.getSessionId(chatFrameId)));
+        } catch (RemoteException ex) {
+            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -32,7 +33,7 @@ public class User extends UnicastRemoteObject implements IUser {
     static private Connection db = DBConnect.getConn();
     static private Statement stm;
     static private String query;
-    static private HashMap<ISession, Integer> sessions = new HashMap<>();
+    static private HashMap<Integer, Integer> sessions = new HashMap<>();
     private IChatClient client;
 
     public User(String email, String username, String name, String status,
@@ -351,20 +352,23 @@ public class User extends UnicastRemoteObject implements IUser {
 
 
     @Override
-    public void createChatFrame(List<String> mailList, ISession newSession) throws RemoteException {
+    public void createChatFrame(List<String> mailList, int newSession) throws RemoteException {
         int chatFrameId = client.createChatFrame(mailList);
         sessions.put(newSession, chatFrameId);
     }
 
     
     @Override
-    public void sendMessage(ISession s) throws RemoteException {
-
+    public void sendMessage(String text, ISession s) throws RemoteException {
+        Message msg= new Message(text, this);
+        s.sendToAll(msg);
     }
 
     @Override
-    public void recieveMessage(ISession s) throws RemoteException {
-
+    public void recieveMessage(ISession s, IMessage msg) throws RemoteException {
+        if (sessions.containsKey(s.getSessionId())) {
+            client.reciveMessage(msg, sessions.get(s.getSessionId()));
+        }
     }
 
     @Override
@@ -380,4 +384,19 @@ public class User extends UnicastRemoteObject implements IUser {
             System.exit(0);
         }
     }
+
+    @Override
+    public int getSessionId(int chatFrameId) throws RemoteException {
+        if (sessions.containsValue(chatFrameId)) {
+             Set<Integer> keys = sessions.keySet();
+             for (Integer key : keys) {
+                if (sessions.get(key) == chatFrameId)
+                    return key;
+            }
+        }
+        return -1;
+    }
+
+   
+
 }
