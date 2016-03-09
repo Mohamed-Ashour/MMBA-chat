@@ -159,14 +159,11 @@ public class ChatServer extends UnicastRemoteObject implements IChatServer {
     }
     @Override
     public void updateUserStatus(IUser user, String status) throws RemoteException {
+        gui.updateUsersList();
         List<User> contacts = user.getContactList();
-        System.out.println(contacts);
-        System.out.println("hello shalabi1");
         for (IUser myUser : connected) {
             for (IUser contact : contacts) {
                 if (myUser.getEmail().equals(contact.getEmail())) {
-                    System.out.println(contact);
-
                     myUser.sendNotifecation("\n" + user.getEmail() + " is ( " + status + " )");
                 }
             }

@@ -46,7 +46,6 @@ public class ServerGUI extends javax.swing.JFrame {
         String[] emailsRetreived = new String[contactUsers.size()];
         for (int i = 0; i < contactUsers.size(); i++) {
             User contact = contactUsers.get(i);
-
             // 3ak3ak
             /* End 3ak3ak */
             String retrievedEmail = contact.getEmail();
@@ -54,8 +53,6 @@ public class ServerGUI extends javax.swing.JFrame {
             String retrievedStatus = contact.getStatus();
             emailsRetreived[i] = retrievedEmail + "( " + retrievedStatus + " ) ";
         }
-
-        System.out.println(contactUsers);
 
         if (contactUsers.size() > 0) {
             // Enter All Contact To Chat List
