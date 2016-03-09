@@ -22,4 +22,6 @@ public interface IChatClient extends Remote{
     public void registerClient(IUser user) throws RemoteException;
     public void removeClient(IUser user) throws RemoteException;
     public boolean isConnected(IUser user) throws RemoteException;
+    public void updateStateInServer(IUser user, String newStatusUpdate) throws RemoteException ;
+    public void updateNotfication(String string) throws RemoteException;
 }

@@ -60,4 +60,6 @@ public interface IUser extends Serializable, Remote {
     void setGui(IChatClient gui) throws RemoteException;
 
     public void createChatFrame(List<String> mailList, ISession newSession) throws RemoteException;
+
+    public void sendNotifecation(String string) throws RemoteException;
 }

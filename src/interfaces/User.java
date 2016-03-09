@@ -44,7 +44,6 @@ public class User extends UnicastRemoteObject implements IUser {
         this.password = password;
         this.country = country;
         this.gender = gender;
-
     }
 
     @Override
@@ -52,6 +51,7 @@ public class User extends UnicastRemoteObject implements IUser {
         this.client = gui;
         System.out.println(gui + " As GUI");
     }
+
     public User(String email, String password) throws RemoteException {
         this.email = email;
         this.password = password;
@@ -134,6 +134,7 @@ public class User extends UnicastRemoteObject implements IUser {
 
     @Override
     public User completeInfo() throws RemoteException {
+        changeStatus("online");
         return getUserData(this.email);
     }
 
@@ -349,14 +350,12 @@ public class User extends UnicastRemoteObject implements IUser {
         return false;
     }
 
-
     @Override
     public void createChatFrame(List<String> mailList, ISession newSession) throws RemoteException {
         int chatFrameId = client.createChatFrame(mailList);
         sessions.put(newSession, chatFrameId);
     }
 
-    
     @Override
     public void sendMessage(ISession s) throws RemoteException {
 
@@ -379,5 +378,12 @@ public class User extends UnicastRemoteObject implements IUser {
             JOptionPane.showMessageDialog(null, "The service can't be located!!");
             System.exit(0);
         }
+    }
+
+    @Override
+    public void sendNotifecation(String string) throws RemoteException {
+        System.out.println("hello hanafi");
+
+        client.updateNotfication(string);
     }
 }

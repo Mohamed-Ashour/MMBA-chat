@@ -129,4 +129,16 @@ public class ChatClient extends UnicastRemoteObject implements Serializable, ICh
     public boolean isConnected(IUser user) throws RemoteException {
         return server.isConnected(user);
     }
+    
+    @Override
+    public void updateStateInServer(IUser user, String status) throws RemoteException {
+        server.updateUserStatus(user, status);
+    }
+
+    @Override
+    public void updateNotfication(String string) {
+        System.out.println("hello zaza");
+
+        gui.updateNotficationArea(string);
+    }
 }
