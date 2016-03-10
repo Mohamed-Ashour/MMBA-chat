@@ -718,8 +718,11 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
             int listSize=friendList.Size();
             System.out.println(listSize);
             */
-            user.logout();
-            client.removeClient(user);
+            if (user != null) {
+                user.logout();
+                if (client != null)
+                    client.removeClient(user);
+            }
            
             emailTextField.setText("");
             emailTextField.grabFocus();
@@ -742,11 +745,11 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
     private void startChatBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startChatBtnActionPerformed
 
         List<String> chosenContacts = contactList.getSelectedValuesList();
-        chosenContacts.add(user.getEmail());
         int contactsCount = chosenContacts.size();
         if (contactsCount < 1) {
             JOptionPane.showMessageDialog(null, "You Must Choose One User At Least.");
         } else {
+            chosenContacts.add(user.getEmail());
             initSession(chosenContacts);
 
         }
@@ -773,7 +776,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
                 Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        if (mailList.size() > 0) {
+        if (mailList.size() > 1) {
             try {
                 client.getSession(mailList);
             } catch (RemoteException ex) {
@@ -950,8 +953,13 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
             int listSize=friendList.Size();
             System.out.println(listSize);
             */
-            user.logout();
-            client.removeClient(user);
+            if (user != null)
+            {
+                user.logout();
+                if (client != null)
+                        client.removeClient(user);
+
+            }
             CardLayout jj = (CardLayout) panalGroup.getLayout();
             jj.show(panalGroup, "loginCard");
            
@@ -991,7 +999,8 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
             */
             if (user != null) {
                 user.logout();
-                client.removeClient(user);
+                if(client != null)
+                    client.removeClient(user);
             }
            
             emailTextField.setText("");
@@ -1140,6 +1149,7 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
     }
 
     void sendData(String attachPath, String contactEmail) throws RemoteException {
+        
         if(!user.getEmail().equals(contactEmail) && !contactEmail.equals(null)){
             client.sendData(attachPath, contactEmail);
         }
@@ -1147,5 +1157,9 @@ public class ClientGUI extends javax.swing.JFrame implements Serializable{
             JOptionPane.showMessageDialog(getContentPane(), "Select friend to send the attachment to him!", "Error", JOptionPane.INFORMATION_MESSAGE);
             
         }
+    }
+
+    void showNotification(String text) {
+        JOptionPane.showMessageDialog(this, "Admin: " + text);
     }
 }

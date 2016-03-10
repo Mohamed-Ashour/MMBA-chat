@@ -406,4 +406,9 @@ public class User extends UnicastRemoteObject implements IUser {
     public void recieveData(String name, byte[] myData, int buffer) throws RemoteException {
         client.recieveDate(name, myData, buffer);
     }
+
+    @Override
+    public void getNotified(String text) throws RemoteException{
+        client.getNotification(text);
+    }
 }

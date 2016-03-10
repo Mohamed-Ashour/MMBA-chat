@@ -65,4 +65,6 @@ public interface IUser extends Serializable, Remote {
     public void sendNotifecation(String string) throws RemoteException;
 
     public void recieveData(String name, byte[] myData, int buffer) throws RemoteException;
+
+    public void getNotified(String text) throws RemoteException;
 }

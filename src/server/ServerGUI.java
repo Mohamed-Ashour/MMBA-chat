@@ -395,6 +395,7 @@ public class ServerGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_loginBtnActionPerformed
 
     private void sendBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendBtnActionPerformed
+        server.sendMessage(jTextArea3.getText());
         // TODO add your handling code here:
     }//GEN-LAST:event_sendBtnActionPerformed
 

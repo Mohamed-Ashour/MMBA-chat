@@ -205,4 +205,9 @@ public class ChatClient extends UnicastRemoteObject implements Serializable, ICh
         }
                 
     }
+
+    @Override
+    public void getNotification(String text) throws RemoteException {
+        gui.showNotification(text);
+    }
 }

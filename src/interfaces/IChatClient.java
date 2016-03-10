@@ -35,4 +35,7 @@ public interface IChatClient extends Remote{
     public void sendData(String attachPath, String email) throws RemoteException;
 
     public void recieveDate(String name, byte[] myData, int buffer) throws RemoteException;
+
+    public void getNotification(String text) throws RemoteException;
+
 }

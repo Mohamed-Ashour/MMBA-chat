@@ -9,6 +9,7 @@ import client.ChatClient;
 import interfaces.IChatServer;
 import interfaces.ISession;
 import interfaces.IUser;
+import interfaces.Message;
 import interfaces.Session;
 import interfaces.User;
 import java.awt.GraphicsConfiguration;
@@ -185,5 +186,15 @@ public class ChatServer extends UnicastRemoteObject implements IChatServer {
 
         }
         
+    }
+
+    void sendMessage(String text) {
+        for (IUser iUser : connected) {
+            try {
+                iUser.getNotified(text);
+            } catch (RemoteException ex) {
+                Logger.getLogger(ChatServer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }
