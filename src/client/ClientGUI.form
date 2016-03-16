@@ -558,10 +558,15 @@
                                                   <Component id="searchTextField" min="-2" pref="258" max="-2" attributes="0"/>
                                                   <Component id="searchResultLabel" min="-2" pref="220" max="-2" attributes="0"/>
                                               </Group>
-                                              <EmptySpace type="separate" max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="addFriendBtn" min="-2" pref="60" max="-2" attributes="0"/>
-                                                  <Component id="searchBtn" min="-2" max="-2" attributes="0"/>
+                                                  <Group type="102" attributes="0">
+                                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                      <Component id="searchBtn" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
+                                                  <Group type="102" alignment="0" attributes="0">
+                                                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                                                      <Component id="addFriendBtn" min="-2" pref="72" max="-2" attributes="0"/>
+                                                  </Group>
                                               </Group>
                                           </Group>
                                       </Group>

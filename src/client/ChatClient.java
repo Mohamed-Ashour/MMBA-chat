@@ -158,7 +158,7 @@ public class ChatClient extends UnicastRemoteObject implements Serializable, ICh
         try {
             return server.getSession(x);
         } catch (RemoteException ex) {
-            Logger.getLogger(ChatClient.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "The server can't be located!");    
         }
         return null;
     }

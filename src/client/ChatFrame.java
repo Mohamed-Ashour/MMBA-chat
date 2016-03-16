@@ -195,7 +195,6 @@ public class ChatFrame extends javax.swing.JInternalFrame implements Serializabl
 
 private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         gui.sendMessage(jTextArea2.getText(), chatFrameId);
-        System.out.println("7amra");
         jTextArea2.setText("");
     }  
 private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {                                         
